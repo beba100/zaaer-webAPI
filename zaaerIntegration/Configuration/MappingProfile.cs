@@ -627,6 +627,9 @@ namespace zaaerIntegration.Configuration
                 .ForMember(dest => dest.Building, opt => opt.Ignore())
                 .ForMember(dest => dest.Floor, opt => opt.Ignore())
                 .ForMember(dest => dest.RoomType, opt => opt.Ignore())
+                // Do NOT allow Zaaer to change operational room status via this endpoint
+                // This ensures payloads that include "status" won't override current occupancy state
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.ReservationUnits, opt => opt.Ignore());
 
 
