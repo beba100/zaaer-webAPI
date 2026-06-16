@@ -1,0 +1,404 @@
+/* PMS admin pages — same enterprise shell as room-board */
+body.pms-admin-page {
+    margin: 0;
+    background: var(--pms-page-bg, #eceff3);
+    font-family: var(--pms-font, "Inter", "Tajawal", "Segoe UI", sans-serif);
+}
+
+body.pms-admin-page .room-board-workspace {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 24px);
+}
+
+.pms-admin-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+    flex: 1;
+    position: relative;
+}
+
+.pms-admin-toolbar-host {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-card, 14px);
+    background: var(--pms-surface, #fff);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+.pms-admin-toolbar-host .pms-admin-toolbar-title {
+    margin: 0;
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 600;
+    color: var(--pms-text, #1f2937);
+}
+
+.pms-admin-toolbar-host .pms-admin-toolbar-sub {
+    margin: 2px 0 0;
+    font-size: var(--pms-text-xs, 12px);
+    color: var(--pms-muted, #6b7280);
+}
+
+.pms-admin-toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.pms-admin-card {
+    flex: 1;
+    min-height: 0;
+    padding: 10px 12px 12px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-card, 14px);
+    background: var(--pms-surface, #fff);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+}
+
+.pms-admin-grid-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 8px;
+    position: relative;
+    overflow: visible;
+}
+
+.pms-admin-grid-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 36px;
+    margin-bottom: 6px;
+    padding: 0 4px;
+}
+
+html[dir="ltr"] .pms-admin-grid-toolbar {
+    justify-content: flex-start;
+}
+
+.pms-admin-grid-refresh-btn.dx-button {
+    border-radius: 10px;
+    color: var(--pms-primary, #3f6f9f);
+}
+
+.pms-admin-grid-refresh-btn.dx-button .dx-icon {
+    font-size: 20px;
+}
+
+/* FAB — pill button above grid pager, toward sidebar in RTL */
+.pms-admin-fab-host {
+    position: absolute;
+    bottom: 82px;
+    inset-inline-start: 16px;
+    inset-inline-end: auto;
+    z-index: 100;
+}
+
+html[dir="ltr"] .pms-admin-fab-host {
+    inset-inline-start: auto;
+    inset-inline-end: 16px;
+}
+
+.pms-admin-fab-host .pms-admin-fab-btn.dx-button {
+    border-radius: 999px;
+    min-height: 38px;
+    height: 38px;
+    min-width: 0;
+    width: auto;
+    max-width: max-content;
+    padding-inline: 11px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--pms-font, "Inter", "Tajawal", "Segoe UI", sans-serif);
+    box-shadow: 0 8px 22px rgba(63, 111, 159, 0.34);
+}
+
+.pms-admin-fab-host .pms-admin-fab-btn.dx-button .dx-button-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+}
+
+.pms-admin-fab-host .pms-admin-fab-btn.dx-button .dx-icon {
+    font-size: 16px;
+    margin: 0;
+}
+
+.pms-admin-help {
+    display: none !important;
+}
+
+body.pms-admin-rbac-page #adminRefreshButton {
+    display: none !important;
+}
+
+.pms-admin-card .dx-datagrid {
+    border-radius: 10px;
+    overflow: visible;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid,
+body.pms-ui .pms-admin-card .dx-datagrid {
+    overflow: visible;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid {
+    font-family: var(--pms-font, "Inter", "Tajawal", "Segoe UI", sans-serif);
+    font-size: 13px;
+    color: #1e293b;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .dx-datagrid-headers {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border-bottom: 1px solid var(--pms-border, #d9dee7);
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .dx-header-row > td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .dx-datagrid-rowsview .dx-row > td {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    vertical-align: middle;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .dx-datagrid-rowsview .dx-row.dx-row-alt > td {
+    background: #f8fafc;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .dx-datagrid-rowsview .dx-row.dx-state-hover > td {
+    background: var(--pms-primary-soft, #e8f0f7);
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .pms-admin-hotels-cell {
+    font-weight: 500;
+    color: #475569;
+}
+
+body.pms-ui .pms-admin-grid-card .pms-admin-datagrid .pms-admin-hotels-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.pms-admin-hotel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--pms-primary-soft, #e8f0f7);
+    color: var(--pms-primary, #3f6f9f);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pms-admin-hotel-badge.pms-admin-hotel-badge--link {
+    cursor: pointer;
+}
+
+.pms-admin-hotel-badge.pms-admin-hotel-badge--link:hover {
+    filter: brightness(0.96);
+}
+
+.room-board-workspace .room-board-header {
+    margin-bottom: 8px;
+}
+
+body.pms-ui .pms-admin-card .dx-datagrid-headers {
+    font-size: 12px;
+}
+
+body.pms-ui .dx-toolbar .dx-button.dx-button-default {
+    font-weight: 600;
+}
+
+.pms-admin-help {
+    margin: 0 0 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--pms-primary-soft, #e8f0f7);
+    border-radius: var(--pms-radius-form, 12px);
+    background: var(--pms-panel-bg, #f6f7f9);
+    color: var(--pms-text, #1f2937);
+    font-size: var(--pms-text-sm, 13px);
+    line-height: 1.5;
+}
+
+body.pms-ui .pms-admin-card .dx-datagrid .dx-command-column {
+    min-width: 108px !important;
+    width: 108px !important;
+}
+
+body.pms-ui .pms-admin-card .dx-datagrid .dx-link {
+    font-size: 18px;
+}
+
+/* Users page — hide breadcrumb page title/subtitle */
+body.pms-admin-users-page .pms-admin-users-bc-sep,
+body.pms-admin-users-page .pms-admin-users-bc-title {
+    display: none !important;
+}
+
+/* RBAC popup forms — active switch on top */
+body.pms-ui .pms-rbac-form-active-row {
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--pms-border, #d9dee7);
+}
+
+body.pms-ui .pms-rbac-form-active-row .dx-field-label {
+    font-weight: 600;
+    color: #334155;
+}
+
+body.pms-ui .pms-rbac-form-active-row .dx-field-item-label,
+body.pms-ui .pms-rbac-form-active-row .dx-field-item-content {
+    pointer-events: none;
+}
+
+body.pms-ui .pms-rbac-active-switch-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 2px 0 4px;
+    pointer-events: none;
+}
+
+body.pms-ui .pms-rbac-active-switch-label {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: #334155;
+    user-select: none;
+}
+
+body.pms-ui .pms-rbac-active-switch-control {
+    pointer-events: auto;
+}
+
+body.pms-ui .pms-rbac-active-switch-control .dx-switch {
+    margin-top: 0;
+}
+
+body.pms-ui .pms-rbac-sessions-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    min-height: 0;
+}
+
+body.pms-ui .pms-rbac-sessions-popup-wrap .dx-popup-content {
+    overflow: hidden;
+}
+
+body.pms-ui .pms-rbac-sessions-meta {
+    font-size: var(--pms-text-sm, 13px);
+    color: #5f6b7a;
+    padding: 8px 12px;
+    border-radius: var(--pms-radius-input, 8px);
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+}
+
+body.pms-ui .pms-rbac-sessions-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+body.pms-ui .pms-rbac-sessions-grid {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+body.pms-ui .pms-rbac-session-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+body.pms-ui .pms-rbac-session-status-badge--active {
+    background: #e6f4ea;
+    color: #1e7e34;
+}
+
+body.pms-ui .pms-rbac-session-status-badge--revoked {
+    background: #fdecea;
+    color: #c0392b;
+}
+
+body.pms-ui .pms-rbac-session-status-badge--expired {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+body.pms-ui .pms-rbac-session-current-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #31597f;
+    background: var(--pms-primary-soft, #e8f0f7);
+}
+
+.room-board-back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin-inline-end: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    background: var(--pms-surface, #fff);
+    color: var(--pms-primary, #3f6f9f);
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.room-board-back-link:hover {
+    background: var(--pms-primary-soft, #e8f0f7);
+}
+
+.room-board-back-link .dx-icon {
+    font-size: 18px;
+}
+
+.room-board-resort-cashier-back {
+    width: auto;
+    min-height: 34px;
+    padding: 0 12px;
+    gap: 8px;
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+}
+
+.room-board-resort-cashier-back__label {
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+body.pms-ui.pms-admin-page .room-board-resort-cashier-back {
+    display: inline-flex !important;
+}
