@@ -324,6 +324,27 @@ body.pms-ui .pms-rbac-sessions-toolbar {
 body.pms-ui .pms-rbac-sessions-grid {
     flex: 1 1 auto;
     min-height: 0;
+    overflow: hidden;
+}
+
+body.pms-ui .pms-rbac-sessions-datagrid .dx-datagrid-rowsview .dx-scrollable-container {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+body.pms-ui .pms-rbac-sessions-datagrid .dx-datagrid-table {
+    table-layout: fixed;
+}
+
+body.pms-ui .pms-rbac-sessions-datagrid .pms-rbac-session-device-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+body.pms-ui .pms-rbac-sessions-datagrid .pms-rbac-session-device-col {
+    max-width: 200px;
 }
 
 body.pms-ui .pms-rbac-session-status-badge {

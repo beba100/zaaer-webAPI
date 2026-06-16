@@ -511,13 +511,23 @@
             return `${value}`;
         }
 
-        return date.toLocaleString(isAr() ? "ar-SA" : "en-GB", {
+        return date.toLocaleString("en-GB", {
+            calendar: "gregory",
             year: "numeric",
             month: "2-digit",
             day: "2-digit",
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            hour12: false
         });
+    }
+
+    function sessionsGridDeviceLabel(row) {
+        const name = row && (row.deviceName || row.deviceId);
+        if (name) {
+            return String(name);
+        }
+        return "—";
     }
 
     function parseSessionsResponse(data) {
@@ -684,13 +694,21 @@
                             dataSource: initial.rows,
                             showBorders: true,
                             rowAlternationEnabled: true,
-                            columnAutoWidth: true,
-                            wordWrapEnabled: true,
+                            columnAutoWidth: false,
+                            wordWrapEnabled: false,
                             height: 340,
+                            width: "100%",
                             noDataText: sessionsEmptyHint(initial.rows),
-                            elementAttr: { class: "pms-grid-compact" },
+                            elementAttr: { class: "pms-grid-compact pms-rbac-sessions-datagrid" },
                             headerFilter: { visible: true, search: { enabled: true } },
                             searchPanel: { visible: true, width: 260 },
+                            scrolling: {
+                                mode: "standard",
+                                columnRenderingMode: "standard",
+                                useNative: true,
+                                scrollByContent: true,
+                                showScrollbar: "always"
+                            },
                             paging: { pageSize: 20 },
                             pager: {
                                 showPageSizeSelector: true,
@@ -702,7 +720,15 @@
                                 {
                                     dataField: "deviceName",
                                     caption: t("rbac.sessions.device"),
-                                    minWidth: 140
+                                    width: 200,
+                                    cssClass: "pms-rbac-session-device-col",
+                                    cellTemplate(container, options) {
+                                        const text = sessionsGridDeviceLabel(options.data);
+                                        $("<div class='pms-rbac-session-device-cell' />")
+                                            .attr("title", text)
+                                            .text(text)
+                                            .appendTo(container);
+                                    }
                                 },
                                 {
                                     dataField: "ipAddress",
@@ -712,19 +738,22 @@
                                 {
                                     dataField: "lastActivityAt",
                                     caption: t("rbac.sessions.lastActivity"),
-                                    width: 150,
+                                    width: 145,
+                                    allowHeaderFiltering: false,
                                     calculateDisplayValue: (row) => formatSessionDate(row.lastActivityAt)
                                 },
                                 {
                                     dataField: "createdAt",
                                     caption: t("rbac.sessions.createdAt"),
-                                    width: 150,
+                                    width: 145,
+                                    allowHeaderFiltering: false,
                                     calculateDisplayValue: (row) => formatSessionDate(row.createdAt)
                                 },
                                 {
                                     dataField: "expiresAt",
                                     caption: t("rbac.sessions.expiresAt"),
-                                    width: 150,
+                                    width: 145,
+                                    allowHeaderFiltering: false,
                                     calculateDisplayValue: (row) => formatSessionDate(row.expiresAt)
                                 },
                                 {
