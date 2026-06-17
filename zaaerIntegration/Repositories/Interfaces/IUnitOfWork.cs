@@ -28,6 +28,7 @@ namespace zaaerIntegration.Repositories.Interfaces
         IGenericRepository<RoomType> RoomTypes { get; }
         IGenericRepository<Invoice> Invoices { get; }
         IGenericRepository<PaymentReceipt> PaymentReceipts { get; }
+        IGenericRepository<InvoiceReceiptMapping> InvoiceReceiptMappings { get; }
         IGenericRepository<CorporateCustomer> CorporateCustomers { get; }
         IGenericRepository<GuestType> GuestTypes { get; }
         IGenericRepository<GuestCategory> GuestCategories { get; }
@@ -47,7 +48,6 @@ namespace zaaerIntegration.Repositories.Interfaces
         IGenericRepository<User> Users { get; }
         IGenericRepository<Role> Roles { get; }
         IGenericRepository<Permission> Permissions { get; }
-        IGenericRepository<RolePermission> RolePermissions { get; }
         IGenericRepository<HotelSettings> HotelSettings { get; }
         
         // New tables (Rate Types, Seasonal Rates, etc.)

@@ -17,10 +17,13 @@ namespace zaaerIntegration.Repositories.Implementations
 
         public async Task<CreditNote?> GetCreditNoteWithDetailsAsync(int id)
         {
+            // Note: Invoice navigation property is not included because
+            // CreditNote.InvoiceId contains invoices.zaaer_id (not invoice_id)
+            // To get the invoice, use: invoices WHERE zaaer_id = creditNote.InvoiceId
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .FirstOrDefaultAsync(cn => cn.CreditNoteId == id);
         }
 
@@ -29,7 +32,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.HotelId == hotelId)
                 .ToListAsync();
         }
@@ -39,7 +42,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.ReservationId == reservationId)
                 .ToListAsync();
         }
@@ -49,7 +52,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CustomerId == customerId)
                 .ToListAsync();
         }
@@ -59,7 +62,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreditNoteDate >= startDate && cn.CreditNoteDate <= endDate)
                 .ToListAsync();
         }
@@ -69,7 +72,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreditAmount >= minAmount && cn.CreditAmount <= maxAmount)
                 .ToListAsync();
         }
@@ -79,7 +82,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreditNoteNo.Contains(creditNoteNumber))
                 .ToListAsync();
         }
@@ -89,7 +92,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreatedAt.Date == createdDate.Date)
                 .ToListAsync();
         }
@@ -99,7 +102,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreatedAt >= startDate && cn.CreatedAt <= endDate)
                 .ToListAsync();
         }
@@ -109,7 +112,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreatedBy.HasValue && cn.CreatedBy.Value.ToString().Contains(createdBy))
                 .ToListAsync();
         }
@@ -119,7 +122,7 @@ namespace zaaerIntegration.Repositories.Implementations
             var allCreditNotes = await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .ToListAsync();
 
             return new CreditNoteStatisticsDto
@@ -140,7 +143,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CreditNoteNo.Contains(creditNoteNumber))
                 .ToListAsync();
         }
@@ -150,7 +153,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.CustomerId != null)
                 .ToListAsync();
         }
@@ -160,7 +163,7 @@ namespace zaaerIntegration.Repositories.Implementations
             return await _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .Where(cn => cn.HotelSettings != null && cn.HotelSettings.HotelName.Contains(hotelName))
                 .ToListAsync();
         }
@@ -227,7 +230,7 @@ namespace zaaerIntegration.Repositories.Implementations
             var query = _context.CreditNotes
                 .Include(cn => cn.HotelSettings)
                 .Include(cn => cn.Reservation)
-                .Include(cn => cn.Invoice)
+                // .Include(cn => cn.Invoice) // Cannot use - InvoiceId contains zaaer_id, not invoice_id
                 .AsQueryable();
 
             if (hotelId.HasValue)

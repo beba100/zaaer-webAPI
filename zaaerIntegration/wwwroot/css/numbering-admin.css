@@ -1,0 +1,71 @@
+body.pms-ui .numbering-admin-card {
+  padding: 14px;
+}
+
+.numbering-admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.numbering-admin-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Header back button aligns with existing breadcrumb styles */
+body.pms-ui .room-board-breadcrumb #naBackToBoardBtn {
+  margin-inline-start: 8px;
+  border: 1px solid var(--pms-border);
+  background: var(--pms-surface);
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+body.pms-ui .room-board-breadcrumb #naBackToBoardBtn:hover {
+  background: var(--pms-primary-soft);
+}
+
+.numbering-admin-grid h4,
+.numbering-admin-panel h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.numbering-admin-grid {
+  background: var(--pms-panel-bg-strong);
+  border: 1px solid var(--pms-border);
+  border-radius: var(--pms-radius-card);
+  padding: 12px;
+}
+
+.numbering-admin-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 980px) {
+  .numbering-admin-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.numbering-admin-panel {
+  background: var(--pms-panel-bg-strong);
+  border: 1px solid var(--pms-border);
+  border-radius: var(--pms-radius-card);
+  padding: 12px;
+}
+
+.numbering-admin-panel-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+

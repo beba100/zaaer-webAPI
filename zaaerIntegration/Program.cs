@@ -10,13 +10,9 @@ using zaaerIntegration.Repositories.Interfaces;
 using zaaerIntegration.Services;
 using zaaerIntegration.Services.Implementations;
 using zaaerIntegration.Services.Interfaces;
-using zaaerIntegration.Services.Zaaer;
 using zaaerIntegration.Services.Expense;
-using zaaerIntegration.Services.VoM;
 using zaaerIntegration.Services.Auth;
 using zaaerIntegration.Middleware;
-using zaaerIntegration.Services.PartnerQueueing;
-using zaaerIntegration.Services.PartnerQueueing.Handlers;
 using zaaerIntegration.Utilities;
 using zaaerIntegration.Reporting.Extensions;
 using DevExpress.AspNetCore;
@@ -135,7 +131,6 @@ builder.Services.AddHttpContextAccessor();
 
 // Tenant Services - للحصول على معلومات الفندق الحالي
 builder.Services.AddScoped<ITenantService, TenantService>();
-builder.Services.AddScoped<IQueueSettingsProvider, QueueSettingsProvider>();
 
 // Tenant DB Context Resolver - لإنشاء DbContext ديناميكي للـ Tenant
 builder.Services.AddScoped<TenantDbContextResolver>();
@@ -155,9 +150,22 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddMemoryCache();
 
 // JWT authentication - required by Hybrid RBAC.
-var jwtSecret = builder.Configuration["Jwt:SecretKey"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLong!";
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "ZaaerIntegration";
-var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "ZaaerIntegration";
+using var jwtOptionsLoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(logging =>
+{
+    logging.AddConsole();
+});
+var jwtOptionsLogger = jwtOptionsLoggerFactory.CreateLogger("Startup.JwtOptions");
+var jwtOptions = JwtOptions.ResolveAndValidate(builder.Configuration, builder.Environment, jwtOptionsLogger);
+
+builder.Services.Configure<JwtOptions>(options =>
+{
+    options.SecretKey = jwtOptions.SecretKey;
+    options.Issuer = jwtOptions.Issuer;
+    options.Audience = jwtOptions.Audience;
+    options.AccessTokenMinutes = jwtOptions.AccessTokenMinutes;
+    options.RefreshTokenDays = jwtOptions.RefreshTokenDays;
+});
+
 builder.Services
     .AddAuthentication(options =>
     {
@@ -169,11 +177,11 @@ builder.Services
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
             ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
+            ValidIssuer = jwtOptions.Issuer,
             ValidateAudience = true,
-            ValidAudience = jwtAudience,
+            ValidAudience = jwtOptions.Audience,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };
@@ -272,6 +280,8 @@ builder.Services.AddScoped<ICreditNoteService, CreditNoteService>();
 builder.Services.AddScoped<IRoomBoardService, RoomBoardService>();
 builder.Services.AddScoped<IReservationPeriodService, ReservationPeriodService>();
 builder.Services.AddScoped<IReservationDetailService, ReservationDetailService>();
+builder.Services.AddScoped<IReservationActivityLogWriter, ReservationActivityLogWriter>();
+builder.Services.AddScoped<IReservationActivityLogQueryService, ReservationActivityLogQueryService>();
 builder.Services.AddScoped<zaaerIntegration.Services.BookingEngine.BookingEngineDbFactory>();
 builder.Services.AddScoped<IBookingEngineService, BookingEngineService>();
 builder.Services.AddScoped<zaaerIntegration.Security.ReservationPermissionGuard>();
@@ -349,44 +359,8 @@ builder.Services.AddScoped<IResortTicketGateLandingService, ResortTicketGateLand
 builder.Services.AddScoped<IPmsOutletCatalogService, PmsOutletCatalogService>();
 builder.Services.AddScoped<IPmsPosOrderService, PmsPosOrderService>();
 
-// Register Zaaer services
-builder.Services.AddScoped<IZaaerCustomerService, ZaaerCustomerService>();
-builder.Services.AddScoped<IZaaerReservationService, ZaaerReservationService>();
-builder.Services.AddScoped<IZaaerPaymentReceiptService, ZaaerPaymentReceiptService>();
-builder.Services.AddScoped<IZaaerInvoiceService, ZaaerInvoiceService>();
-builder.Services.AddScoped<IZaaerRefundService, ZaaerRefundService>();
-builder.Services.AddScoped<IZaaerCreditNoteService, ZaaerCreditNoteService>();
-builder.Services.AddScoped<IZaaerOrderService, ZaaerOrderService>();
-builder.Services.AddScoped<IZaaerRoomTypeService, ZaaerRoomTypeService>();
-
-builder.Services.AddScoped<IZaaerFloorService, ZaaerFloorService>();
-builder.Services.AddScoped<IZaaerApartmentService, ZaaerApartmentService>();
-builder.Services.AddScoped<IZaaerMaintenanceService, ZaaerMaintenanceService>();
-builder.Services.AddScoped<IZaaerTaxService, ZaaerTaxService>();
-builder.Services.AddScoped<IZaaerHotelSettingsService, ZaaerHotelSettingsService>();
-builder.Services.AddScoped<IZaaerBuildingService, ZaaerBuildingService>();
-builder.Services.AddScoped<IZaaerUserService, ZaaerUserService>();
-builder.Services.AddScoped<IZaaerRoleService, ZaaerRoleService>();
-builder.Services.AddScoped<IZaaerSeasonalRateService, ZaaerSeasonalRateService>();
-builder.Services.AddScoped<IZaaerRateTypeService, ZaaerRateTypeService>();
-builder.Services.AddScoped<IReservationRatesService, ReservationRatesService>();
-builder.Services.AddScoped<IReservationUnitSwitchService, ReservationUnitSwitchService>();
-builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
-builder.Services.AddScoped<IReservationActivityLogWriter, ReservationActivityLogWriter>();
-builder.Services.AddScoped<IReservationActivityLogQueryService, ReservationActivityLogQueryService>();
-builder.Services.AddScoped<IZaaerZatcaDetailsService, ZaaerZatcaDetailsService>();
-builder.Services.AddScoped<IZaaerNtmpDetailsService, ZaaerNtmpDetailsService>();
-builder.Services.AddScoped<IZaaerShomoosDetailsService, ZaaerShomoosDetailsService>();
-builder.Services.AddScoped<IZaaerIntegrationResponseService, ZaaerIntegrationResponseService>();
-builder.Services.AddScoped<IZaaerRoomTypeRateService, ZaaerRoomTypeRateService>();
-builder.Services.AddScoped<IZaaerBankService, ZaaerBankService>();
-builder.Services.AddScoped<IZaaerExpenseService, ZaaerExpenseService>();
-
 // Register Expense Dapper Service (optimized for heavy queries)
 builder.Services.AddScoped<ExpenseDapperService>();
-
-// Register VoM Expenses Dapper Service (optimized for VoM queries)
-builder.Services.AddScoped<zaaerIntegration.Services.VoM.VoMExpensesDapperService>();
 
 // Register Expense Service (new CRUD operations with X-Hotel-Code header)
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
@@ -407,21 +381,9 @@ builder.Services.AddScoped<IWhatsAppService, zaaerIntegration.Services.Implement
 builder.Services.AddScoped<ICurrentUserContext, zaaerIntegration.Services.Implementations.CurrentUserContext>();
 builder.Services.AddScoped<IAuthModeResolver, zaaerIntegration.Services.Implementations.AuthModeResolver>();
 builder.Services.AddScoped<IHotelAccessService, zaaerIntegration.Services.Implementations.HotelAccessService>();
+builder.Services.AddScoped<IHotelScopeService, zaaerIntegration.Services.Implementations.HotelScopeService>();
 builder.Services.AddScoped<IPermissionService, zaaerIntegration.Services.Implementations.PermissionService>();
 builder.Services.AddScoped<IRbacSyncService, zaaerIntegration.Services.Implementations.RbacSyncService>();
-
-// Register Invoice Journal Entry Service (sends journal entries to VoM after invoice creation)
-builder.Services.AddScoped<IInvoiceJournalEntryService, InvoiceJournalEntryService>();
-builder.Services.AddScoped<IPaymentReceiptJournalEntryService, PaymentReceiptJournalEntryService>();
-
-// Register Credit Note Journal Entry Service (sends reverse journal entries to VoM after credit note creation)
-builder.Services.AddScoped<ICreditNoteJournalEntryService, CreditNoteJournalEntryService>();
-
-// Register Expense Journal Entry Service (sends journal entries to VoM after expense creation)
-builder.Services.AddScoped<zaaerIntegration.Services.IExpenseJournalEntryService, zaaerIntegration.Services.ExpenseJournalEntryService>();
-
-// Register VoM Logger (dedicated logging for VoM operations)
-builder.Services.AddScoped<IVoMLogger, VoMLogger>();
 
 // Register Smart Logger (duplicate error detection + context builder)
 // Singleton to maintain error occurrence cache across requests
@@ -431,130 +393,6 @@ builder.Services.AddSingleton<SmartLogger>(sp =>
     var logger = loggerFactory.CreateLogger("SmartLogger");
     return new SmartLogger(logger);
 });
-
-// Register VoM Services
-builder.Services.AddHttpClient<IVoMAuthService, VoMAuthService>(client =>
-{
-    var baseUrl = builder.Configuration["VoM:BaseUrl"] ?? "https://kimoo.getvom.com";
-    client.BaseAddress = new Uri(baseUrl);
-    client.Timeout = TimeSpan.FromSeconds(30);
-})
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-});
-
-builder.Services.AddHttpClient<IVoMAccountService, VoMAccountService>(client =>
-{
-    var baseUrl = builder.Configuration["VoM:BaseUrl"] ?? "https://kimoo.getvom.com";
-    client.BaseAddress = new Uri(baseUrl);
-    client.Timeout = TimeSpan.FromSeconds(30);
-})
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-});
-
-builder.Services.AddHttpClient<IVoMSettingsService, VoMSettingsService>(client =>
-{
-    var baseUrl = builder.Configuration["VoM:BaseUrl"] ?? "https://kimoo.getvom.com";
-    client.BaseAddress = new Uri(baseUrl);
-    client.Timeout = TimeSpan.FromSeconds(30);
-})
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-});
-
-builder.Services.AddHttpClient<IVoMJournalEntryService, VoMJournalEntryService>(client =>
-{
-    var baseUrl = builder.Configuration["VoM:BaseUrl"] ?? "https://kimoo.getvom.com";
-    client.BaseAddress = new Uri(baseUrl);
-    client.Timeout = TimeSpan.FromSeconds(30);
-})
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-});
-
-builder.Services.AddHttpClient<IVoMInvoiceReturnService, VoMInvoiceReturnService>(client =>
-{
-    var baseUrl = builder.Configuration["VoM:BaseUrl"] ?? "https://kimoo.getvom.com";
-    client.BaseAddress = new Uri(baseUrl);
-    client.Timeout = TimeSpan.FromSeconds(30);
-})
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-});
-
-builder.Services.AddScoped<ICreditNoteInvoiceReturnService, CreditNoteInvoiceReturnService>();
-
-// Partner Queue services
-builder.Services.AddScoped<IPartnerQueueService, PartnerQueueService>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerReservationCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerReservationUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerReservationUpdateByNumberHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerCustomerUpdateByNumberHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerActivityLogCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerReservationUnitSwitchCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerReservationRatesApplyAllHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerReservationRatesUpsertHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoomTypeRateCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoomTypeRateUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoomTypeRateUpdateByZaaerIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerCustomerCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerCustomerUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerInvoiceCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerInvoiceUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerPaymentReceiptCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerPaymentReceiptUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerPaymentReceiptUpdateByNumberHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRefundCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRefundUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRefundUpdateByNumberHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerCreditNoteCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerCreditNoteUpdateByZaaerIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerApartmentCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerApartmentCreateBulkHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerApartmentUpdateByZaaerIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerApartmentUpdateByCodeHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, AppReservationCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, AppReservationUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerFloorCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerFloorCreateBulkHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerFloorUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerHotelSettingsCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerHotelSettingsUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerUserCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerUserUpdateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoleCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoleUpdateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerBankCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerBankUpdateByIdHandler>();
-// TODO: Expense handlers - need to be added to ZaaerGenericHandlers.cs
-// builder.Services.AddScoped<IQueuedOperationHandler, ZaaerExpenseCreateHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ZaaerExpenseUpdateByIdHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ExpenseCreateHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ExpenseUpdateByIdHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ExpenseDeleteHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ExpenseRoomAddHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ExpenseRoomUpdateHandler>();
-// builder.Services.AddScoped<IQueuedOperationHandler, ExpenseRoomDeleteHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerMaintenanceCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerMaintenanceUpdateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoomTypeCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRoomTypeUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerBuildingCreateWithFloorsHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerBuildingUpdateWithFloorsHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerBuildingUpdateWithFloorsSafeHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerSeasonalRateCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerSeasonalRateUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRateTypeCreateHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRateTypeUpdateByIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRateTypeUpdateByZaaerIdHandler>();
-builder.Services.AddScoped<IQueuedOperationHandler, ZaaerRateTypeDeleteByZaaerIdHandler>();
-builder.Services.AddHostedService<PartnerQueueBackgroundWorker>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -599,11 +437,36 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add CORS
+builder.Services.Configure<CorsOptions>(
+    builder.Configuration.GetSection(CorsOptions.SectionName));
+var corsOptions = builder.Configuration
+    .GetSection(CorsOptions.SectionName)
+    .Get<CorsOptions>() ?? new CorsOptions();
+var allowedCorsOrigins = (corsOptions.AllowedOrigins ?? Array.Empty<string>())
+    .Where(origin => !string.IsNullOrWhiteSpace(origin))
+    .Select(origin => origin.Trim())
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .ToArray();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("PmsCors", policy =>
     {
-        policy.AllowAnyOrigin()
+        if (builder.Environment.IsDevelopment() && corsOptions.AllowAnyOriginInDevelopment)
+        {
+            // Development-only convenience: JWT is sent in Authorization header (no cookie credentials).
+            policy.SetIsOriginAllowed(_ => true)
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+            return;
+        }
+
+        if (allowedCorsOrigins.Length == 0)
+        {
+            throw new InvalidOperationException(
+                $"CORS configuration error: '{CorsOptions.SectionName}:AllowedOrigins' must contain at least one origin outside development wildcard mode.");
+        }
+
+        policy.WithOrigins(allowedCorsOrigins)
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -700,7 +563,7 @@ app.UseRouting();
 // Enable DevExpress Reporting
 app.UseDevExpressControls();
 
-app.UseCors("AllowAll");
+app.UseCors("PmsCors");
 
 app.UseAuthentication();
 
@@ -712,12 +575,6 @@ app.UseMiddleware<PmsSlowRequestLoggingMiddleware>();
 app.UseTenantMiddleware();
 
 app.UseAuthorization();
-
-// Optional global queue middleware (proxy). Use separate flag so controllers can still enqueue while global proxy is off
-if (builder.Configuration.GetValue<bool>("PartnerQueue:UseMiddleware"))
-{
-    app.UseMiddleware<PartnerQueueMiddleware>();
-}
 
 app.MapControllers();
 

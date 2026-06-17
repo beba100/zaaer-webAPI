@@ -1,0 +1,2404 @@
+body.pms-ui .resort-ticket-sales {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+body.pms-ui .resort-ticket-sales-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #183650, #3f6f9f);
+    color: #fff;
+    border-radius: var(--pms-radius-card);
+    box-shadow: var(--pms-shadow-lg);
+}
+
+body.pms-ui .resort-ticket-sales-hero__title {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+body.pms-ui .resort-ticket-sales-hero__sub {
+    margin-top: 4px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.pms-ui .resort-ticket-sales-hotkeys {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 11px;
+    max-width: 220px;
+    white-space: normal;
+    text-align: center;
+    cursor: help;
+    line-height: 1.35;
+}
+
+body.pms-ui.resort-ticket-cashier-page .pms-admin-toolbar-host {
+    display: none;
+}
+
+body.pms-ui.resort-ticket-cashier-page .pms-admin-card {
+    padding-top: 0;
+}
+
+body.pms-ui.resort-ticket-cashier-page {
+    overflow-x: hidden;
+}
+
+body.pms-ui.resort-ticket-cashier-page .room-board-workspace {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body.pms-ui.resort-ticket-cashier-page .pms-admin-card,
+body.pms-ui.resort-ticket-cashier-page .pms-admin-workspace {
+    min-height: 0;
+    min-width: 0;
+}
+
+body.pms-ui.resort-ticket-cashier-page .resort-ticket-sales--pos {
+    min-height: calc(100vh - 132px);
+}
+
+body.pms-ui .resort-ticket-pos-topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 1.4fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--pms-surface);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+body.pms-ui .resort-ticket-pos-topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+@media (max-width: 960px) {
+    body.pms-ui .resort-ticket-pos-topbar {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.pms-ui .resort-ticket-pos-topbar__title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1f2937;
+}
+
+body.pms-ui .resort-ticket-pos-topbar__sub {
+    margin-top: 2px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+body.pms-ui .resort-ticket-pos-topbar__fields .dx-field-item {
+    padding-inline: 6px;
+}
+
+body.pms-ui .resort-ticket-form--pos-topbar .dx-field-item-label {
+    font-size: 12px;
+}
+
+body.pms-ui .resort-ticket-pos-hotkeys-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--pms-border);
+    border-radius: 999px;
+    background: var(--pms-panel-bg);
+    color: var(--pms-primary);
+    cursor: help;
+}
+
+body.pms-ui .resort-ticket-pos-mode-tabs {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2px;
+}
+
+body.pms-ui .resort-ticket-pos-mode-tabs .dx-tabs {
+    width: auto !important;
+    max-width: 100%;
+}
+
+body.pms-ui .resort-ticket-pos-mode-tabs .dx-tabs-wrapper {
+    display: inline-flex;
+    border-radius: 12px;
+    padding: 4px;
+    background: var(--pms-panel-bg-strong);
+    border: 1px solid var(--pms-border);
+}
+
+body.pms-ui .resort-ticket-pos-mode-tabs .dx-tab {
+    min-width: 132px;
+    padding-inline: 14px;
+}
+
+body.pms-ui .resort-ticket-cashier-quick-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body.pms-ui .resort-ticket-cashier-quick-nav .dx-button {
+    min-width: 38px;
+    min-height: 38px;
+}
+
+body.pms-ui .resort-ticket-pos-mode-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+}
+
+body.pms-ui .resort-ticket-pos-mode-item__icon {
+    font-size: 16px;
+}
+
+body.pms-ui .resort-ticket-pos-panel--hidden {
+    display: none !important;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-sales-body {
+    min-height: 0;
+    align-items: stretch;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-sales-catalog {
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-category-tabs {
+    flex: 0 0 auto;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-sales-tiles {
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    grid-auto-rows: minmax(118px, auto);
+    align-content: start;
+    align-items: stretch;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body.pms-ui .resort-ticket-hotkey-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 2px 2px 4px;
+}
+
+body.pms-ui .resort-ticket-hotkey-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: var(--pms-panel-bg-strong);
+    border: 1px solid var(--pms-border);
+    font-size: 11px;
+    color: #475569;
+}
+
+body.pms-ui .resort-ticket-hotkey-chip kbd {
+    min-width: 22px;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    font-size: 10px;
+    font-weight: 800;
+    color: #334155;
+    font-family: inherit;
+}
+
+body.pms-ui .resort-ticket-cart-payment-bar {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background: var(--pms-panel-bg-strong);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+}
+
+body.pms-ui .resort-ticket-cart-payment-bar--visible {
+    display: flex;
+}
+
+body.pms-ui .resort-ticket-payment-quick {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+body.pms-ui .resort-ticket-payment-quick .dx-button {
+    min-height: 38px;
+    min-width: 96px;
+    font-weight: 700;
+}
+
+body.pms-ui .resort-ticket-payment-quick__btn--active .dx-button {
+    border-color: var(--pms-primary);
+    background: var(--pms-primary-soft);
+    color: var(--pms-primary);
+}
+
+body.pms-ui .resort-ticket-payment-method-host .dx-field-item {
+    margin-bottom: 0;
+}
+
+body.pms-ui .resort-ticket-tile__validity {
+    display: inline-block;
+    margin-bottom: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+body.pms-ui .resort-ticket-tile__validity--scan {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+body.pms-ui .resort-ticket-tile__validity--duration {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-tile {
+    height: auto;
+    min-height: 118px;
+    max-height: 148px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px 10px 8px;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-tile__name {
+    flex: 0 1 auto;
+    width: 100%;
+    font-size: 13px;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    text-align: center;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-tile__validity {
+    margin-bottom: 4px;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-tile__icon {
+    margin-bottom: 4px;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-tile__price {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--pms-primary);
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-orders-section {
+    margin-top: 0;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-orders-dashboard {
+    margin-bottom: 8px;
+}
+
+body.pms-ui .resort-ticket-cashier-mode-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-shell.room-board-shell--nav-collapsed {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-shell.room-board-shell--nav-collapsed .room-board-sidebar {
+    display: none !important;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-shell:not(.room-board-shell--nav-collapsed) {
+    grid-template-columns: 252px minmax(0, 1fr);
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-shell:not(.room-board-shell--nav-collapsed) .room-board-sidebar {
+    display: flex !important;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-workspace {
+    min-height: 100vh;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-header {
+    padding: 8px 12px;
+    min-height: 0;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .room-board-bc-sep,
+body.pms-ui.resort-ticket-cashier-mode .room-board-back-link {
+    display: none !important;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .pms-admin-workspace {
+    gap: 6px;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .pms-admin-card {
+    border: none;
+    box-shadow: none;
+    padding: 0 10px 10px;
+    background: transparent;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 84px);
+    min-height: calc(100dvh - 84px);
+    gap: 8px;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-topbar {
+    padding: 10px 14px;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-pos-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    height: min(580px, calc(100vh - 228px));
+    max-height: min(580px, calc(100vh - 228px));
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-catalog,
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-cart--pos {
+    height: 100%;
+    max-height: 100%;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-tiles {
+    min-height: 0;
+}
+
+body.pms-ui .resort-ticket-pos-mode-toggle-host .dx-button {
+    min-height: 36px;
+    font-weight: 700;
+}
+
+@media (max-width: 960px) {
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-body,
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-tiles {
+        min-height: 0;
+    }
+}
+
+body.pms-ui .resort-ticket-pay-now-strip {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 0;
+    padding: 6px 10px;
+    background: var(--pms-panel-bg);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+}
+
+body.pms-ui .resort-ticket-pay-now-strip__label {
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 600;
+    color: #334155;
+}
+
+body.pms-ui .resort-ticket-sales-header {
+    padding: 12px;
+    background: var(--pms-panel-bg-strong);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-form);
+}
+
+body.pms-ui .resort-ticket-sales-header .dx-form-group-caption {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+body.pms-ui .resort-ticket-form:not(.resort-ticket-form--non-cash) .resort-ticket-non-cash-group {
+    display: none !important;
+}
+
+body.pms-ui .resort-ticket-payment-details-row .dx-field-item {
+    padding-inline: 4px;
+}
+
+body.pms-ui .resort-ticket-payment-details-row .dx-field-item:first-child {
+    padding-inline-start: 0;
+}
+
+body.pms-ui .resort-ticket-payment-details-row .dx-field-item:last-child {
+    padding-inline-end: 0;
+}
+
+@media (min-width: 721px) {
+    body.pms-ui .resort-ticket-payment-details-row .dx-layout-manager .dx-field-item {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+}
+
+body.pms-ui .resort-ticket-sales-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.85fr);
+    gap: 12px;
+    min-height: 320px;
+    min-width: 0;
+}
+
+@media (max-width: 960px) {
+    body.pms-ui .resort-ticket-sales-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.pms-ui .resort-ticket-sales-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--pms-surface);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+}
+
+body.pms-ui .resort-ticket-sales-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    max-height: 420px;
+    overflow: auto;
+    padding: 2px;
+}
+
+body.pms-ui .resort-ticket-tile {
+    border: 1px solid var(--pms-border);
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff, #f6f8fb);
+    min-height: 96px;
+    padding: 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.07);
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.pms-ui .resort-ticket-tile:hover {
+    border-color: var(--pms-primary);
+    box-shadow: 0 12px 26px rgba(63, 111, 159, 0.18);
+    transform: translateY(-1px);
+}
+
+body.pms-ui .resort-ticket-tile--generic {
+    border-style: dashed;
+    border-color: var(--pms-primary);
+}
+
+body.pms-ui .resort-ticket-tile--cat-entry {
+    border-top: 4px solid #3f6f9f;
+}
+
+body.pms-ui .resort-ticket-tile--cat-entry .resort-ticket-tile__icon {
+    color: #3f6f9f;
+}
+
+body.pms-ui .resort-ticket-tile--cat-games {
+    border-top: 4px solid #7c3aed;
+}
+
+body.pms-ui .resort-ticket-tile--cat-games .resort-ticket-tile__icon {
+    color: #7c3aed;
+}
+
+body.pms-ui .resort-ticket-tile--cat-pool {
+    border-top: 4px solid #0891b2;
+}
+
+body.pms-ui .resort-ticket-tile--cat-pool .resort-ticket-tile__icon {
+    color: #0891b2;
+}
+
+body.pms-ui .resort-ticket-tile--cat-other {
+    border-top: 4px solid #64748b;
+}
+
+body.pms-ui .resort-ticket-tile--cat-other .resort-ticket-tile__icon {
+    color: #64748b;
+}
+
+body.pms-ui .resort-ticket-sales-catalog[data-active-category="entry"] .dx-tab-selected {
+    border-bottom-color: #3f6f9f;
+}
+
+body.pms-ui .resort-ticket-sales-catalog[data-active-category="games"] .dx-tab-selected {
+    border-bottom-color: #7c3aed;
+}
+
+body.pms-ui .resort-ticket-sales-catalog[data-active-category="pool"] .dx-tab-selected {
+    border-bottom-color: #0891b2;
+}
+
+body.pms-ui .resort-ticket-sales-catalog[data-active-category="other"] .dx-tab-selected {
+    border-bottom-color: #64748b;
+}
+
+body.pms-ui .resort-ticket-sales-header__loading {
+    padding: 18px;
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+}
+
+body.pms-ui .resort-ticket-tab-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.pms-ui .resort-ticket-tab-item__icon {
+    font-size: 16px;
+    color: var(--pms-primary);
+}
+
+body.pms-ui .resort-ticket-tile__icon {
+    display: block;
+    margin: 0 auto 8px;
+    font-size: 28px;
+    color: var(--pms-primary);
+}
+
+body.pms-ui .resort-ticket-tile--generic .resort-ticket-tile__icon {
+    color: #64748b;
+}
+
+body.pms-ui .resort-ticket-tile__name {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+body.pms-ui .resort-ticket-tile__price {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--pms-primary);
+}
+
+body.pms-ui .resort-ticket-tile__hotkey {
+    position: absolute;
+    top: 8px;
+    inset-inline-start: 8px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 50%;
+    background: var(--pms-primary-soft);
+    color: var(--pms-primary);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+body.pms-ui .resort-ticket-sales-cart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--pms-surface);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+}
+
+@media (min-width: 961px) {
+    body.pms-ui .resort-ticket-sales-cart--pos {
+        position: sticky;
+        top: 12px;
+        align-self: stretch;
+        height: 100%;
+        max-height: calc(100vh - 228px);
+        min-height: 0;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-sales-cart--pos {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+body.pms-ui .resort-ticket-cart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--pms-border);
+    flex-wrap: wrap;
+}
+
+body.pms-ui .resort-ticket-cart-head__main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+body.pms-ui .resort-ticket-cart-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: #1f2937;
+}
+
+body.pms-ui .resort-ticket-cart-count {
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--pms-primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 28px;
+    text-align: center;
+}
+
+body.pms-ui .resort-ticket-cart-count--empty {
+    background: #cbd5e1;
+    color: #475569;
+}
+
+body.pms-ui .resort-ticket-cart-body {
+    position: relative;
+    min-height: 180px;
+    min-width: 0;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-body {
+    min-height: 140px;
+}
+
+@media (min-width: 961px) {
+    body.pms-ui .resort-ticket-sales-cart--pos .resort-ticket-cart-body {
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+    }
+}
+
+body.pms-ui .resort-ticket-cart-empty {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 28px 16px;
+    color: #64748b;
+    min-height: 160px;
+}
+
+body.pms-ui .resort-ticket-cart-empty__icon {
+    font-size: 36px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+body.pms-ui .resort-ticket-cart-empty__title {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #475569;
+}
+
+body.pms-ui .resort-ticket-cart-empty__hint {
+    margin: 0;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+body.pms-ui .resort-ticket-cart-body--empty .resort-ticket-cart-empty {
+    display: flex;
+}
+
+body.pms-ui .resort-ticket-cart-body--empty .resort-ticket-cart-lines {
+    display: none;
+}
+
+body.pms-ui .resort-ticket-cart-lines {
+    flex: 1;
+    min-height: 120px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (min-width: 769px) {
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines {
+        max-height: 172px;
+    }
+
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-datagrid {
+        max-width: 100%;
+    }
+
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-datagrid-rowsview {
+        overflow-x: hidden;
+    }
+
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-scrollable-scrollbar.dx-scrollbar-horizontal {
+        display: none;
+    }
+}
+
+body.pms-ui .resort-ticket-cart-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+    padding: 10px 12px;
+    background: var(--pms-panel-bg-strong);
+    border-radius: var(--pms-radius-input);
+    font-weight: 500;
+    font-size: 13px;
+}
+
+body.pms-ui .resort-ticket-cart-receipt__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+body.pms-ui .resort-ticket-cart-receipt__row--muted {
+    color: #64748b;
+}
+
+body.pms-ui .resort-ticket-cart-receipt__row--total {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1f2937;
+    padding-top: 6px;
+    margin-top: 4px;
+    border-top: 1px dashed var(--pms-border);
+}
+
+body.pms-ui .resort-ticket-cart-footer {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--pms-border);
+}
+
+body.pms-ui .resort-ticket-sales-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+body.pms-ui .resort-ticket-issue-btn-host {
+    flex: 1 1 58%;
+    min-width: 160px;
+}
+
+body.pms-ui .resort-ticket-issue-btn .dx-button {
+    min-height: 52px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+body.pms-ui .resort-ticket-orders-section {
+    margin-top: 4px;
+    padding: 12px;
+    background: var(--pms-surface);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+}
+
+body.pms-ui .resort-ticket-orders-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+body.pms-ui .resort-ticket-orders-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: var(--pms-panel-bg);
+    color: var(--pms-primary);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+body.pms-ui .resort-ticket-orders-toggle:hover {
+    background: var(--pms-primary-soft);
+}
+
+body.pms-ui .resort-ticket-orders-section--collapsed .resort-ticket-orders-body {
+    display: none;
+}
+
+body.pms-ui .resort-ticket-orders-section--collapsed .resort-ticket-orders-filter {
+    display: none;
+}
+
+body.pms-ui .resort-ticket-orders-filter {
+    flex-shrink: 0;
+}
+
+body.pms-ui .resort-ticket-orders-dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+body.pms-ui .resort-ticket-orders-kpi-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1 1 280px;
+}
+
+body.pms-ui .resort-ticket-orders-kpi {
+    flex: 1 1 110px;
+    min-width: 110px;
+    padding: 10px 14px;
+    background: linear-gradient(180deg, #f8fafc 0%, var(--pms-panel-bg-strong) 100%);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+body.pms-ui .resort-ticket-orders-kpi__label {
+    font-size: var(--pms-text-xs);
+    font-weight: 600;
+    color: #64748b;
+}
+
+body.pms-ui .resort-ticket-orders-kpi__value {
+    font-size: var(--pms-text-xl);
+    font-weight: 700;
+    color: var(--pms-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+
+body.pms-ui .resort-ticket-orders-kpi--total .resort-ticket-orders-kpi__value {
+    font-size: var(--pms-text-lg);
+}
+
+body.pms-ui .resort-ticket-orders-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+    flex: 1 1 340px;
+    justify-content: flex-end;
+}
+
+body.pms-ui .resort-ticket-orders-filters__field {
+    min-width: 140px;
+}
+
+body.pms-ui .resort-ticket-pay-now-strip__switch.dx-state-disabled .dx-switch-container {
+    opacity: 1;
+}
+
+body.pms-ui .resort-ticket-orders-grid .resort-ticket-orders-actions-col {
+    text-align: end !important;
+}
+
+body.pms-ui .resort-ticket-orders-grid .dx-datagrid .dx-command-edit,
+body.pms-ui .resort-ticket-orders-grid .dx-datagrid .dx-command-edit-with-icons,
+body.pms-ui .resort-ticket-orders-grid .dx-datagrid-content-fixed .dx-command-edit,
+body.pms-ui .resort-ticket-orders-grid .dx-datagrid-content-fixed .dx-command-edit-with-icons {
+    display: inline-flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end !important;
+    gap: 8px;
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-decoration: none !important;
+    box-sizing: border-box;
+}
+
+html[dir="rtl"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid .dx-command-edit,
+html[dir="rtl"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid .dx-command-edit-with-icons,
+html[dir="rtl"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid-content-fixed .dx-command-edit,
+html[dir="rtl"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid-content-fixed .dx-command-edit-with-icons,
+body.pms-ui.dx-rtl .resort-ticket-orders-grid .dx-datagrid .dx-command-edit,
+body.pms-ui.dx-rtl .resort-ticket-orders-grid .dx-datagrid .dx-command-edit-with-icons {
+    direction: rtl;
+}
+
+html[dir="ltr"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid .dx-command-edit,
+html[dir="ltr"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid .dx-command-edit-with-icons,
+html[dir="ltr"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid-content-fixed .dx-command-edit,
+html[dir="ltr"] body.pms-ui .resort-ticket-orders-grid .dx-datagrid-content-fixed .dx-command-edit-with-icons {
+    direction: ltr;
+}
+
+body.pms-ui .resort-ticket-cancel-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+body.pms-ui .resort-ticket-cancel-kv {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 10px;
+    background: var(--pms-panel-bg-strong);
+    border-radius: var(--pms-radius-input);
+    font-size: 13px;
+}
+
+body.pms-ui .resort-ticket-cancel-kv strong {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+body.pms-ui .resort-ticket-cancel-effects {
+    margin: 0 0 12px;
+    padding-inline-start: 20px;
+    color: #475569;
+    font-size: 13px;
+}
+
+body.pms-ui .resort-ticket-cancel-tickets-title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+body.pms-ui .resort-ticket-cancel-tickets {
+    max-height: 140px;
+    overflow: auto;
+    margin-bottom: 12px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: #fff;
+}
+
+body.pms-ui .resort-ticket-cancel-ticket-row {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--pms-border);
+    font-size: 12px;
+}
+
+body.pms-ui .resort-ticket-cancel-ticket-row:last-child {
+    border-bottom: none;
+}
+
+body.pms-ui .resort-ticket-order-detail__section-title {
+    margin: 14px 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+body.pms-ui .resort-ticket-order-detail__section-title:first-child {
+    margin-top: 0;
+}
+
+body.pms-ui .resort-ticket-scanner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+    gap: 16px;
+}
+
+@media (max-width: 900px) {
+    body.pms-ui .resort-ticket-scanner {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.pms-ui .resort-ticket-scanner__scan,
+body.pms-ui .resort-ticket-scanner__recent {
+    background: var(--pms-surface);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    padding: 16px;
+}
+
+body.pms-ui .resort-ticket-scanner__hint {
+    margin: 0 0 12px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+body.pms-ui .resort-ticket-scanner__result {
+    margin-top: 14px;
+}
+
+body.pms-ui .resort-ticket-scanner__result-card {
+    border-radius: var(--pms-radius-form);
+    padding: 14px 16px;
+    border: 1px solid var(--pms-border);
+    background: var(--pms-panel-bg-strong);
+}
+
+body.pms-ui .resort-ticket-scanner__result-card--ok {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+body.pms-ui .resort-ticket-scanner__result-card--error {
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+body.pms-ui .resort-ticket-scanner__result-msg {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+body.pms-ui .resort-ticket-scanner__result-line {
+    font-size: 13px;
+    color: #334155;
+    padding: 2px 0;
+}
+
+body.pms-ui .resort-ticket-scanner__recent-title {
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+body.pms-ui .resort-ticket-scanner__recent-list {
+    max-height: 420px;
+    overflow: auto;
+}
+
+body.pms-ui .resort-ticket-scanner__recent-row {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--pms-border);
+    font-size: 12px;
+}
+
+body.pms-ui .resort-ticket-scanner__recent-row--ok {
+    color: #166534;
+}
+
+body.pms-ui .resort-ticket-scanner__recent-row--error {
+    color: #b91c1c;
+}
+
+body.pms-ui .resort-ticket-scanner__recent-empty {
+    color: #94a3b8;
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+body.pms-ui .resort-ticket-scanner__camera {
+    margin: 10px 0;
+    border-radius: var(--pms-radius-card);
+    overflow: hidden;
+    border: 1px solid var(--pms-border);
+    background: #0f172a;
+    min-height: 120px;
+}
+
+body.pms-ui .resort-ticket-scanner__camera-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 12px;
+}
+
+body.pms-ui .resort-ticket-scanner__gate-link {
+    margin-inline-start: auto;
+}
+
+/* Gate mode — full-screen mobile kiosk */
+body.pms-ui.resort-ticket-gate-page {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #0f172a;
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+}
+
+body.pms-ui .resort-ticket-gate__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    background: rgba(15, 23, 42, 0.96);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+body.pms-ui .resort-ticket-gate__brand strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+body.pms-ui .resort-ticket-gate__brand small {
+    display: block;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+body.pms-ui .resort-ticket-gate__logout {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(30, 41, 59, 0.9);
+    color: #e2e8f0;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+body.pms-ui .resort-ticket-gate__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 12px max(16px, env(safe-area-inset-bottom));
+}
+
+body.pms-ui .resort-ticket-gate {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+body.pms-ui .resort-ticket-gate__scan {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+body.pms-ui .resort-ticket-gate__camera {
+    flex: 1;
+    min-height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #020617;
+    border: 2px solid rgba(63, 111, 159, 0.55);
+}
+
+body.pms-ui .resort-ticket-gate__camera #resortTicketQrReader,
+body.pms-ui .resort-ticket-gate__camera [id^="resortTicketQrReader_"] {
+    width: 100%;
+    min-height: 280px;
+}
+
+body.pms-ui .resort-ticket-gate__camera-fallback {
+    padding: 24px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+body.pms-ui .resort-ticket-gate__manual-label {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+body.pms-ui .resort-ticket-gate__manual-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(30, 41, 59, 0.9);
+    color: #f8fafc;
+}
+
+body.pms-ui .resort-ticket-gate__result {
+    display: none;
+}
+
+body.pms-ui .resort-ticket-gate__recent {
+    background: rgba(30, 41, 59, 0.75);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+body.pms-ui .resort-ticket-gate__recent-title {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+body.pms-ui .resort-ticket-gate__recent-list {
+    max-height: 110px;
+    overflow: auto;
+}
+
+body.pms-ui .resort-ticket-gate__recent-row {
+    font-size: 12px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+body.pms-ui .resort-ticket-gate__recent-row--ok {
+    color: #86efac;
+}
+
+body.pms-ui .resort-ticket-gate__recent-row--error {
+    color: #fca5a5;
+}
+
+body.pms-ui .resort-ticket-gate__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    animation: resort-gate-overlay-in 0.2s ease-out;
+}
+
+body.pms-ui .resort-ticket-gate__overlay[hidden] {
+    display: none !important;
+}
+
+body.pms-ui .resort-ticket-gate__overlay--ok {
+    background: rgba(22, 101, 52, 0.94);
+}
+
+body.pms-ui .resort-ticket-gate__overlay--error {
+    background: rgba(153, 27, 27, 0.94);
+}
+
+body.pms-ui .resort-ticket-gate__overlay-icon {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 16px;
+}
+
+body.pms-ui .resort-ticket-gate__overlay-msg {
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 800;
+    line-height: 1.35;
+    max-width: 520px;
+}
+
+body.pms-ui .resort-ticket-gate__overlay-sub {
+    margin-top: 12px;
+    font-size: 16px;
+    opacity: 0.92;
+}
+
+body.pms-ui .resort-ticket-gate__forbidden {
+    margin: 24px auto;
+    max-width: 480px;
+    padding: 24px;
+    text-align: center;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(248, 113, 113, 0.45);
+    border-radius: 14px;
+    color: #fecaca;
+}
+
+body.pms-ui .resort-ticket-gate__forbidden h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+    color: #fca5a5;
+}
+
+body.pms-ui .resort-ticket-gate__forbidden p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #e2e8f0;
+}
+
+body.pms-ui .resort-ticket-gate__station {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: rgba(63, 111, 159, 0.35);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+body.pms-ui .resort-ticket-gate__station-hint {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    color: #e2e8f0;
+    background: rgba(63, 111, 159, 0.22);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+body.pms-ui .resort-ticket-gate__session-timer {
+    margin-top: 14px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    text-align: center;
+    background: linear-gradient(145deg, rgba(34, 197, 94, 0.18), rgba(15, 23, 42, 0.5));
+    border: 1px solid rgba(74, 222, 128, 0.35);
+}
+
+body.pms-ui .resort-ticket-gate__session-timer--urgent {
+    background: linear-gradient(145deg, rgba(249, 115, 22, 0.22), rgba(15, 23, 42, 0.55));
+    border-color: rgba(251, 146, 60, 0.55);
+    animation: resort-gate-timer-pulse 1s ease-in-out infinite;
+}
+
+@keyframes resort-gate-timer-pulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(251, 146, 60, 0.25);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(251, 146, 60, 0);
+    }
+}
+
+body.pms-ui .resort-ticket-gate__session-timer-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #bbf7d0;
+    margin-bottom: 6px;
+}
+
+body.pms-ui .resort-ticket-gate__session-timer--urgent .resort-ticket-gate__session-timer-label {
+    color: #fed7aa;
+}
+
+body.pms-ui .resort-ticket-gate__session-timer-meta {
+    font-size: 13px;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+}
+
+body.pms-ui .resort-ticket-gate__session-timer-clock {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    color: #f8fafc;
+}
+
+body.pms-ui .resort-ticket-gate__session-timer--urgent .resort-ticket-gate__session-timer-clock {
+    color: #fdba74;
+}
+
+body.pms-ui .resort-ticket-hours-station-hint {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--pms-text-md, #475569);
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border: 1px solid var(--pms-border, #d9dee7);
+}
+
+body.pms-ui .resort-ticket-gate__pwa-banner {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 12000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(30, 41, 59, 0.96);
+    border: 1px solid rgba(63, 111, 159, 0.55);
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    color: #e2e8f0;
+    font-size: 13px;
+}
+
+body.pms-ui .resort-ticket-gate__pwa-banner-text {
+    flex: 1;
+    line-height: 1.45;
+}
+
+body.pms-ui .resort-ticket-gate__pwa-banner-btn {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    background: #3f6f9f;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+body.pms-ui .resort-ticket-gate__pwa-banner-dismiss {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+@keyframes resort-gate-overlay-in {
+    from {
+        opacity: 0;
+        transform: scale(1.03);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+body.pms-ui .resort-ticket-section-title {
+    margin-bottom: 8px;
+    color: #1f2937;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+body.pms-ui .resort-ticket-sales-actions .dx-button {
+    min-height: 40px;
+}
+
+body.pms-ui .resort-ticket-sales-actions .dx-button-mode-contained {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+body.pms-ui .resort-ticket-cart-action {
+    min-width: 30px;
+    min-height: 30px;
+    margin-inline: 2px;
+    border-radius: 10px;
+    font-weight: 900;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .resort-ticket-cart-action .dx-button {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 12px;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .resort-ticket-cart-action--delete .dx-button {
+    min-width: 40px;
+    width: 40px;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .resort-ticket-cart-action .dx-button-content {
+    padding: 0;
+    justify-content: center;
+}
+
+body.pms-ui .resort-ticket-cart-action--minus .dx-button-text,
+body.pms-ui .resort-ticket-cart-action--plus .dx-button-text {
+    font-size: 18px;
+    line-height: 1;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-action--minus .dx-button-text,
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-action--plus .dx-button-text {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-action--delete .dx-icon {
+    font-size: 18px;
+}
+
+body.pms-ui .resort-ticket-cart-action--minus {
+    color: #b45309;
+    background: #fff7ed;
+}
+
+body.pms-ui .resort-ticket-cart-action--plus {
+    color: #047857;
+    background: #ecfdf5;
+}
+
+body.pms-ui .resort-ticket-cart-action--delete {
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+body.pms-ui .resort-ticket-popup .resort-ticket-sales-body {
+    min-height: 260px;
+}
+
+body.pms-ui .resort-ticket-popup .resort-ticket-sales-tiles {
+    max-height: 240px;
+}
+
+body.pms-ui .resort-payment-type-popup {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    padding: 8px 4px 4px;
+    min-width: 300px;
+}
+
+body.pms-ui .resort-ticket-payment-popup.res-extra-select-popup .dx-overlay-content {
+    max-height: none;
+}
+
+body.pms-ui .resort-ticket-payment-popup .dx-popup-content {
+    padding: 16px 18px 20px;
+    overflow: visible;
+}
+
+body.pms-ui .resort-payment-type-popup--issue {
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 2px 2px;
+    min-width: 300px;
+}
+
+body.pms-ui .resort-payment-type-popup__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 480px) {
+    body.pms-ui .resort-payment-type-popup__actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.pms-ui .resort-payment-type-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 96px;
+    padding: 16px 12px;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+body.pms-ui .resort-payment-type-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.2);
+    filter: brightness(1.03);
+}
+
+body.pms-ui .resort-payment-type-option:active {
+    transform: translateY(0);
+}
+
+body.pms-ui .resort-payment-type-option__icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+body.pms-ui .resort-payment-type-option__label {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+body.pms-ui .resort-payment-type-option--cash {
+    background: linear-gradient(145deg, #16a34a, #15803d);
+    border-color: #166534;
+}
+
+body.pms-ui .resort-payment-type-option--network {
+    background: linear-gradient(145deg, #2563eb, #1d4ed8);
+    border-color: #1e40af;
+}
+
+body.pms-ui .resort-payment-type-popup__prompt {
+    margin: 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+}
+
+body.pms-ui .resort-payment-type-popup__total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--pms-radius-input);
+    background: var(--pms-panel-bg-strong);
+    border: 1px dashed var(--pms-border);
+    font-size: 14px;
+    color: #475569;
+}
+
+body.pms-ui .resort-payment-type-popup__total strong {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1f2937;
+    font-variant-numeric: tabular-nums;
+}
+
+body.pms-ui .resort-payment-type-popup__footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 2px;
+}
+
+body.pms-ui .resort-payment-type-popup__close {
+    border: 1px solid var(--pms-border);
+    background: #fff;
+    color: #64748b;
+    border-radius: var(--pms-radius-input);
+    padding: 6px 22px;
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    line-height: 1.3;
+}
+
+body.pms-ui .resort-payment-type-popup__close:hover {
+    background: var(--pms-panel-bg-strong);
+    border-color: #b8c2d1;
+    color: #475569;
+}
+
+body.pms-ui .resort-payment-type-popup__btn {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+body.pms-ui .resort-payment-type-popup__btn .dx-button {
+    min-height: 48px;
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 600;
+    width: 100%;
+}
+
+body.pms-ui .resort-payment-type-popup__btn--cash .dx-button.dx-button-mode-contained {
+    background-color: #15803d;
+    border-color: #15803d;
+    color: #fff;
+}
+
+body.pms-ui .resort-payment-type-popup__btn--cash .dx-button.dx-button-mode-contained.dx-state-hover,
+body.pms-ui .resort-payment-type-popup__btn--cash .dx-button.dx-button-mode-contained.dx-state-focused {
+    background-color: #166534;
+    border-color: #166534;
+}
+
+body.pms-ui .resort-payment-type-popup__btn--network .dx-button.dx-button-mode-contained {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #fff;
+}
+
+body.pms-ui .resort-payment-type-popup__btn--network .dx-button.dx-button-mode-contained.dx-state-hover,
+body.pms-ui .resort-payment-type-popup__btn--network .dx-button.dx-button-mode-contained.dx-state-focused {
+    background-color: #1e40af;
+    border-color: #1e40af;
+}
+
+body.pms-ui .resort-ticket-types-tab,
+body.pms-ui .resort-ticket-types-grid {
+    min-height: 320px;
+}
+
+body.pms-ui .resort-ticket-settings-tabs .dx-tabpanel-container {
+    padding-top: 8px;
+}
+
+body.pms-ui .resort-ticket-hours-form {
+    padding: 12px 4px;
+    max-width: 720px;
+}
+
+body.pms-ui .resort-ticket-hours-actions {
+    margin-top: 12px;
+}
+
+body.pms-ui .resort-ticket-finance-toolbar {
+    margin-bottom: 12px;
+}
+
+body.pms-ui .resort-ticket-receipts-page {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+body.pms-ui .resort-ticket-receipts-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+body.pms-ui .resort-ticket-receipts-filter__field {
+    min-width: 150px;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card {
+    padding: 12px 14px;
+    border-radius: var(--pms-radius-input);
+    border: 1px solid var(--pms-border);
+    background: linear-gradient(180deg, #f8fafc 0%, var(--pms-panel-bg-strong) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 88px;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card__label {
+    font-size: var(--pms-text-xs);
+    font-weight: 600;
+    color: #64748b;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card__value {
+    font-size: var(--pms-text-lg);
+    font-weight: 700;
+    color: var(--pms-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card__sub {
+    font-size: var(--pms-text-sm);
+    color: #475569;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card--danger .resort-ticket-receipts-kpi-card__value {
+    color: #b91c1c;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card--ok .resort-ticket-receipts-kpi-card__value {
+    color: #15803d;
+}
+
+body.pms-ui .resort-ticket-receipts-kpi-card--warn .resort-ticket-receipts-kpi-card__value {
+    color: #b45309;
+}
+
+body.pms-ui .resort-ticket-receipts-grid {
+    min-height: 280px;
+}
+
+@media (pointer: coarse) {
+    body.pms-ui .resort-ticket-tile {
+        min-height: 112px;
+    }
+
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-tile {
+        min-height: 118px;
+    }
+
+    body.pms-ui .resort-ticket-sales-actions .dx-button {
+        min-height: 48px;
+    }
+
+    body.pms-ui .resort-ticket-sales--pos .resort-ticket-cart-lines .resort-ticket-cart-action .dx-button {
+        min-width: 48px;
+        min-height: 48px;
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Cashier POS — mobile layout */
+@media (max-width: 768px) {
+    body.pms-ui.resort-ticket-cashier-page .room-board-shell {
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .room-board-workspace {
+        min-height: 0;
+        padding: 6px 8px max(10px, env(safe-area-inset-bottom));
+        overflow-x: hidden;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .pms-admin-card {
+        padding: 0 0 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-topbar {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-topbar__title {
+        font-size: 15px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-mode-tabs .dx-tab {
+        min-width: 0;
+        flex: 1 1 0;
+        padding-inline: 8px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos {
+        min-height: 0;
+        gap: 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-body {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr;
+        height: auto;
+        max-height: none;
+        gap: 8px;
+        overflow: visible;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-catalog {
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: none;
+        height: auto;
+        order: 1;
+        padding: 8px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-cart--pos {
+        position: static;
+        flex: 0 0 auto;
+        order: 2;
+        height: auto;
+        max-height: none;
+        min-width: 0;
+        overflow: hidden;
+        padding: 8px;
+        box-shadow: none;
+        border-top: 1px solid var(--pms-border);
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-tiles {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: minmax(96px, auto);
+        gap: 8px;
+        overflow-x: hidden;
+        max-height: none;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-tile {
+        min-height: 96px;
+        max-height: 118px;
+        padding: 8px 6px 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-tile__icon {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-tile__name {
+        font-size: 12px;
+        line-height: 1.25;
+        -webkit-line-clamp: 2;
+        margin-bottom: 2px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-tile__price {
+        font-size: 16px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-tile__validity {
+        font-size: 9px;
+        margin-bottom: 2px;
+        padding: 1px 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-category-tabs .dx-tabs-wrapper {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        max-width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-category-tabs .dx-tab {
+        flex: 0 0 auto;
+        min-width: 76px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-head {
+        padding-bottom: 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-title {
+        font-size: 14px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pay-now-strip {
+        padding: 4px 8px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-body {
+        min-height: 0;
+        max-height: none;
+        overflow: visible;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines {
+        max-height: 148px;
+        overflow: hidden;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-datagrid {
+        max-width: 100%;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-datagrid-rowsview,
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-datagrid-headers {
+        overflow-x: hidden;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines .dx-scrollable-scrollbar.dx-scrollbar-horizontal {
+        display: none !important;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-lines--mobile .dx-datagrid-table {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-lines--mobile .dx-datagrid .dx-row > td {
+        padding: 4px 2px !important;
+        font-size: 11px;
+        vertical-align: middle;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-lines--mobile .dx-datagrid-headers .dx-datagrid-text-content {
+        font-size: 10px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines .resort-ticket-cart-action .dx-button {
+        min-width: 34px;
+        min-height: 34px;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-lines .resort-ticket-cart-action--delete .dx-button {
+        min-width: 32px;
+        width: 32px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-action--minus .dx-button-text,
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-cart-action--plus .dx-button-text {
+        font-size: 22px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-summary {
+        padding: 6px 8px;
+        gap: 4px;
+        font-size: 12px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-receipt__row--total {
+        font-size: 15px;
+        padding-top: 4px;
+        margin-top: 2px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cart-footer {
+        padding-top: 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-issue-btn-host {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales-actions {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales-actions > .dx-button {
+        width: 100%;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-cashier-quick-nav {
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-sales-tiles {
+        gap: 6px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-sales--pos .resort-ticket-tile {
+        min-height: 92px;
+        max-height: 112px;
+    }
+}
+
+/* Ticket cashier — POS terminal layout (purple accent vs order POS blue) */
+body.pms-ui.resort-ticket-pos-terminal {
+    --resort-ticket-pos-accent: #7c3aed;
+    --resort-ticket-pos-accent-soft: #ede9fe;
+    --resort-ticket-pos-accent-ring: rgba(124, 58, 237, 0.14);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .dx-button,
+body.pms-ui.resort-ticket-pos-terminal .pos-item-card {
+    transition: none !important;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-cart-panel__title {
+    border-bottom-color: var(--resort-ticket-pos-accent);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-cart-line {
+    border-inline-start-color: var(--resort-ticket-pos-accent);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-category-chip--active .dx-button {
+    background: var(--resort-ticket-pos-accent) !important;
+    border-color: var(--resort-ticket-pos-accent) !important;
+    color: #fff !important;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-item-card--in-cart {
+    border-color: rgba(124, 58, 237, 0.72);
+    box-shadow:
+        0 0 0 2px var(--resort-ticket-pos-accent-ring),
+        0 4px 14px rgba(124, 58, 237, 0.12);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .resort-ticket-pos-hint {
+    background: var(--resort-ticket-pos-accent-soft);
+    color: #5b21b6;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-item-card.resort-ticket-pos-card {
+    border-top: 3px solid var(--resort-ticket-pos-accent);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .resort-ticket-pos-card__media {
+    background: linear-gradient(180deg, #faf5ff, #f3e8ff);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .resort-ticket-pos-card__icon {
+    font-size: 34px;
+    color: var(--resort-ticket-pos-accent);
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-item-card__price {
+    font-size: var(--pms-text-lg, 16px);
+    font-weight: 800;
+    color: var(--resort-ticket-pos-accent, var(--pms-primary));
+}
+
+body.pms-ui.resort-ticket-pos-terminal .resort-ticket-pos-card__validity {
+    display: inline-block;
+    align-self: center;
+    margin: 0;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .resort-ticket-pos-card__validity--scan {
+    background: var(--resort-ticket-pos-accent-soft);
+    color: #5b21b6;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .resort-ticket-pos-card__validity--duration {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-cart-actions .dx-button.dx-button-mode-contained.dx-button-default {
+    background-color: var(--resort-ticket-pos-accent) !important;
+    border-color: var(--resort-ticket-pos-accent) !important;
+}
+
+body.pms-ui.resort-ticket-pos-terminal .pos-qty-btn.dx-button-mode-outlined.dx-button-default {
+    color: var(--resort-ticket-pos-accent);
+    border-color: var(--resort-ticket-pos-accent);
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal.resort-ticket-sales--pos {
+    min-height: calc(100dvh - 88px);
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .resort-ticket-sales-body.pos-terminal-layout {
+    height: auto;
+    max-height: none;
+    min-height: calc(100vh - 220px);
+    overflow: visible;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .pos-terminal-main,
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .pos-cart-panel {
+    min-height: 0;
+}
+
+body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .resort-ticket-pos-topbar {
+    border-inline-start: 4px solid var(--resort-ticket-pos-accent);
+}
+
+@media (max-width: 768px) {
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .pos-cart-panel {
+        padding: 8px;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .pos-cart-lines {
+        max-height: 36vh;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .pos-item-grid {
+        max-height: none;
+    }
+
+    body.pms-ui.resort-ticket-cashier-mode .resort-ticket-pos-terminal .pos-terminal-layout {
+        min-height: 0;
+    }
+}
+
+/* Gate home — multi-station picker */
+body.pms-ui.resort-ticket-gate-home-page {
+    min-height: 100vh;
+    background: var(--pms-page-bg);
+}
+
+body.pms-ui .resort-ticket-gate-home__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+body.pms-ui .resort-ticket-gate-home__brand strong {
+    display: block;
+    font-size: 16px;
+}
+
+body.pms-ui .resort-ticket-gate-home__brand small {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+body.pms-ui .resort-ticket-gate-home__logout {
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: #e2e8f0;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+body.pms-ui .resort-ticket-gate-home__main {
+    padding: 16px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+body.pms-ui .resort-ticket-gate-home__hint {
+    margin: 0 0 16px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+body.pms-ui .resort-ticket-gate-home__tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+body.pms-ui .resort-ticket-gate-home__tile {
+    background: var(--pms-surface);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    border-top: 4px solid var(--gate-tile-accent, var(--pms-primary));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+body.pms-ui .resort-ticket-gate-home__tile-icon {
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+body.pms-ui .resort-ticket-gate-home__tile-title {
+    margin: 0;
+    font-size: 16px;
+    color: #0f172a;
+}
+
+body.pms-ui .resort-ticket-gate-home__tile-code {
+    margin: 0;
+    font-size: 12px;
+    color: #64748b;
+    font-family: ui-monospace, monospace;
+}
+
+body.pms-ui .resort-ticket-gate-home__tile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+body.pms-ui .resort-ticket-gate-home__tile-btn {
+    display: block;
+    padding: 10px 12px;
+    border-radius: var(--pms-radius-input);
+    border: 1px solid var(--pms-border);
+    background: var(--pms-panel-bg-strong);
+    color: #0f172a;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+body.pms-ui .resort-ticket-gate-home__tile-btn--primary {
+    background: var(--pms-primary);
+    border-color: var(--pms-primary);
+    color: #fff;
+}
+
+body.pms-ui .resort-ticket-gate-home__empty {
+    padding: 24px;
+    text-align: center;
+    color: #64748b;
+    background: var(--pms-surface);
+    border-radius: var(--pms-radius-card);
+    border: 1px dashed var(--pms-border);
+}

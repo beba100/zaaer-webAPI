@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceLedgerAPI.Models
 {
+    /// <summary>
+    /// Per-night / per-month gross rate lines for PMS pricing.
+    /// <see cref="ReservationId"/> and <see cref="UnitId"/> store integration keys when set
+    /// (reservation <c>zaaer_id</c>, unit <c>zaaer_id</c> or apartment <c>zaaer_id</c>), else internal PKs — not FK-bound to <c>reservations</c>/<c>reservation_units</c>.
+    /// </summary>
     [Table("reservation_unit_day_rates")]
     public class ReservationUnitDayRate
     {
@@ -10,10 +15,15 @@ namespace FinanceLedgerAPI.Models
         [Column("rate_id")]
         public int RateId { get; set; }
 
+        /// <summary>Global reservation key: <c>zaaer_id</c> when set, else <c>reservations.reservation_id</c>.</summary>
         [Column("reservation_id")]
         [Required]
         public int ReservationId { get; set; }
 
+        /// <summary>
+        /// Global apartment key: <c>apartments.zaaer_id</c> when set, else <c>apartments.apartment_id</c>,
+        /// resolved via <c>reservation_units.apartment_id</c> (not <c>reservation_units.unit_id</c>).
+        /// </summary>
         [Column("unit_id")]
         [Required]
         public int UnitId { get; set; }
@@ -51,11 +61,11 @@ namespace FinanceLedgerAPI.Models
         [Column("zaaer_id")]
         public int? ZaaerId { get; set; }
 
-        [ForeignKey("ReservationId")]
-        public Reservation Reservation { get; set; } = null!;
+        [NotMapped]
+        public Reservation? Reservation { get; set; }
 
-        [ForeignKey("UnitId")]
-        public ReservationUnit ReservationUnit { get; set; } = null!;
+        [NotMapped]
+        public ReservationUnit? ReservationUnit { get; set; }
     }
 }
 

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FinanceLedgerAPI.Models;
+using zaaerIntegration.Utilities;
 
 namespace zaaerIntegration.Models
 {
@@ -17,7 +18,11 @@ namespace zaaerIntegration.Models
 
         [Column("expense_id")]
         [Required]
-        public int ExpenseId { get; set; }
+        public long ExpenseId { get; set; }
+
+        /// <summary>Legacy link — mirrors expenses.old_expense_id on tenant DBs.</summary>
+        [Column("old_expense_id")]
+        public int OldExpenseId { get; set; }
 
         /// <summary>
         /// مسار الصورة (URL أو path)
@@ -59,7 +64,7 @@ namespace zaaerIntegration.Models
         public int DisplayOrder { get; set; } = 0;
 
         [Column("created_at")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
         // Navigation property
         [ForeignKey("ExpenseId")]

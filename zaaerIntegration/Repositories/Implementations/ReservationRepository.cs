@@ -182,5 +182,21 @@ namespace zaaerIntegration.Repositories.Implementations
                 .FirstOrDefaultAsync(r => r.ReservationNo == reservationNo);
         }
 
+        public async Task<(Reservation? Reservation, bool HasMultipleMatches)> ResolveByZaaerIdAsync(int zaaerId, int? hotelId)
+        {
+            var query = _context.Reservations.Where(r => r.ZaaerId == zaaerId);
+            if (hotelId.HasValue)
+            {
+                query = query.Where(r => r.HotelId == hotelId.Value);
+            }
+
+            var top = await query
+                .OrderByDescending(r => r.ReservationId)
+                .Take(2)
+                .ToListAsync();
+
+            return (top.FirstOrDefault(), top.Count > 1);
+        }
+
     }
 }

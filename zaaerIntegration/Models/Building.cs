@@ -29,6 +29,20 @@ namespace FinanceLedgerAPI.Models
 		[MaxLength(500)]
 		public string Address { get; set; }
 
+		[Column("description")]
+		[MaxLength(500)]
+		public string? Description { get; set; }
+
+		[Column("is_active")]
+		public bool IsActive { get; set; } = true;
+
+		/// <summary>
+		/// Zaaer System ID (معرف Zaaer)
+		/// External ID from Zaaer integration system
+		/// </summary>
+		[Column("zaaer_id")]
+		public int? ZaaerId { get; set; }
+
         // Navigation properties
 		[ForeignKey("HotelId")]
 		public HotelSettings HotelSettings { get; set; } = null!;

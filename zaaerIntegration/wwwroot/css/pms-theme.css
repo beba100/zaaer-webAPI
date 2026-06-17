@@ -1,0 +1,391 @@
+:root {
+    --pms-font: "Inter", "Tajawal", "Segoe UI", sans-serif;
+    --pms-text-xs: 12px;
+    --pms-text-sm: 13px;
+    --pms-text-md: 14px;
+    --pms-text-lg: 16px;
+    --pms-text-xl: 18px;
+    --pms-page-bg: #eef1f5;
+    --pms-surface: #ffffff;
+    --pms-panel-bg: #f6f7f9;
+    --pms-panel-bg-strong: #f3f4f6;
+    --pms-border: #d9dee7;
+    --pms-border-soft: #e6e9ef;
+    --pms-text: #111827;
+    --pms-muted: #6b7280;
+    --pms-primary: #3f6f9f;
+    --pms-shadow-lg: 0 18px 48px rgba(15, 23, 42, 0.18);
+}
+
+body.pms-ui {
+    font-family: var(--pms-font);
+    background:
+        radial-gradient(circle at top right, rgba(63, 111, 159, 0.07), transparent 32rem),
+        var(--pms-page-bg);
+    color: var(--pms-text);
+}
+
+body.pms-ui .res-section,
+body.pms-ui .room-board-view,
+body.pms-ui .room-board-toolbar {
+    background: var(--pms-surface);
+    border-color: var(--pms-border-soft);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+/* Room board: summary strip stays on page gradient; panels use frosted glass */
+body.pms-ui .room-board-summary {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+body.pms-ui .room-board-filter-card,
+body.pms-ui .room-board-content {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+}
+
+body.pms-ui .dx-overlay-shader {
+    background-color: rgba(15, 23, 42, 0.34) !important;
+    backdrop-filter: blur(1.5px);
+}
+
+/* DropDownBox / SelectBox overlays are not modals — no dimming or blur */
+body.pms-ui .dx-dropdowneditor-overlay .dx-overlay-shader {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    pointer-events: none !important;
+}
+
+/* Umm al-Qura hijri picker shell is appended to body and must stack above dxPopup */
+body.pms-ui > div.calendars-popup {
+    z-index: 20000 !important;
+    pointer-events: auto;
+}
+
+body.pms-ui .dx-popup-wrapper .dx-overlay-content {
+    overflow: hidden;
+    border: 1px solid var(--pms-border);
+    border-radius: 14px;
+    background: var(--pms-panel-bg);
+    box-shadow: var(--pms-shadow-lg);
+}
+
+body.pms-ui .dx-popup-title {
+    min-height: 46px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--pms-border-soft);
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    color: var(--pms-text);
+    font-weight: 700;
+}
+
+body.pms-ui .dx-popup-content {
+    background: var(--pms-panel-bg);
+}
+
+body.pms-ui .dx-popup-bottom {
+    border-top: 1px solid var(--pms-border-soft);
+    background: #ffffff;
+}
+
+body.pms-ui .dx-popup-content .dx-form,
+body.pms-ui .dx-popup-content .dx-form .dx-layout-manager {
+    background: transparent;
+}
+
+body.pms-ui .dx-popup-content .dx-form {
+    padding: 14px;
+    border: 1px solid var(--pms-border-soft);
+    border-radius: 12px;
+    background: var(--pms-panel-bg-strong);
+}
+
+body.pms-ui .dx-popup-content .dx-field-item-label-text,
+body.pms-ui .dx-popup-content .dx-form-group-caption {
+    color: var(--pms-muted);
+    font-weight: 700;
+}
+
+body.pms-ui .dx-popup-content .dx-texteditor {
+    border-color: #cfd6e2;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+body.pms-ui .dx-popup-content .dx-texteditor.dx-state-focused {
+    border-color: var(--pms-primary);
+    box-shadow: 0 0 0 2px rgba(63, 111, 159, 0.12);
+}
+
+body.pms-ui .res-extra-select-popup .dx-overlay-content {
+    max-height: 62vh;
+}
+
+body.pms-ui .res-extra-select-popup .dx-popup-content {
+    padding: 14px 16px;
+}
+
+body.pms-ui .res-extra-select-popup .res-extra-form {
+    max-height: calc(62vh - 128px);
+    overflow-y: auto;
+}
+
+/* Disabled / read-only: keep values readable (app-wide under pms-ui) */
+body.pms-ui .dx-texteditor.dx-state-disabled,
+body.pms-ui .dx-texteditor.dx-state-readonly,
+body.pms-ui .dx-dropdowneditor.dx-state-disabled,
+body.pms-ui .dx-dropdowneditor.dx-state-readonly {
+    opacity: 1;
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+body.pms-ui .dx-texteditor.dx-state-disabled .dx-texteditor-input,
+body.pms-ui .dx-texteditor.dx-state-readonly .dx-texteditor-input,
+body.pms-ui .dx-dropdowneditor.dx-state-disabled .dx-texteditor-input,
+body.pms-ui .dx-dropdowneditor.dx-state-readonly .dx-texteditor-input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b;
+    opacity: 1;
+}
+
+body.pms-ui .dx-texteditor.dx-state-disabled .dx-texteditor-label,
+body.pms-ui .dx-texteditor.dx-state-readonly .dx-texteditor-label,
+body.pms-ui .dx-dropdowneditor.dx-state-disabled .dx-texteditor-label,
+body.pms-ui .dx-dropdowneditor.dx-state-readonly .dx-texteditor-label {
+    color: #64748b !important;
+    opacity: 1;
+}
+
+body.pms-ui .dx-numberbox.dx-state-disabled .dx-texteditor-input,
+body.pms-ui .dx-numberbox.dx-state-readonly .dx-texteditor-input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b;
+}
+
+body.pms-ui .dx-checkbox.dx-state-disabled .dx-checkbox-text {
+    color: #475569 !important;
+    opacity: 1;
+}
+
+body.pms-ui .dx-checkbox.dx-state-disabled .dx-checkbox-icon {
+    opacity: 0.85;
+}
+
+body.pms-ui .dx-switch.dx-state-disabled {
+    opacity: 0.72;
+}
+
+body.pms-ui .dx-buttongroup.dx-state-disabled {
+    opacity: 1;
+}
+
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button {
+    opacity: 1;
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #64748b !important;
+}
+
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button:not(.dx-item-selected):not(.dx-state-active) .dx-button-text {
+    color: #64748b !important;
+    font-weight: 500;
+    opacity: 1;
+}
+
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button.dx-state-active,
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button.dx-item-selected {
+    background: #e8f0f7 !important;
+    border-color: #94a3b8 !important;
+    color: #1e3a5f !important;
+    box-shadow: inset 0 -1px 0 rgba(63, 111, 159, 0.22);
+}
+
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button.dx-state-active .dx-button-text,
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button.dx-item-selected .dx-button-text {
+    display: inline-block;
+    position: relative;
+    color: #1e3a5f !important;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    opacity: 1;
+    padding-bottom: 3px;
+}
+
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button.dx-state-active .dx-button-text::after,
+body.pms-ui .dx-buttongroup.dx-state-disabled .dx-button.dx-item-selected .dx-button-text::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+        90deg,
+        rgba(63, 111, 159, 0.15) 0%,
+        #3f6f9f 35%,
+        #3f6f9f 65%,
+        rgba(63, 111, 159, 0.15) 100%
+    );
+}
+
+body.pms-ui .dx-button.dx-state-disabled {
+    opacity: 0.68;
+}
+
+body.pms-ui .dx-datagrid .dx-state-disabled {
+    opacity: 1;
+}
+
+body.pms-ui .dx-datagrid .dx-state-disabled .dx-texteditor-input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b;
+}
+
+body.pms-ui .pms-hotel-multi-picker__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    padding: 8px 10px 4px;
+    border-bottom: 1px solid var(--pms-border, #d9dee7);
+}
+
+body.pms-ui .pms-user-hotels-field__main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+body.pms-ui .pms-user-hotels-field__lookup {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+body.pms-ui .pms-user-hotels-field__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 4px;
+}
+
+body.pms-ui .pms-admin-hotels-cell-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+body.pms-ui .pms-admin-hotels-assign-all {
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: var(--pms-text-xs, 12px);
+    font-weight: 600;
+    color: var(--pms-primary, #3f6f9f);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+body.pms-ui .pms-admin-hotels-assign-all:hover {
+    color: var(--pms-primary-hover, #31597f);
+}
+
+/* DevExtreme theme panel (docs-style) */
+body.pms-ui .pms-dx-theme-panel-popup .dx-popup-content {
+    padding: 0;
+}
+
+body.pms-ui .pms-dx-theme-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    background: #fff;
+}
+
+body.pms-ui .pms-dx-theme-tabs {
+    border-bottom: 1px solid var(--pms-border, #e5e7eb);
+    padding: 0 8px;
+}
+
+body.pms-ui .pms-dx-theme-tabs .dx-tabs {
+    border: none;
+}
+
+body.pms-ui .pms-dx-theme-tabs .dx-tab {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    padding: 10px 12px;
+}
+
+body.pms-ui .pms-dx-theme-list {
+    max-height: min(52vh, 420px);
+    overflow: auto;
+    padding: 8px 0 4px;
+}
+
+body.pms-ui .pms-dx-theme-section-title {
+    padding: 8px 16px 4px;
+    font-size: var(--pms-text-xs, 12px);
+    font-weight: 700;
+    color: var(--pms-muted, #64748b);
+}
+
+body.pms-ui .pms-dx-theme-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 8px 16px;
+    cursor: pointer;
+    text-align: start;
+    font: inherit;
+    color: var(--pms-text, #111827);
+}
+
+body.pms-ui .pms-dx-theme-item:hover {
+    background: rgba(15, 23, 42, 0.04);
+}
+
+body.pms-ui .pms-dx-theme-item--active {
+    background: rgba(63, 111, 159, 0.12);
+}
+
+body.pms-ui .pms-dx-theme-item-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    flex-shrink: 0;
+}
+
+body.pms-ui .pms-dx-theme-item-label {
+    font-size: var(--pms-text-sm, 13px);
+    line-height: 1.35;
+}
+
+body.pms-ui .pms-dx-theme-builder {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 16px 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--pms-border, #e5e7eb);
+    color: var(--pms-primary, #3f6f9f);
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body.pms-ui .pms-dx-theme-builder:hover {
+    color: var(--pms-primary-hover, #31597f);
+}
+

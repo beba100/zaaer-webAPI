@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceLedgerAPI.Models
@@ -60,6 +60,13 @@ namespace FinanceLedgerAPI.Models
 		[Column("description")]
 		[MaxLength(500)]
 		public string? Description { get; set; }
+
+		/// <summary>
+		/// Zaaer System ID (معرف Zaaer)
+		/// External ID from Zaaer integration system
+		/// </summary>
+		[Column("zaaer_id")]
+		public int? ZaaerId { get; set; }
 
 		[Column("created_at")]
 		public DateTime CreatedAt { get; set; } = DateTime.Now;

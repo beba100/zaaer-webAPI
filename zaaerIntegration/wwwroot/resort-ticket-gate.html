@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="بوابة التذاكر">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="مسح والتحقق من تذاكر المنتجع عند البوابة">
+    <title>Resort Ticket Gate</title>
+    <link rel="manifest" href="/pwa/gate/manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa/gate/icon-192.png">
+    <link rel="apple-touch-icon" href="/pwa/gate/icon-512.png">
+    <link rel="stylesheet" href="/css/pms-theme.css?v=20260530p">
+    <link rel="stylesheet" href="/css/resort-tickets.css?v=20260610gate">
+</head>
+<body class="pms-ui resort-ticket-gate-page">
+    <header class="resort-ticket-gate__header">
+        <div class="resort-ticket-gate__brand">
+            <strong id="gateHotelName">—</strong>
+            <small id="gateSubtitle" data-i18n="resortTickets.gate.subtitle"></small>
+            <span id="gateStationBadge" class="resort-ticket-gate__station" hidden></span>
+        </div>
+        <button type="button" class="resort-ticket-gate__logout" id="gateLogoutBtn" title="Logout">⎋</button>
+    </header>
+
+    <main class="resort-ticket-gate__main">
+        <div id="resortTicketGateHost"></div>
+    </main>
+
+    <script src="/Lib/js/jquery.min.js"></script>
+    <script src="/Lib/js/html5-qrcode.min.js?v=2.3.8"></script>
+    <script src="/js/i18n/en.js"></script>
+    <script src="/js/i18n/ar.js"></script>
+    <script src="/js/core/api-service.js?v=20260610j"></script>
+    <script src="/js/core/resort-ticket-scan-audio.js?v=20260610gate"></script>
+    <script src="/js/core/resort-ticket-gate-station.js?v=20260610gate"></script>
+    <script src="/js/services/resort-ticket-service.js?v=20260610gate"></script>
+    <script src="/js/components/resort-ticket-scanner-panel.js?v=20260610gate"></script>
+    <script src="/js/pwa/resort-ticket-gate-pwa.js?v=20260610pwa"></script>
+    <script src="/js/pages/resort-ticket-gate.js?v=20260610gate"></script>
+</body>
+</html>

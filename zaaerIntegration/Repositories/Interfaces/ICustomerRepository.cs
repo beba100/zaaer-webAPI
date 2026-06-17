@@ -67,5 +67,16 @@ namespace zaaerIntegration.Repositories.Interfaces
         /// الحصول على إحصائيات العملاء
         /// </summary>
         Task<object> GetCustomerStatisticsAsync();
+
+        /// <summary>
+        /// Paged customers with optional filters (name/mobile/id search, nationality, guest category).
+        /// </summary>
+        Task<(IEnumerable<Customer> Customers, int TotalCount)> GetPagedWithFiltersAsync(
+            int pageNumber,
+            int pageSize,
+            string? searchTerm,
+            string? searchMode,
+            int? nationalityId,
+            int? guestCategoryId);
     }
 }

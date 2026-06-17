@@ -90,6 +90,9 @@ namespace zaaerIntegration.Services.Implementations
                 paymentReceipt.ReceiptDate = createPaymentReceiptDto.ReceiptDate ?? DateTime.Now;
                 paymentReceipt.CreatedAt = KsaTime.Now;
 
+                // Normalize bank name (convert Arabic to English)
+                paymentReceipt.BankName = NormalizeBankName(paymentReceipt.BankName);
+
                 var createdPaymentReceipt = await _paymentReceiptRepository.AddAsync(paymentReceipt);
                 return _mapper.Map<PaymentReceiptResponseDto>(createdPaymentReceipt);
             }
@@ -116,6 +119,13 @@ namespace zaaerIntegration.Services.Implementations
                 }
 
                 _mapper.Map(updatePaymentReceiptDto, existingPaymentReceipt);
+
+                // Normalize bank name (convert Arabic to English)
+                if (updatePaymentReceiptDto.BankName != null || existingPaymentReceipt.BankName != null)
+                {
+                    existingPaymentReceipt.BankName = NormalizeBankName(
+                        updatePaymentReceiptDto.BankName ?? existingPaymentReceipt.BankName);
+                }
 
                 await _paymentReceiptRepository.UpdateAsync(existingPaymentReceipt);
 
@@ -461,6 +471,63 @@ namespace zaaerIntegration.Services.Implementations
             {
                 throw new InvalidOperationException($"Error updating notes: {ex.Message}", ex);
             }
+        }
+
+        /// <summary>
+        /// Normalize bank name: Convert Arabic bank names to English
+        /// تحويل أسماء البنوك من العربية إلى الإنجليزية
+        /// بنك البلاد → bilad
+        /// بنك الرياض → riyad
+        /// </summary>
+        /// <param name="bankName">Bank name (can be Arabic or English)</param>
+        /// <returns>Normalized bank name in English, or original value if not recognized</returns>
+        /// <summary>
+        /// Normalize bank name by converting Arabic names to English equivalents
+        /// - "بنك البلاد" → "bilad"
+        /// - "بنك الرياض" → "riyad"
+        /// - "نظام المصروفات" → "expense"
+        /// If not recognized, returns the original value
+        /// </summary>
+        /// <param name="bankName">The bank name to normalize</param>
+        /// <returns>Normalized bank name or original value if not recognized</returns>
+        private string? NormalizeBankName(string? bankName)
+        {
+            if (string.IsNullOrWhiteSpace(bankName))
+            {
+                return bankName;
+            }
+
+            var trimmedName = bankName.Trim();
+
+            // بنك البلاد → bilad
+            if (trimmedName.Equals("بنك البلاد", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Contains("بنك البلاد", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Contains("البلاد", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Equals("bilad", StringComparison.OrdinalIgnoreCase))
+            {
+                return "bilad";
+            }
+
+            // بنك الرياض → riyad
+            if (trimmedName.Equals("بنك الرياض", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Contains("بنك الرياض", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Contains("الرياض", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Equals("riyad", StringComparison.OrdinalIgnoreCase))
+            {
+                return "riyad";
+            }
+
+            // نظام المصروفات → expense
+            if (trimmedName.Equals("نظام المصروفات", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Contains("نظام المصروفات", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Contains("المصروفات", StringComparison.OrdinalIgnoreCase) ||
+                trimmedName.Equals("expense", StringComparison.OrdinalIgnoreCase))
+            {
+                return "expense";
+            }
+
+            // Return original value if not recognized
+            return bankName;
         }
     }
 }

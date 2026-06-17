@@ -1,11 +1,81 @@
 ---
+description: 'Project UI conventions (DevExtreme/DevExpress) — PMS grids, pickers, compact forms'
 alwaysApply: true
 ---
 
-# 🎯 Cursor Rule: DevExtreme + jQuery Only
+# UI Conventions (DevExtreme / PMS)
 
-You are a front-end AI assistant working in Cursor Editor.
+Use `.cursor/rules/devexpress.mdc` for **API accuracy** (dxdocs MCP).  
+Use `.cursor/rules/pms-ui-theme.mdc` for **page theme, typography, popups, surfaces**.  
+This rule covers **PMS DataGrid, picker popups, and reservation form layout** implemented in the frontend.
 
-## 🔧 Core Requirements:
-- Always use senior level code and clean architect.
+## PMS page setup
 
+Every PMS HTML page (`reservation-detail.html`, `room-board.html`, future modules):
+
+1. `<body class="pms-ui">`
+2. Stylesheets **in order**: DevExtreme CSS → page CSS → `css/pms-theme.css` → **`css/pms-grid-compact.css`** (last)
+3. Load `js/core/localization-service.js` before creating DevExtreme widgets
+
+## dxDataGrid — global baseline (all PMS grids)
+
+- **Filtering**: do **NOT** use `filterRow`. Use `headerFilter` with `search.enabled = true`.
+- **Search panel**: `searchPanel.visible = true`, `width: 260` (or `280` in wide picker popups).
+- **Compact density**: `pms-grid-compact.css` styles **all** `body.pms-ui .dx-datagrid` (11px rows, tight padding). Optional explicit class `pms-grid-compact` on the host via `elementAttr` for clarity.
+- **Row highlight** (when needed): add class `pms-grid-compact-row-highlight` on the row in `onRowPrepared`.
+
+```js
+headerFilter: { visible: true, search: { enabled: true } },
+searchPanel: { visible: true, width: 260 },
+elementAttr: { class: "pms-grid-compact" }, // optional; CSS already applies under body.pms-ui
+// filterRow: { visible: true }, // ❌ avoid
+```
+
+### Reservation section grids
+
+Use `reservationSectionDataGridOptions(extra)` in `reservation-detail.js` — it already merges borders, RTL, headerFilter, scrolling, and `elementAttr: { class: "pms-grid-compact" }`.
+
+### Picker popups (guest / company)
+
+Popups: `guest-picker-popup`, grid host classes `guest-picker-grid guest-picker-grid--pl pms-grid-compact`.
+
+- **Selection**: use a **buttons column** with DevExtreme icon `check` — **do not** use `onRowClick` or row-click selection for pickers.
+- Reuse helpers in `reservation-detail.js`:
+  - `buildPmsPickerSelectColumn(onPick, hint)`
+  - `pmsPickerGridPagingOptions()` → `{ pageSize: 50 }`
+  - `pmsPickerGridPagerOptions()` → navigation + page summary + size selector `[10, 20, 50]`
+
+```js
+paging: pmsPickerGridPagingOptions(),
+pager: pmsPickerGridPagerOptions(),
+columns: [
+  buildPmsPickerSelectColumn(pickRow, t("reservationDetail.guest.pickVisitorHint")),
+  // ...data columns
+]
+// ❌ no onRowClick for pick; ❌ no focusedRowEnabled for pick-by-row
+```
+
+Pager must show **page numbers**, **info text** (e.g. page X of Y), and **page size** default **50**.
+
+## dxDateBox conventions
+
+- Set **`openOnFieldClick: true`** on every DateBox (project default is `false` in DevExtreme).
+- **Global default**: `localization-service.js` registers `DevExpress.ui.dxDateBox.defaultOptions({ openOnFieldClick: true })` for desktop, tablet, phone.
+- On pages without `localization-service.js`, pass `openOnFieldClick: true` per widget or register the same `defaultOptions`.
+- **Date-only API values**: use local `yyyy-MM-dd` — not `Date.toISOString()` (KSA date shift). See `.cursor/rules/zaaer-ksa-timezone.mdc`.
+
+## Reservation detail — compact top sections
+
+Sections **معلومات الحجز**, **معلومات عامة**, **التاريخ والمدة** use `res-section--compact` via `sectionShell()` for ids: `res-section-header`, `res-section-general`, `res-section-dates`.
+
+- Compact styles live in `reservation-detail.css` under `body.pms-ui .res-section--compact` (smaller padding, KV cards, editors ~34–36px height, 12px field text).
+- **Dates row**: rental type + arrival block + departure block + **nights/months** live in one `res-date-core` row (`resNights` / `resMonths` cells with ids `res-date-cell-nights`, `res-date-cell-months`). Do **not** add a separate `res-date-duration-group` row below.
+- Toggle monthly vs daily with existing `applyRentalDurationVisibility()`.
+
+## New grids or pickers — checklist
+
+- [ ] Page has `pms-ui` + `pms-grid-compact.css` after theme CSS
+- [ ] `headerFilter` + `searchPanel`; no `filterRow`
+- [ ] Picker: icon column + `pmsPickerGridPagingOptions` / `pmsPickerGridPagerOptions`
+- [ ] DateBoxes: `openOnFieldClick: true`
+- [ ] Match `pms-ui-theme.mdc` for popups (sizing, `wrapperAttr`, overlay)

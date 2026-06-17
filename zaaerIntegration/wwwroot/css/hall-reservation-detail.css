@@ -1,0 +1,104 @@
+/* Hall / venue reservation detail — hide hotel-only sections */
+body.pms-ui.hall-reservation-detail #res-section-general,
+body.pms-ui.hall-reservation-detail .res-companions-head,
+body.pms-ui.hall-reservation-detail #companionsGridShell,
+body.pms-ui.hall-reservation-detail #btnAddCompanion,
+body.pms-ui.hall-reservation-detail #res-periods-wrap,
+body.pms-ui.hall-reservation-detail #res-date-cell-nights,
+body.pms-ui.hall-reservation-detail #res-date-cell-months,
+body.pms-ui.hall-reservation-detail .res-date-cell--rental,
+body.pms-ui.hall-reservation-detail .res-date-cell--calendar,
+body.pms-ui.hall-reservation-detail #btnAddUnit,
+body.pms-ui.hall-reservation-detail #res-section-company,
+body.pms-ui.hall-reservation-detail #res-section-units,
+body.pms-ui.hall-reservation-detail #res-section-guests {
+    display: none !important;
+}
+
+body.pms-ui #res-date-cell-hijri {
+    display: none;
+}
+
+body.pms-ui.hall-reservation-detail #res-date-cell-hijri {
+    display: flex !important;
+    flex-direction: column;
+    min-width: 148px;
+}
+
+body.pms-ui.hall-reservation-detail .hall-event-summary {
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: #fff;
+    font-size: var(--pms-text-sm);
+}
+
+body.pms-ui.hall-reservation-detail .hall-event-summary strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #1f2937;
+}
+
+body.pms-ui.hall-reservation-detail .hall-event-summary span {
+    display: block;
+    color: #6b7280;
+    font-size: var(--pms-text-xs);
+}
+
+body.pms-ui.hall-reservation-detail .hall-event-summary__meta {
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: start;
+    font-variant-numeric: tabular-nums;
+}
+
+body.pms-ui .res-hall-rent-popup__hint {
+    margin: 0 0 12px;
+    font-size: var(--pms-text-sm, 13px);
+    color: #64748b;
+    line-height: 1.45;
+}
+
+body.pms-ui .res-hall-rent-popup-wrap .dx-popup-content {
+    padding: 14px 16px 16px;
+}
+
+/* Hall: always show extras block (packages/add-ons) even when empty */
+body.pms-ui.hall-reservation-detail .res-guests-extras.res-guests-extras--empty {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #eef0f3;
+}
+
+body.pms-ui.hall-reservation-detail .res-guests-extras.res-guests-extras--empty .res-extras-heading {
+    display: block;
+}
+
+body.pms-ui.hall-reservation-detail #res-section-financial .res-guests-extras {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--pms-border, #d9dee7);
+}
+
+body.pms-ui.hall-reservation-detail .res-kv-main-guest-row {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    max-width: 100%;
+}
+
+body.pms-ui.hall-reservation-detail .res-kv-main-guest-edit-host {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+body.pms-ui.hall-reservation-detail .res-kv-main-guest-edit-host .dx-button {
+    min-width: 32px;
+    min-height: 32px;
+}
+
+body.pms-ui.hall-reservation-detail .res-kv--main-guest .res-v::after {
+    display: none;
+}

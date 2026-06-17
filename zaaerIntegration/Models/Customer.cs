@@ -40,7 +40,8 @@ namespace FinanceLedgerAPI.Models
         public string? VisaNo { get; set; }
 
         // Contact Information
-        [StringLength(20)]
+        // Supports international format with country code (e.g., +966...)
+        [StringLength(50)]
         [Column("mobile_no")]
         public string? MobileNo { get; set; }
 

@@ -38,6 +38,9 @@ Icon?
 appsettings.*.local.json
 secrets.json
 
+# ASP.NET Data Protection keys (NTMP password encryption — server-local only)
+**/App_Data/DataProtection-Keys/
+
 # Publish profiles (user-specific)
 **/*.pubxml.user
 

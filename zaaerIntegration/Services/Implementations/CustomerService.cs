@@ -4,12 +4,13 @@ using zaaerIntegration.DTOs.Request;
 using zaaerIntegration.DTOs.Response;
 using zaaerIntegration.Repositories.Interfaces;
 using zaaerIntegration.Services.Interfaces;
+using zaaerIntegration.Utilities;
 
 namespace zaaerIntegration.Services.Implementations
 {
     /// <summary>
     /// Customer Service Implementation
-    ///  ‰›Ì– Œœ„… «·⁄„·«¡
+    /// ????? ???? ???????
     /// </summary>
     public class CustomerService : ICustomerService
     {
@@ -27,19 +28,24 @@ namespace zaaerIntegration.Services.Implementations
         }
 
         public async Task<(IEnumerable<CustomerResponseDto> Customers, int TotalCount)> GetAllCustomersAsync(
-            int pageNumber = 1, 
-            int pageSize = 10, 
-            string? searchTerm = null)
+            int pageNumber = 1,
+            int pageSize = 10,
+            string? searchTerm = null,
+            string? searchMode = null,
+            int? nationalityId = null,
+            int? guestCategoryId = null)
         {
             try
             {
-                var (customers, totalCount) = await _customerRepository.GetPagedAsync(
-                    pageNumber, 
-                    pageSize, 
-                    filter: string.IsNullOrEmpty(searchTerm) ? null : c => c.CustomerName.Contains(searchTerm),
-                    includeProperties: "GuestType,Nationality,GuestCategory");
+                var (customers, totalCount) = await _customerRepository.GetPagedWithFiltersAsync(
+                    pageNumber,
+                    pageSize,
+                    searchTerm,
+                    searchMode,
+                    nationalityId,
+                    guestCategoryId);
 
-                var customerDtos = _mapper.Map<IEnumerable<CustomerResponseDto>>(customers);
+                var customerDtos = customers.Select(MapCustomerForList).ToList();
                 return (customerDtos, totalCount);
             }
             catch (Exception ex)
@@ -48,10 +54,139 @@ namespace zaaerIntegration.Services.Implementations
             }
         }
 
+        private static CustomerResponseDto MapCustomerForList(Customer c)
+        {
+            var dto = new CustomerResponseDto
+            {
+                CustomerId = c.CustomerId,
+                ZaaerId = c.ZaaerId,
+                CustomerNo = c.CustomerNo,
+                CustomerName = c.CustomerName,
+                GtypeId = c.GtypeId,
+                NId = c.NId,
+                GuestCategoryId = c.GuestCategoryId,
+                VisaNo = c.VisaNo,
+                MobileNo = c.MobileNo,
+                Email = c.Email,
+                Address = c.Address,
+                Comments = c.Comments,
+                EnteredBy = c.EnteredBy,
+                EnteredAt = c.EnteredAt,
+                Gender = c.Gender,
+                Birthday = c.Birthday,
+                BirthdateGregorian = c.BirthdateGregorian,
+                BirthdateHijri = c.BirthdateHijri,
+                GuestTypeName = c.GuestType?.GtypeName,
+                NationalityName = c.Nationality?.NName,
+                NationalityNameAr = c.Nationality?.NNameAr,
+                GuestCategoryName = c.GuestCategory?.GcName,
+                Identifications = (c.Identifications ?? Array.Empty<CustomerIdentification>())
+                    .OrderByDescending(i => i.IsPrimary)
+                    .ThenBy(i => i.IdentificationId)
+                    .Select(i => new CustomerIdentificationResponseDto
+                    {
+                        IdentificationId = i.IdentificationId,
+                        IdTypeId = i.IdTypeId,
+                        IdTypeName = i.IdType?.ItName,
+                        IdTypeNameAr = i.IdType?.ItNameAr,
+                        IdNumber = i.IdNumber,
+                        VersionNumber = i.VersionNumber,
+                        IsPrimary = i.IsPrimary
+                    })
+                    .ToList()
+            };
+
+            return dto;
+        }
+
         public async Task<CustomerResponseDto?> GetCustomerByIdAsync(int customerId)
         {
-            var customer = await _customerRepository.GetWithRelatedDataByIdAsync(customerId);
-            return customer != null ? _mapper.Map<CustomerResponseDto>(customer) : null;
+            // NOTE: Do NOT rely on EF navigation Includes here because ApplicationDbContext ignores
+            // several navigations to avoid shadow property issues. Load related display values manually.
+            var customer = await _unitOfWork.Customers.GetByIdAsync(customerId);
+            if (customer == null)
+            {
+                return null;
+            }
+
+            var guestType = customer.GtypeId.HasValue
+                ? await _unitOfWork.GuestTypes.GetByIdAsync(customer.GtypeId.Value)
+                : null;
+            var nationality = customer.NId.HasValue
+                ? await _unitOfWork.Nationalities.GetByIdAsync(customer.NId.Value)
+                : null;
+            var guestCategory = customer.GuestCategoryId.HasValue
+                ? await _unitOfWork.GuestCategories.GetByIdAsync(customer.GuestCategoryId.Value)
+                : null;
+
+            List<CustomerIdentification> identRows = new();
+            var idTypeMap = new Dictionary<int, IdType>();
+            try
+            {
+                identRows = (await _customerIdentificationRepository.GetByCustomerIdAsync(customerId)).ToList();
+                var idTypeIds = identRows.Select(i => i.IdTypeId).Distinct().ToList();
+                foreach (var idTypeId in idTypeIds)
+                {
+                    try
+                    {
+                        var t = await _unitOfWork.IdTypes.GetByIdAsync(idTypeId);
+                        if (t != null)
+                        {
+                            idTypeMap[idTypeId] = t;
+                        }
+                    }
+                    catch
+                    {
+                        /* skip invalid id type row */
+                    }
+                }
+            }
+            catch
+            {
+                identRows = new List<CustomerIdentification>();
+            }
+
+            return new CustomerResponseDto
+            {
+                CustomerId = customer.CustomerId,
+                ZaaerId = customer.ZaaerId,
+                CustomerNo = customer.CustomerNo,
+                CustomerName = customer.CustomerName,
+                GtypeId = customer.GtypeId,
+                NId = customer.NId,
+                GuestCategoryId = customer.GuestCategoryId,
+                VisaNo = customer.VisaNo,
+                MobileNo = customer.MobileNo,
+                Email = customer.Email,
+                Address = customer.Address,
+                Comments = customer.Comments,
+                EnteredBy = customer.EnteredBy,
+                EnteredAt = customer.EnteredAt,
+                Gender = customer.Gender,
+                Birthday = customer.Birthday,
+                BirthdateGregorian = customer.BirthdateGregorian,
+                BirthdateHijri = customer.BirthdateHijri,
+                GuestTypeName = guestType?.GtypeName,
+                NationalityName = nationality?.NName,
+                NationalityNameAr = nationality?.NNameAr,
+                GuestCategoryName = guestCategory?.GcName,
+                Identifications = identRows
+                    .Select(i =>
+                    {
+                        idTypeMap.TryGetValue(i.IdTypeId, out var idt);
+                        return new CustomerIdentificationResponseDto
+                        {
+                            IdentificationId = i.IdentificationId,
+                            IdTypeId = i.IdTypeId,
+                            IdTypeName = idt?.ItName,
+                            IdTypeNameAr = idt?.ItNameAr,
+                            IdNumber = i.IdNumber,
+                            VersionNumber = i.VersionNumber,
+                            IsPrimary = i.IsPrimary
+                        };
+                    })
+                    .ToList()
+            };
         }
 
         public async Task<CustomerResponseDto?> GetCustomerByNoAsync(string customerNo)
@@ -73,6 +208,8 @@ namespace zaaerIntegration.Services.Implementations
             }
 
             var customer = _mapper.Map<Customer>(createCustomerDto);
+            customer.HotelId = await ResolveOperationalHotelIdAsync(createCustomerDto.HotelId);
+
             customer.EnteredAt = KsaTime.Now;
 
             var createdCustomer = await _customerRepository.AddAsync(customer);
@@ -105,7 +242,8 @@ namespace zaaerIntegration.Services.Implementations
                 await _unitOfWork.SaveChangesAsync();
             }
 
-            return _mapper.Map<CustomerResponseDto>(createdCustomer);
+            return await GetCustomerByIdAsync(createdCustomer.CustomerId)
+                ?? _mapper.Map<CustomerResponseDto>(createdCustomer);
         }
 
         public async Task<CustomerResponseDto?> UpdateCustomerAsync(UpdateCustomerDto updateCustomerDto)
@@ -131,7 +269,47 @@ namespace zaaerIntegration.Services.Implementations
             var updatedCustomer = await _customerRepository.UpdateAsync(existingCustomer);
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<CustomerResponseDto>(updatedCustomer);
+            if (updateCustomerDto.Identifications != null)
+            {
+                var existingIdents = (await _customerIdentificationRepository.GetByCustomerIdAsync(updateCustomerDto.CustomerId)).ToList();
+                foreach (var row in existingIdents)
+                {
+                    await _customerIdentificationRepository.DeleteAsync(row);
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+
+                var toAdd = updateCustomerDto.Identifications
+                    .Where(i => i.IdTypeId > 0 && !string.IsNullOrWhiteSpace(i.IdNumber))
+                    .ToList();
+
+                for (var idx = 0; idx < toAdd.Count; idx++)
+                {
+                    var identificationDto = toAdd[idx];
+                    var identification = new CustomerIdentification
+                    {
+                        CustomerId = updateCustomerDto.CustomerId,
+                        IdTypeId = identificationDto.IdTypeId,
+                        IdNumber = identificationDto.IdNumber.Trim(),
+                        VersionNumber = identificationDto.VersionNumber,
+                        IssuePlace = identificationDto.IssuePlace,
+                        IssuePlaceAr = identificationDto.IssuePlaceAr,
+                        IssueDate = identificationDto.IssueDate,
+                        ExpiryDate = identificationDto.ExpiryDate,
+                        Notes = identificationDto.Notes,
+                        IsPrimary = identificationDto.IsPrimary || idx == 0,
+                        IsActive = identificationDto.IsActive,
+                        CreatedAt = KsaTime.Now,
+                        UpdatedAt = KsaTime.Now
+                    };
+
+                    await _customerIdentificationRepository.AddAsync(identification);
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            return await GetCustomerByIdAsync(updateCustomerDto.CustomerId);
         }
 
         public async Task<bool> DeleteCustomerAsync(int customerId)
@@ -197,6 +375,51 @@ namespace zaaerIntegration.Services.Implementations
                 return customer.CustomerId != excludeCustomerId.Value;
 
             return true;
+        }
+
+        /// <summary>
+        /// Resolves the operational hotel_id stored on customer rows within the current tenant database.
+        /// Rejects client-supplied ids that do not map to hotel_settings.
+        /// </summary>
+        private async Task<int> ResolveOperationalHotelIdAsync(int? requestedHotelId)
+        {
+            var settings = (await _unitOfWork.HotelSettings.GetAllAsync()).ToList();
+            if (settings.Count == 0)
+            {
+                throw new InvalidOperationException("Hotel settings are not configured for this tenant.");
+            }
+
+            var allowedKeys = new HashSet<int>();
+            foreach (var setting in settings)
+            {
+                if (setting.HotelId > 0)
+                {
+                    allowedKeys.Add(setting.HotelId);
+                }
+
+                if (setting.ZaaerId is > 0)
+                {
+                    allowedKeys.Add(setting.ZaaerId.Value);
+                }
+            }
+
+            if (requestedHotelId is > 0)
+            {
+                if (!allowedKeys.Contains(requestedHotelId.Value))
+                {
+                    throw new UnauthorizedAccessException("The requested hotel is not valid for this tenant.");
+                }
+
+                return requestedHotelId.Value;
+            }
+
+            var primary = settings.OrderBy(h => h.HotelId).First();
+            if (primary.ZaaerId is > 0)
+            {
+                return primary.ZaaerId.Value;
+            }
+
+            return primary.HotelId;
         }
     }
 }

@@ -33,6 +33,19 @@ namespace FinanceLedgerAPI.Models
         [Column("password_hash")]
         public string? PasswordHash { get; set; }
 
+        /// <summary>Reversible secret for NTMP Basic Auth (ASP.NET Data Protection).</summary>
+        [Column("password_encrypted")]
+        public byte[]? PasswordEncrypted { get; set; }
+
+        /// <summary>dev | staging | production</summary>
+        [MaxLength(20)]
+        [Column("api_environment")]
+        public string ApiEnvironment { get; set; } = "production";
+
+        [MaxLength(256)]
+        [Column("channel_name")]
+        public string? ChannelName { get; set; }
+
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
@@ -46,8 +59,9 @@ namespace FinanceLedgerAPI.Models
         [Column("zaaer_id")]
         public int? ZaaerId { get; set; }
 
-        [ForeignKey("HotelId")]
-        public HotelSettings HotelSettings { get; set; } = null!;
+        /// <summary>Not mapped — <see cref="HotelId"/> is Zaaer property id, not <c>hotel_settings.hotel_id</c>.</summary>
+        [NotMapped]
+        public HotelSettings? HotelSettings { get; set; }
 
     }
 }

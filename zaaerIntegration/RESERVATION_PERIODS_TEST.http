@@ -1,0 +1,52 @@
+### Reservation periods API (monthly → daily append)
+@baseUrl = https://localhost:5001
+@token = {{login_token}}
+@hotelCode = Dammam2
+@reservationId = 78645
+
+### Login (adjust credentials)
+# @name login
+POST {{baseUrl}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "your-password"
+}
+
+###
+GET {{baseUrl}}/api/v1/pms/reservations/{{reservationId}}
+Authorization: Bearer {{token}}
+X-Hotel-Code: {{hotelCode}}
+
+###
+GET {{baseUrl}}/api/v1/pms/reservations/{{reservationId}}/periods
+Authorization: Bearer {{token}}
+X-Hotel-Code: {{hotelCode}}
+
+###
+POST {{baseUrl}}/api/v1/pms/reservations/{{reservationId}}/periods/initial
+Authorization: Bearer {{token}}
+X-Hotel-Code: {{hotelCode}}
+Content-Type: application/json
+
+{}
+
+###
+# REV0001 scenario: daily extension after monthly ended 2026-06-03
+POST {{baseUrl}}/api/v1/pms/reservations/{{reservationId}}/periods/append
+Authorization: Bearer {{token}}
+X-Hotel-Code: {{hotelCode}}
+Content-Type: application/json
+
+{
+  "rentalType": "daily",
+  "fromDate": "2026-06-04",
+  "toDate": "2026-06-10",
+  "closePreviousPeriod": true
+}
+
+###
+GET {{baseUrl}}/api/v1/pms/reservations/{{reservationId}}/unit-day-rates
+Authorization: Bearer {{token}}
+X-Hotel-Code: {{hotelCode}}

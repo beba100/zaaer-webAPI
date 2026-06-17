@@ -1,0 +1,44 @@
+{
+  "id": "/resort-ticket-gate.html",
+  "name": "بوابة التذاكر — Aleairy PMS",
+  "short_name": "بوابة التذاكر",
+  "description": "مسح والتحقق من تذاكر المنتجع عند البوابة",
+  "start_url": "/resort-ticket-gate.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "categories": ["business", "utilities"],
+  "icons": [
+    {
+      "src": "/pwa/gate/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/gate/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/gate/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "فتح البوابة",
+      "short_name": "البوابة",
+      "url": "/resort-ticket-gate.html",
+      "icons": [{ "src": "/pwa/gate/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

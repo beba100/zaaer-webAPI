@@ -1,0 +1,400 @@
+:root {
+    --pms-auth-topbar-h: 52px;
+}
+
+html:has(body.pms-auth-page) {
+    height: 100%;
+}
+
+body.pms-auth-page {
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 100dvh;
+    height: 100dvh;
+    padding-top: var(--pms-auth-topbar-h);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background:
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(63, 111, 159, 0.18), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(18, 64, 111, 0.12), transparent 50%),
+        var(--pms-page-bg, #eceff3);
+}
+
+.pms-auth-shell {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(320px, 440px);
+    gap: clamp(16px, 3vw, 32px);
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1120px;
+    height: calc(100dvh - var(--pms-auth-topbar-h));
+    min-height: 0;
+    margin: 0 auto;
+    padding: clamp(12px, 2.5vw, 32px);
+    overflow: hidden;
+}
+
+.pms-auth-hero,
+.pms-auth-card {
+    border-radius: var(--pms-radius-popup, 16px);
+    box-shadow: var(--pms-shadow-lg, 0 10px 30px rgba(15, 23, 42, 0.14));
+}
+
+.pms-auth-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    max-height: 100%;
+    min-height: 0;
+    padding: clamp(20px, 3vw, 36px) clamp(18px, 2.5vw, 32px);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(145deg, #0f2847 0%, #1a4a73 42%, #3f6f9f 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.pms-auth-hero::before {
+    content: "";
+    position: absolute;
+    inset: -40% 30% auto -20%;
+    height: 280px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.pms-auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.pms-auth-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.16);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    backdrop-filter: blur(8px);
+}
+
+.pms-auth-brand strong {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.pms-auth-brand small {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    opacity: 0.82;
+    font-weight: 500;
+}
+
+.pms-auth-hero-logo {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    position: relative;
+    z-index: 1;
+    padding: clamp(4px, 1.5vh, 12px) 0;
+}
+
+.pms-auth-hero-logo img {
+    width: clamp(120px, 22vw, 200px);
+    height: clamp(120px, 22vw, 200px);
+    max-height: min(200px, 28vh);
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+}
+
+.pms-auth-hero h1 {
+    margin: 0 0 10px;
+    font-size: clamp(22px, 2.8vw, 34px);
+    line-height: 1.25;
+    font-weight: 700;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.pms-auth-hero p {
+    max-width: 420px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: clamp(12px, 1.4vw, 14px);
+    line-height: 1.55;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.pms-auth-hero-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.pms-auth-pill {
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pms-auth-card {
+    box-sizing: border-box;
+    max-height: 100%;
+    padding: clamp(20px, 3vw, 32px) clamp(18px, 2.5vw, 28px) clamp(18px, 2.5vw, 28px);
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    overflow-y: auto;
+}
+
+.pms-auth-card-head h2 {
+    margin: 0 0 clamp(16px, 2.5vw, 24px);
+    color: #0f172a;
+    font-size: clamp(20px, 2.5vw, 22px);
+    font-weight: 700;
+}
+
+.pms-auth-submit {
+    margin-top: 18px;
+}
+
+.pms-auth-card .dx-texteditor {
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+.pms-auth-card .dx-button.dx-button-default {
+    border-radius: var(--pms-radius-input, 8px);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.pms-auth-topbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1200;
+    height: var(--pms-auth-topbar-h);
+    border-bottom: 1px solid rgba(217, 222, 231, 0.9);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.pms-auth-topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 1120px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(10px, 2.5vw, 28px);
+}
+
+.pms-auth-topbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: #0f2847;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: clamp(12px, 2vw, 14px);
+}
+
+.pms-auth-topbar-brand > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pms-auth-logo--sm {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.pms-auth-topbar-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 8px 12px;
+    flex-shrink: 0;
+}
+
+.pms-auth-topbar-link {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.pms-auth-topbar-link:hover {
+    color: #1a4a73;
+}
+
+.pms-auth-topbar-link--accent {
+    color: #3f6f9f;
+}
+
+.pms-auth-topbar-culture .dx-texteditor {
+    border-radius: 8px;
+}
+
+.pms-auth-topbar-culture .dx-texteditor-input {
+    font-size: 12px;
+}
+
+/* Tablet and mobile */
+@media (max-width: 900px) {
+    body.pms-auth-page {
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+    }
+
+    .pms-auth-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        gap: 16px;
+        height: auto;
+        min-height: calc(100dvh - var(--pms-auth-topbar-h));
+        max-width: min(480px, 100%);
+        padding: 12px 14px 20px;
+        overflow: visible;
+    }
+
+    .pms-auth-card {
+        order: 1;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .pms-auth-hero {
+        order: 2;
+        max-height: none;
+        padding: 20px 18px;
+    }
+
+    .pms-auth-hero-logo {
+        flex: 0 0 auto;
+        padding: 4px 0 8px;
+    }
+
+    .pms-auth-hero-logo img {
+        width: clamp(96px, 28vw, 140px);
+        height: clamp(96px, 28vw, 140px);
+        max-height: 140px;
+    }
+
+    .pms-auth-hero h1 {
+        font-size: clamp(20px, 5.5vw, 26px);
+    }
+
+    .pms-auth-topbar-nav {
+        gap: 6px 8px;
+    }
+
+    .pms-auth-topbar-link:not(.pms-auth-topbar-link--accent) {
+        display: none;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    :root {
+        --pms-auth-topbar-h: 48px;
+    }
+
+    .pms-auth-shell {
+        padding: 10px 12px 16px;
+        gap: 12px;
+    }
+
+    .pms-auth-card {
+        padding: 18px 16px 16px;
+    }
+
+    .pms-auth-hero {
+        padding: 16px 14px;
+    }
+
+    .pms-auth-brand {
+        gap: 10px;
+    }
+
+    .pms-auth-logo {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .pms-auth-hero p {
+        display: none;
+    }
+
+    .pms-auth-hero-foot {
+        gap: 6px;
+    }
+
+    .pms-auth-pill {
+        font-size: 9px;
+        padding: 4px 8px;
+    }
+
+    .pms-auth-topbar-brand > span:last-child {
+        max-width: 120px;
+    }
+
+    .pms-auth-topbar-culture {
+        max-width: 108px;
+    }
+}
+
+/* Short viewports (landscape phone / small laptop) */
+@media (max-height: 720px) and (min-width: 901px) {
+    .pms-auth-hero-logo img {
+        width: clamp(100px, 18vw, 160px);
+        height: clamp(100px, 18vw, 160px);
+        max-height: 160px;
+    }
+
+    .pms-auth-hero {
+        padding: 20px 24px;
+    }
+
+    .pms-auth-hero h1 {
+        margin-bottom: 8px;
+    }
+
+    .pms-auth-hero p {
+        font-size: 13px;
+        line-height: 1.45;
+    }
+}

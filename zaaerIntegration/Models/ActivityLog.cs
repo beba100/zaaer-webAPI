@@ -58,6 +58,25 @@ namespace FinanceLedgerAPI.Models
         /// </summary>
         [Column("zaaer_id")]
         public int? ZaaerId { get; set; }
+
+        /// <summary>PMS operator id (<c>pms_users.user_id</c> from JWT).</summary>
+        [Column("actor_user_id")]
+        public int? ActorUserId { get; set; }
+
+        [Column("payload_json")]
+        public string? PayloadJson { get; set; }
+
+        [Column("icon_key")]
+        [MaxLength(50)]
+        public string? IconKey { get; set; }
+
+        [Column("reservation_no")]
+        [MaxLength(50)]
+        public string? ReservationNo { get; set; }
+
+        [Column("source")]
+        [MaxLength(30)]
+        public string Source { get; set; } = "pms";
     }
 }
 

@@ -32,6 +32,12 @@ namespace FinanceLedgerAPI.Models
 		[MaxLength(100)]
 		public string FloorName { get; set; }
 
+		[Column("sort_order")]
+		public int SortOrder { get; set; }
+
+		[Column("is_active")]
+		public bool IsActive { get; set; } = true;
+
 		/// <summary>
 		/// Zaaer System ID (معرف Zaaer)
 		/// External ID from Zaaer integration system

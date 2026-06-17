@@ -5,17 +5,95 @@ namespace zaaerIntegration.DTOs.Expense
     /// </summary>
     public class ExpenseResponseDto
     {
-        public int ExpenseId { get; set; }
+        public long ExpenseId { get; set; }
+
+        public string? ExpenseNo { get; set; }
+
+        public int ExpenseSeq { get; set; }
         public int HotelId { get; set; }
         public DateTime DateTime { get; set; }
+        public DateTime? DueDate { get; set; }
         public string? Comment { get; set; }
         public int? ExpenseCategoryId { get; set; }
         public string? ExpenseCategoryName { get; set; }
         public decimal? TaxRate { get; set; }
         public decimal? TaxAmount { get; set; }
+        public decimal? BeforeTaxAmount { get; set; }
         public decimal TotalAmount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        /// <summary>
+        /// معرف المستخدم الذي قام بتحديث المصروف
+        /// User ID who updated the expense
+        /// </summary>
+        public int? UpdatedBy { get; set; }
+
+        /// <summary>
+        /// حالة الموافقة على المصروف
+        /// Approval status: auto-approved, pending, accepted, rejected
+        /// </summary>
+        public string ApprovalStatus { get; set; } = "auto-approved";
+
+        /// <summary>
+        /// معرف المستخدم الذي وافق/رفض المصروف
+        /// User ID who approved/rejected the expense
+        /// </summary>
+        public int? ApprovedBy { get; set; }
+
+        /// <summary>
+        /// الاسم الكامل للمستخدم الذي وافق/رفض المصروف
+        /// Full name of the user who approved/rejected the expense
+        /// </summary>
+        public string? ApprovedByFullName { get; set; }
+
+        /// <summary>
+        /// دور المستخدم الذي وافق/رفض المصروف
+        /// Role of the user who approved/rejected the expense
+        /// </summary>
+        public string? ApprovedByRole { get; set; }
+
+        /// <summary>
+        /// اسم الفندق للمستخدم الذي وافق/رفض المصروف
+        /// Tenant name of the user who approved/rejected the expense
+        /// </summary>
+        public string? ApprovedByTenantName { get; set; }
+
+        /// <summary>
+        /// تاريخ ووقت الموافقة/الرفض
+        /// Date and time of approval/rejection
+        /// </summary>
+        public DateTime? ApprovedAt { get; set; }
+
+        /// <summary>
+        /// سبب الرفض (في حالة رفض المصروف)
+        /// Rejection reason (if expense is rejected)
+        /// </summary>
+        public string? RejectionReason { get; set; }
+
+        /// <summary>
+        /// اسم الفندق
+        /// Hotel name
+        /// </summary>
+        public string? HotelName { get; set; }
+
+        /// <summary>
+        /// كود الفندق (Tenant Code) - يُستخدم للمشرفين لتحديد قاعدة البيانات الصحيحة
+        /// Hotel code (Tenant Code) - used by supervisors to identify the correct database
+        /// </summary>
+        public string? HotelCode { get; set; }
+
+        /// <summary>
+        /// رابط الموافقة (يُستخدم فقط للمصروفات في حالة pending)
+        /// Approval link (only for pending expenses)
+        /// </summary>
+        public string? ApprovalLink { get; set; }
+
+        /// <summary>
+        /// مصدر السداد: Branch (صندوق الفرع) أو Management (الإدارة)
+        /// Payment Source: Branch or Management
+        /// </summary>
+        public string? PaymentSource { get; set; }
 
         /// <summary>
         /// قائمة الغرف المرتبطة بهذه النفقة

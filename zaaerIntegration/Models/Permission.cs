@@ -41,11 +41,8 @@ namespace FinanceLedgerAPI.Models
 		[Required]
 		public bool IsActive { get; set; } = true;
 
-		[Column("created_at")]
-		[Required]
-		public DateTime CreatedAt { get; set; } = KsaTime.Now;
-
-		// Navigation properties
-		public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
-	}
+        [Column("created_at")]
+        [Required]
+        public DateTime CreatedAt { get; set; } = KsaTime.Now;
+    }
 }

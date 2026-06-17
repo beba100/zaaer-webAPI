@@ -10,6 +10,9 @@ namespace FinanceLedgerAPI.Models
         [Column("switch_id")]
         public int SwitchId { get; set; }
 
+        /// <summary>
+        /// Integration reservation id stored in DB: <see cref="Reservation.ZaaerId"/> when set, otherwise internal reservation PK (aligned with <c>reservation_units.reservation_id</c>).
+        /// </summary>
         [Column("reservation_id")]
         [Required]
         public int ReservationId { get; set; }
@@ -41,14 +44,17 @@ namespace FinanceLedgerAPI.Models
         public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
         /// <summary>
+        /// Master user id (from central auth) who performed the switch, when known.
+        /// </summary>
+        [Column("created_by_user_id")]
+        public int? CreatedByUserId { get; set; }
+
+        /// <summary>
         /// Zaaer System ID (معرف Zaaer)
         /// External ID from Zaaer integration system
         /// </summary>
         [Column("zaaer_id")]
         public int? ZaaerId { get; set; }
-
-        [ForeignKey("ReservationId")]
-        public Reservation Reservation { get; set; } = null!;
 
         [ForeignKey("UnitId")]
         public ReservationUnit ReservationUnit { get; set; } = null!;

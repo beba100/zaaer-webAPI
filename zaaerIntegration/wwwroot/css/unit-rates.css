@@ -1,0 +1,242 @@
+body.pms-ui .unit-rates-tabs .dx-tabpanel-tabs {
+    margin-bottom: 12px;
+}
+
+body.pms-ui .unit-rates-calendar-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0 4px 12px;
+}
+
+body.pms-ui .unit-rates-calendar-toolbar .unit-rates-range-label {
+    font-size: var(--pms-text-sm);
+    color: #5c6573;
+    font-weight: 600;
+}
+
+body.pms-ui .unit-rates-calendar-host {
+    min-height: 320px;
+}
+
+/* Taller rows for calendar readability (override compact grid on this page only) */
+body.pms-ui .unit-rates-calendar-grid.dx-datagrid,
+body.pms-ui .unit-rates-base-grid.dx-datagrid {
+    overflow: visible;
+}
+
+body.pms-ui .unit-rates-calendar-grid.dx-datagrid .dx-row > td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.35;
+    vertical-align: middle;
+}
+
+body.pms-ui .unit-rates-calendar-grid.dx-datagrid .dx-header-row > td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    vertical-align: middle;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-datagrid-rowsview .dx-data-row {
+    min-height: 42px;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-datagrid-rowsview .dx-data-row > td {
+    height: 42px;
+}
+
+body.pms-ui .unit-rates-calendar-grid .unit-rates-price-row > td {
+    min-height: 44px;
+    height: 44px;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-datagrid-headers .dx-header-filter,
+body.pms-ui .unit-rates-calendar-grid .dx-datagrid-headers .dx-datagrid-text-content + .dx-header-filter-indicator {
+    display: none !important;
+}
+
+body.pms-ui .unit-rates-day-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    line-height: 1.15;
+    padding: 2px 0;
+    min-height: 52px;
+}
+
+body.pms-ui .unit-rates-day-header__dow {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5c6573;
+    text-transform: capitalize;
+}
+
+body.pms-ui .unit-rates-day-header__day {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+body.pms-ui .unit-rates-day-header__mon {
+    font-size: 11px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-datagrid-headers .unit-rates-weekend-col {
+    background: #eef1f5;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-weekend-col {
+    background: #f4f6f9;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-cell-zero {
+    background: #d63b3b !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-cell-override {
+    box-shadow: inset 0 0 0 2px var(--pms-primary);
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-cell-selected {
+    background: rgba(63, 111, 159, 0.1) !important;
+    outline: none;
+    box-shadow: inset 0 0 0 1px rgba(63, 111, 159, 0.38);
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-cell-selected.unit-rates-cell-override {
+    box-shadow: inset 0 0 0 1px rgba(63, 111, 159, 0.5), inset 0 0 0 2px rgba(63, 111, 159, 0.15);
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-price-cell {
+    cursor: crosshair;
+    user-select: none;
+}
+
+body.pms-ui .unit-rates-calendar-grid .unit-rates-room-type-cell {
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+body.pms-ui .unit-rates-calendar-grid .unit-rates-row-label {
+    font-size: 12px;
+    color: #5c6573;
+}
+
+body.pms-ui .unit-rates-calendar-grid .unit-rates-avail-cell {
+    white-space: nowrap;
+}
+
+body.pms-ui .unit-rates-calendar-grid .unit-rates-avail-count {
+    color: #2d7a4f;
+    font-weight: 600;
+}
+
+body.pms-ui .unit-rates-calendar-grid .dx-row > td.unit-rates-cell-zero .unit-rates-avail-count {
+    color: inherit;
+}
+
+body.pms-ui .unit-rates-edit-popup .unit-rates-edit-hint {
+    font-size: 12px;
+    color: #2d7a4f;
+    margin: 0 0 12px;
+    padding: 8px 10px;
+    background: #edf7f0;
+    border-radius: 8px;
+}
+
+body.pms-ui .unit-rates-edit-popup .unit-rates-edit-kv {
+    margin-bottom: 10px;
+}
+
+body.pms-ui .unit-rates-edit-popup .unit-rates-edit-kv strong {
+    display: block;
+    font-size: 12px;
+    color: #5c6573;
+    margin-bottom: 4px;
+}
+
+body.pms-ui .unit-rates-base-host {
+    min-height: 280px;
+}
+
+body.pms-ui .unit-rates-base-grid.dx-datagrid .dx-row > td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.35;
+    vertical-align: middle;
+}
+
+body.pms-ui .unit-rates-base-grid.dx-datagrid .dx-header-row > td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-rowsview .dx-data-row {
+    min-height: 42px;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-rowsview .dx-data-row > td {
+    height: 42px;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-headers .unit-rates-rate-col,
+body.pms-ui .unit-rates-base-grid .dx-datagrid-rowsview .unit-rates-rate-col {
+    text-align: center !important;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-headers .unit-rates-unit-type-col,
+body.pms-ui .unit-rates-base-grid .dx-datagrid-rowsview .unit-rates-unit-type-col {
+    font-weight: 600;
+}
+
+body.pms-ui .unit-rates-base-grid .unit-rates-col-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-height: 36px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+body.pms-ui .unit-rates-base-grid .unit-rates-col-header--single {
+    min-height: 36px;
+}
+
+body.pms-ui .unit-rates-base-grid .unit-rates-col-header__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5c6573;
+    white-space: nowrap;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-headers .dx-header-row > td {
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-headers .dx-header-filter {
+    display: none !important;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-content-fixed {
+    border-inline-start: none !important;
+    box-shadow: none !important;
+}
+
+body.pms-ui .unit-rates-base-grid .dx-datagrid-content-fixed .dx-datagrid-table .dx-row > td.unit-rates-unit-type-col {
+    border-inline-start: none !important;
+}

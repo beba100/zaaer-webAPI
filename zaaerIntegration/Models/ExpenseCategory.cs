@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using zaaerIntegration.Utilities;
 
 namespace FinanceLedgerAPI.Models
 {
@@ -33,7 +34,7 @@ namespace FinanceLedgerAPI.Models
 
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }

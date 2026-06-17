@@ -50,6 +50,19 @@ namespace FinanceLedgerAPI.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
+        [Column("request_payload")]
+        public string? RequestPayload { get; set; }
+
+        [Column("response_payload")]
+        public string? ResponsePayload { get; set; }
+
+        [Column("http_status_code")]
+        public int? HttpStatusCode { get; set; }
+
+        [MaxLength(64)]
+        [Column("correlation_id")]
+        public string? CorrelationId { get; set; }
+
         /// <summary>
         /// Zaaer System ID (معرف Zaaer)
         /// External ID from Zaaer integration system
@@ -57,8 +70,9 @@ namespace FinanceLedgerAPI.Models
         [Column("zaaer_id")]
         public int? ZaaerId { get; set; }
 
-        [ForeignKey("HotelId")]
-        public HotelSettings HotelSettings { get; set; } = null!;
+        /// <summary>Not mapped — <see cref="HotelId"/> is Zaaer property id, not <c>hotel_settings.hotel_id</c>.</summary>
+        [NotMapped]
+        public HotelSettings? HotelSettings { get; set; }
 
     }
 }

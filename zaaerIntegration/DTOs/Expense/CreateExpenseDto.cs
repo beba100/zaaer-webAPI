@@ -11,6 +11,8 @@ namespace zaaerIntegration.DTOs.Expense
         [Required]
         public DateTime DateTime { get; set; }
 
+        public DateTime? DueDate { get; set; }
+
         [MaxLength(500)]
         public string? Comment { get; set; }
 
@@ -22,15 +24,30 @@ namespace zaaerIntegration.DTOs.Expense
         [Range(0, double.MaxValue)]
         public decimal? TaxAmount { get; set; }
 
+        [Range(0, double.MaxValue)]
+        public decimal? BeforeTaxAmount { get; set; }
+
         [Required]
         [Range(0, double.MaxValue)]
         public decimal TotalAmount { get; set; }
+
+        /// <summary>
+        /// When true, validate ExpenseCategoryId against tenant expense_categories (PMS).
+        /// </summary>
+        public bool UseTenantCategories { get; set; }
 
         /// <summary>
         /// قائمة الغرف المرتبطة بهذه النفقة
         /// List of rooms to associate with this expense
         /// </summary>
         public List<CreateExpenseRoomDto>? ExpenseRooms { get; set; }
+
+        /// <summary>
+        /// مصدر السداد: Branch (صندوق الفرع) أو Management (الإدارة)
+        /// Payment Source: Branch or Management
+        /// </summary>
+        [MaxLength(20)]
+        public string? PaymentSource { get; set; }
     }
 }
 

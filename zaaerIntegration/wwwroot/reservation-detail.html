@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation</title>
+    <link rel="stylesheet" href="Lib/css/dx.common.css">
+    <link data-theme="material.teal.light.compact" rel="dx-theme" href="Lib/css/dx.material.teal.light.compact.css">
+    <script src="/js/core/pms-dx-theme-boot.js?v=20260609materiallight1"></script>
+    <link rel="stylesheet" href="css/reservation-detail.css?v=20260616unitTransferUi1">
+    <link rel="stylesheet" href="css/pms-theme.css?v=20260530p">
+    <link rel="stylesheet" href="css/room-board.css?v=20260616navCompact4">
+    <link rel="stylesheet" href="css/pms-grid-compact.css?v=20260530g">
+    <link rel="stylesheet" href="css/hall-reservation-detail.css?v=20260613hall48">
+    <link rel="stylesheet" href="css/lodging-reservation-detail.css?v=20260614unitTransfer1">
+    <link rel="stylesheet" href="css/resort-tickets.css?v=20260610g">
+    <link rel="stylesheet" href="/Lib/hijri/css/ummalqura.calendars.picker.css">
+</head>
+<body class="pms-ui">
+    <main class="res-shell">
+        <header class="res-header">
+            <div id="backToBoard" class="res-header-back"></div>
+            <div id="pmsHeaderHotelPicker" class="pms-header-hotel-picker pms-header-hotel-picker--res-header"></div>
+            <div class="res-header-toolbar">
+                <div id="reservationNotesHost" class="res-header-notes"></div>
+                <div class="res-header-actions">
+                    <div id="reservationOtherOptions" class="res-header-other-options"></div>
+                    <div id="reservationActions" class="res-header-booking-actions"></div>
+                </div>
+            </div>
+            <h1 id="pageTitle" class="res-visually-hidden" aria-hidden="true"></h1>
+            <p id="pageSubtitle" class="res-visually-hidden" aria-hidden="true"></p>
+        </header>
+
+        <div class="res-layout">
+            <div class="res-scroll">
+                <div id="reservationMain" class="res-main"></div>
+            </div>
+        </div>
+
+        <footer class="res-footer-bar" id="resFooterBar"></footer>
+        <div id="reservationLoadPanel"></div>
+    </main>
+
+    <script src="Lib/js/jquery.min.js"></script>
+    <script src="Lib/js/dx.all.js"></script>
+    <script src="js/core/devextreme-license.js"></script>
+    <script src="Lib/js/localization/dx.messages.en.js"></script>
+    <script src="Lib/js/localization/dx.messages.ar.js"></script>
+    <script src="js/i18n/en.js?v=20260614lodgingparty"></script>
+    <script src="js/i18n/ar.js?v=20260614lodgingparty"></script>
+    <script src="js/core/localization-service.js"></script>
+    <script src="js/core/pms-grid-options.js?v=20260530g"></script>
+    <script src="js/core/api-service.js?v=20260530a"></script>
+    <script src="js/core/ksa-time.js?v=20260532i"></script>
+    <script src="/js/core/pms-theme-switcher.js?v=20260609materiallight1"></script>
+    <script src="js/core/pms-top-chrome.js?v=20260530a"></script>
+    <script src="js/core/pms-save-guard.js?v=20260525"></script>
+    <script src="js/core/pms-rbac-policy.js?v=20260520j"></script>
+    <script src="js/services/reservation-detail-service.js?v=20260613hall48"></script>
+    <script src="js/services/resort-ticket-service.js?v=20260610c"></script>
+    <script src="js/services/pos-service.js?v=20260604pos"></script>
+    <script src="js/services/pms-customer-service.js"></script>
+    <script src="js/services/pms-corporate-customer-service.js"></script>
+    <script src="/Lib/hijri/js/jquery.plugin.js"></script>
+    <script src="/Lib/hijri/js/jquery.calendars.js"></script>
+    <script src="/Lib/hijri/js/jquery.calendars.ummalqura.js"></script>
+    <script src="/Lib/hijri/js/jquery.calendars.plus.js"></script>
+    <script src="/Lib/hijri/js/jquery.calendars.picker.js"></script>
+    <script src="js/core/pms-hijri-calendars.js?v=20260614hijriPopup1"></script>
+    <script src="js/core/pms-hijri-date.js?v=20260612hall1"></script>
+    <script src="js/pages/guest-visitor-form.js?v=20260614hijriPopup1"></script>
+    <script src="js/pms/activity-log-render.js?v=20260606activitylog2"></script>
+    <script src="js/core/pms-pricing-tax.js?v=20260530a"></script>
+    <script src="js/services/property-settings-service.js?v=20260612hall1"></script>
+    <script src="js/services/hall-events-service.js?v=20260612hall1"></script>
+    <script src="js/components/resort-ticket-sales-panel.js?v=20260610cancel1"></script>
+    <script src="js/components/room-resort-ticket-popup.js?v=20260610b"></script>
+    <script src="js/pages/reservation-detail.js?v=20260614unitCheckoutFinancials1"></script>
+</body>
+</html>
+
+
+

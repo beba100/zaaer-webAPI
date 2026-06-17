@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+    <link rel="stylesheet" href="/Lib/css/dx.common.css">
+    <link data-theme="material.blue.light.compact" rel="dx-theme" href="/Lib/css/dx.material.blue.light.compact.css">
+    <script src="/js/core/pms-dx-theme-boot.js?v=20260609materiallight1"></script>
+    <link rel="stylesheet" href="/css/booking-engine.css?v=20260532d">
+</head>
+<body class="booking-engine-page">
+    <div class="be-shell" id="beShell">
+        <header class="be-hero" id="beHero">
+            <div class="be-hero-inner">
+                <div class="be-hero-top">
+                    <div class="be-brand" id="beBrand"></div>
+                    <div class="be-hero-actions">
+                        <div id="beHeroPromo" class="be-hero-promo-host" hidden></div>
+                        <button type="button" class="be-lang-btn" id="beLangToggle">EN</button>
+                    </div>
+                </div>
+                <div id="beSearchHost"></div>
+            </div>
+        </header>
+        <main class="be-main" id="beMain">
+            <div id="beSalesClosed" class="be-sales-closed" hidden></div>
+            <div id="beTopHtml" class="be-filter-html"></div>
+            <div id="beResultsHead" class="be-results-head" hidden></div>
+            <div id="beOffers" class="be-offers-list"></div>
+            <div id="beDownHtml" class="be-filter-html"></div>
+            <footer id="beContact" class="be-site-footer" hidden aria-label="Contact"></footer>
+        </main>
+    </div>
+    <aside id="beCartBar" class="be-cart-bar" hidden aria-live="polite">
+        <div class="be-cart-bar-inner">
+            <div class="be-cart-summary" id="beCartSummary"></div>
+            <div class="be-cart-actions">
+                <button type="button" class="be-cart-clear-btn" id="beCartClearBtn" hidden aria-label="Clear selection">
+                    <i class="dx-icon dx-icon-close" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="be-btn-primary be-cart-book-btn" id="beCartBookBtn"></button>
+            </div>
+        </div>
+    </aside>
+    <div id="beCheckoutHost"></div>
+    <div id="beSuccessHost" class="be-success-host" hidden></div>
+    <div id="bePromoPopupHost"></div>
+    <div id="beLoadPanel"></div>
+
+    <script src="/Lib/js/jquery.min.js"></script>
+    <script src="/Lib/js/dx.all.js"></script>
+    <script src="/js/core/devextreme-license.js"></script>
+    <script src="/Lib/js/localization/dx.messages.en.js"></script>
+    <script src="/Lib/js/localization/dx.messages.ar.js"></script>
+    <script src="/js/i18n/en.js?v=20260531c"></script>
+    <script src="/js/i18n/ar.js?v=20260531c"></script>
+    <script src="/js/core/localization-service.js"></script>
+    <script src="/js/core/pms-grid-options.js?v=20260530g"></script>
+    <script src="/js/services/booking-engine-service.js?v=20260530b"></script>
+    <script src="/js/pages/booking-engine.js?v=20260532e"></script>
+</body>
+</html>

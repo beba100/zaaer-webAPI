@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceLedgerAPI.Models
@@ -26,6 +26,10 @@ namespace FinanceLedgerAPI.Models
 		[Column("roomtype_id")]
 		public int? RoomTypeId { get; set; }
 
+	/// <summary>Parent chalet/unit link for resort child rooms. Stores parent apartment zaaer_id when available.</summary>
+	[Column("parent_apartment_id")]
+	public int? ParentApartmentId { get; set; }
+
 		[Column("apartment_code")]
 		[Required]
 		[MaxLength(50)]
@@ -37,7 +41,7 @@ namespace FinanceLedgerAPI.Models
 
 	[Column("status")]
 	[MaxLength(50)]
-	public string Status { get; set; } = "available";
+	public string Status { get; set; } = "vacant";
 
 	/// <summary>
 	/// Housekeeping Status (���� �������)
@@ -46,6 +50,52 @@ namespace FinanceLedgerAPI.Models
 	[Column("housekeeping_status")]
 	[MaxLength(50)]
 	public string? HousekeepingStatus { get; set; }
+
+	[Column("hall_preparation_status")]
+	[MaxLength(50)]
+	public string? HallPreparationStatus { get; set; }
+
+	[Column("telephone_extension")]
+	[MaxLength(50)]
+	public string? TelephoneExtension { get; set; }
+
+	[Column("bathrooms_count")]
+	public int? BathroomsCount { get; set; }
+
+	[Column("kitchen_type")]
+	[MaxLength(50)]
+	public string? KitchenType { get; set; }
+
+	[Column("hall_type")]
+	[MaxLength(50)]
+	public string? HallType { get; set; }
+
+	/// <summary>Resort chalet area: internal or external.</summary>
+	[Column("resort_area_type")]
+	[MaxLength(50)]
+	public string? ResortAreaType { get; set; }
+
+	[Column("single_beds_count")]
+	public int? SingleBedsCount { get; set; }
+
+	[Column("double_beds_count")]
+	public int? DoubleBedsCount { get; set; }
+
+	[Column("area", TypeName = "decimal(12,2)")]
+	public decimal? Area { get; set; }
+
+	[Column("description")]
+	public string? Description { get; set; }
+
+	[Column("is_active")]
+	public bool? IsActive { get; set; } = true;
+
+	[Column("services_json")]
+	public string? ServicesJson { get; set; }
+
+	/// <summary>Assigned facility zaaer_ids for this unit (JSON array of int).</summary>
+	[Column("facilities_json")]
+	public string? FacilitiesJson { get; set; }
 
 	/// <summary>
 	/// Zaaer System ID (���� Zaaer)

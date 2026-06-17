@@ -1,0 +1,39 @@
+### 🧪 VoM Integration API Testing
+### اختبار API تكامل VoM
+
+@baseUrl = http://voom.tryasp.net
+@vomBaseUrl = https://kimoo.getvom.com
+
+### ========================================
+### 1️⃣ Get VoM Accounts (requires BearerToken)
+### جلب حسابات VoM (يتطلب BearerToken)
+GET {{baseUrl}}/api/vom/VoMAccount?language=en
+Content-Type: application/json
+
+### ========================================
+### 2️⃣ Get VoM Accounts (Arabic)
+### جلب حسابات VoM (عربي)
+GET {{baseUrl}}/api/vom/VoMAccount?language=ar
+Content-Type: application/json
+
+### ========================================
+### 3️⃣ Login to VoM API (to get BearerToken)
+### تسجيل الدخول إلى VoM API (للحصول على BearerToken)
+POST {{baseUrl}}/api/vom/VoMAuth/login
+Content-Type: application/json
+
+{
+  "email": "Info@aleairygroup.com",
+  "password": "Aa1xyjPlNHd"
+}
+
+### ========================================
+### 4️⃣ Refresh VoM Token
+### تحديث رمز VoM
+POST {{baseUrl}}/api/vom/VoMAuth/refresh
+Content-Type: application/json
+
+### ========================================
+### 5️⃣ Test Health Endpoint
+### اختبار Health
+GET {{baseUrl}}/api/Health

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using zaaerIntegration.Utilities;
 
 namespace FinanceLedgerAPI.Models
 {
@@ -16,11 +17,10 @@ namespace FinanceLedgerAPI.Models
 
         [Column("expense_id")]
         [Required]
-        public int ExpenseId { get; set; }
+        public long ExpenseId { get; set; }
 
-        [Column("apartment_id")]
-        [Required]
-        public int ApartmentId { get; set; }
+        [Column("zaaer_id")]
+        public int? ZaaerId { get; set; } // ✅ Foreign Key to apartments.zaaer_id (nullable for room categories)
 
         /// <summary>
         /// Purpose - الغرض من ربط النفقة بالغرفة
@@ -30,16 +30,22 @@ namespace FinanceLedgerAPI.Models
         [MaxLength(500)]
         public string? Purpose { get; set; }
 
+        /// <summary>
+        /// Amount - المبلغ المرتبط بهذه الغرفة
+        /// </summary>
+        [Column("amount", TypeName = "decimal(12,2)")]
+        public decimal? Amount { get; set; }
+
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
         // Navigation properties
         [ForeignKey("ExpenseId")]
         public Expense Expense { get; set; }
 
-        [ForeignKey("ApartmentId")]
-        public Apartment Apartment { get; set; }
+        [ForeignKey("ZaaerId")]
+        public Apartment? Apartment { get; set; } // ✅ Nullable for room categories - Foreign Key to apartments.zaaer_id
     }
 }
 

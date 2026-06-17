@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resort Ticket Settings</title>
+    <link rel="stylesheet" href="/Lib/css/dx.common.css">
+    <link data-theme="fluent.saas.light.compact" rel="dx-theme" href="/Lib/css/dx.fluent.saas.light.compact.css">
+    <script src="/js/core/pms-dx-theme-boot.js?v=20260609materiallight1"></script>
+    <link rel="stylesheet" href="/css/room-board.css?v=20260616navCompact4">
+    <link rel="stylesheet" href="/css/pms-theme.css?v=20260530p">
+    <link rel="stylesheet" href="/css/pms-grid-compact.css?v=20260530g">
+    <link rel="stylesheet" href="/css/pms-admin.css?v=20260611nav2">
+    <link rel="stylesheet" href="/css/resort-tickets.css?v=20260610b">
+</head>
+<body class="pms-ui pms-admin-page" data-rbac-nav-key="nav-resort-ticket-settings" data-rbac-title-key="resortTickets.settings.title" data-rbac-subtitle-key="resortTickets.settings.subtitle">
+    <main class="room-board-shell">
+        <aside class="room-board-sidebar" id="roomBoardSidebar" aria-label="PMS navigation">
+            <div class="room-board-brand">
+                <span class="dx-icon dx-icon-home"></span>
+                <div>
+                    <strong>Aleairy PMS</strong>
+                    <small>Enterprise Edition</small>
+                </div>
+            </div>
+            <div id="roomBoardNavTree" class="room-board-nav-tree"></div>
+            <div class="room-board-hotel-card">
+                <span class="dx-icon dx-icon-home"></span>
+                <div>
+                    <strong>Aleairy PMS</strong>
+                    <small id="businessDateText"></small>
+                </div>
+            </div>
+        </aside>
+
+        <section class="room-board-workspace">
+            <header class="room-board-header">
+                <div class="room-board-breadcrumb">
+                    <button type="button" class="room-board-nav-toggle" id="roomBoardNavToggle" aria-expanded="true" aria-controls="roomBoardSidebar">
+                        <span class="dx-icon dx-icon-menu" aria-hidden="true"></span>
+                        <span data-i18n="roomBoard.dashboard"></span>
+                    </button>
+                    <span class="dx-icon dx-icon-chevronright room-board-bc-sep" aria-hidden="true"></span>
+                    <div id="pmsHeaderHotelPicker" class="pms-header-hotel-picker pms-header-hotel-picker--breadcrumb"></div>
+                </div>
+                <div class="room-board-top-actions">
+                    <span id="adminHotelBadge" class="pms-admin-hotel-badge" hidden></span>
+                    <div id="adminRefreshButton"></div>
+                    <div id="userAccountMenu" class="pms-user-account-menu"></div>
+                </div>
+            </header>
+
+            <section class="pms-admin-workspace">
+                <div class="pms-admin-toolbar-host">
+                    <div>
+                        <p class="pms-admin-toolbar-title" data-i18n="resortTickets.settings.title"></p>
+                        <p class="pms-admin-toolbar-sub" data-i18n="resortTickets.settings.subtitle"></p>
+                    </div>
+                </div>
+                <section class="pms-admin-card resort-ticket-settings-tabs">
+                    <div id="resortTicketSettingsTabs"></div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <div id="resortTicketSettingsLoadPanel"></div>
+
+    <script src="/Lib/js/jquery.min.js"></script>
+    <script src="/Lib/js/dx.all.js"></script>
+    <script src="/js/core/devextreme-license.js"></script>
+    <script src="/Lib/js/localization/dx.messages.en.js"></script>
+    <script src="/Lib/js/localization/dx.messages.ar.js"></script>
+    <script src="/js/i18n/en.js"></script>
+    <script src="/js/i18n/ar.js"></script>
+    <script src="/js/core/localization-service.js"></script>
+    <script src="/js/core/pms-grid-options.js?v=20260530g"></script>
+    <script src="/js/core/api-service.js?v=20260530a"></script>
+    <script src="/js/core/pms-save-guard.js?v=20260525"></script>
+    <script src="/js/core/pms-rbac-policy.js?v=20260522d"></script>
+    <script src="/js/core/pms-rbac-nav.js?v=20260611nav1"></script>
+    <script src="/js/core/pms-theme-switcher.js?v=20260609materiallight1"></script>
+    <script src="/js/core/pms-top-chrome.js?v=20260530a"></script>
+    <script src="/js/core/pms-admin-shell.js?v=20260616navCompact4"></script>
+    <script src="/js/services/property-settings-service.js?v=20260530a"></script>
+    <script src="/js/services/resort-ticket-service.js?v=20260610b"></script>
+    <script src="/js/pages/resort-ticket-settings.js?v=20260610g"></script>
+</body>
+</html>
+
+

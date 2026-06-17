@@ -26,10 +26,30 @@ namespace zaaerIntegration.Services.Interfaces
         string GetTenantConnectionString();
 
         /// <summary>
+        /// بناء Connection String لـ Tenant محدد (للاستخدام عند فتح قواعد فنادق متعددة).
+        /// </summary>
+        string BuildConnectionStringForTenant(Tenant tenant);
+
+        /// <summary>
         /// التحقق من الاتصال بقاعدة بيانات الفندق الحالي
         /// </summary>
         /// <returns>true إذا كان الاتصال ناجحاً</returns>
         Task<bool> ValidateTenantConnectionAsync();
+
+        /// <summary>
+        /// تعيين الـ Tenant الحالي مباشرة (للاستخدام في background workers حيث لا يوجد HttpContext)
+        /// Set the current tenant directly (for use in background workers where HttpContext is not available)
+        /// </summary>
+        /// <param name="tenant">الـ Tenant المراد تعيينه</param>
+        void SetCurrentTenant(Tenant tenant);
+
+        /// <summary>
+        /// الحصول على الـ Tenant من HotelId (للاستخدام في background workers)
+        /// Get tenant from HotelId (for use in background workers)
+        /// </summary>
+        /// <param name="hotelId">Hotel ID (Zaaer ID from hotel_settings)</param>
+        /// <returns>Tenant information</returns>
+        Task<Tenant?> GetTenantByHotelIdAsync(int hotelId);
     }
 }
 

@@ -32,6 +32,9 @@ namespace zaaerIntegration.DTOs.Request
         [StringLength(50)]
         public string? CommercialRegistrationNo { get; set; }
 
+        [StringLength(50)]
+        public string? CorNo { get; set; }
+
         [StringLength(20)]
         public string? DiscountMethod { get; set; }
 

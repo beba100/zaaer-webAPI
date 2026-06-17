@@ -29,6 +29,10 @@ namespace FinanceLedgerAPI.Models
         [Column("it_active")]
         public bool ItActive { get; set; } = true;
 
+        /// <summary>External Zaaer id; <c>customer_identifications.id_type_id</c> often references this, not <see cref="ItId"/>.</summary>
+        [Column("zaaer_id")]
+        public int? ZaaerId { get; set; }
+
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = KsaTime.Now;
 

@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using zaaerIntegration.DTOs.Request;
 using zaaerIntegration.DTOs.Response;
 using zaaerIntegration.Services.Interfaces;
-using zaaerIntegration.Services.PartnerQueueing;
-using System.Text.Json;
 
 namespace zaaerIntegration.Controllers
 {
@@ -16,15 +14,11 @@ namespace zaaerIntegration.Controllers
     {
         private readonly IReservationService _reservationService;
         private readonly ILogger<ReservationController> _logger;
-        private readonly IPartnerQueueService _queueService;
-        private readonly IQueueSettingsProvider _queueSettings;
 
-        public ReservationController(IReservationService reservationService, ILogger<ReservationController> logger, IPartnerQueueService queueService, IQueueSettingsProvider queueSettings)
+        public ReservationController(IReservationService reservationService, ILogger<ReservationController> logger)
         {
             _reservationService = reservationService;
             _logger = logger;
-            _queueService = queueService;
-            _queueSettings = queueSettings;
         }
 
         /// <summary>
@@ -124,20 +118,6 @@ namespace zaaerIntegration.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var queueSettings = _queueSettings.GetSettings();
-                if (queueSettings.EnableQueueMode)
-                {
-                    var dtoQ = new EnqueuePartnerRequestDto
-                    {
-                        Partner = queueSettings.DefaultPartner,
-                        Operation = "/api/Reservation",
-                        OperationKey = "App.Reservation.Create",
-                        PayloadType = nameof(CreateReservationDto),
-                        PayloadJson = JsonSerializer.Serialize(createReservationDto)
-                    };
-                    await _queueService.EnqueueAsync(dtoQ);
-                    return Accepted(new { queued = true, requestRef = dtoQ.RequestRef });
-                }
                 var reservation = await _reservationService.CreateReservationAsync(createReservationDto);
                 return CreatedAtAction(nameof(GetReservationById), new { id = reservation.ReservationId }, reservation);
             }
@@ -166,21 +146,6 @@ namespace zaaerIntegration.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var queueSettings = _queueSettings.GetSettings();
-                if (queueSettings.EnableQueueMode)
-                {
-                    var dtoQ = new EnqueuePartnerRequestDto
-                    {
-                        Partner = queueSettings.DefaultPartner,
-                        Operation = $"/api/Reservation/{id}",
-                        OperationKey = "App.Reservation.UpdateById",
-                        TargetId = id,
-                        PayloadType = nameof(UpdateReservationDto),
-                        PayloadJson = JsonSerializer.Serialize(updateReservationDto)
-                    };
-                    await _queueService.EnqueueAsync(dtoQ);
-                    return Accepted(new { queued = true, requestRef = dtoQ.RequestRef });
                 }
                 var reservation = await _reservationService.UpdateReservationAsync(id, updateReservationDto);
                 if (reservation == null)

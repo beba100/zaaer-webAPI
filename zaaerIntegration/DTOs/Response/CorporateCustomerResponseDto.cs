@@ -6,6 +6,10 @@ namespace zaaerIntegration.DTOs.Response
     public class CorporateCustomerResponseDto
     {
         public int CorporateId { get; set; }
+
+        /// <summary>External id from central numbering (same family as customers.zaaer_id).</summary>
+        public int? ZaaerId { get; set; }
+
         public int HotelId { get; set; }
         public string CorporateName { get; set; } = string.Empty;
         public string? CorporateNameAr { get; set; }
@@ -13,6 +17,7 @@ namespace zaaerIntegration.DTOs.Response
         public string? CountryAr { get; set; }
         public string? VatRegistrationNo { get; set; }
         public string? CommercialRegistrationNo { get; set; }
+        public string? CorNo { get; set; }
         public string? DiscountMethod { get; set; }
         public decimal? DiscountValue { get; set; }
         public string? City { get; set; }

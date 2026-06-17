@@ -1,0 +1,249 @@
+/**
+ * PMS compact DataGrid — all grids under body.pms-ui (reservation-detail, room-board).
+ * Opt-in alias: class pms-grid-compact on the grid host (optional).
+ */
+body.pms-ui {
+    --pms-grid-compact-font-size: 11px;
+    --pms-grid-compact-header-font-size: 11px;
+    --pms-grid-compact-search-font-size: 12px;
+    --pms-grid-compact-row-min-height: 24px;
+    --pms-grid-compact-row-highlight: #fef9c3;
+    --pms-grid-compact-cc-missing: #94a3b8;
+}
+
+body.pms-ui .dx-datagrid,
+body.pms-ui .pms-grid-compact.dx-datagrid {
+    font-family: var(--pms-font, "Inter", "Tajawal", "Segoe UI", sans-serif);
+    font-size: var(--pms-grid-compact-font-size);
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-rowsview .dx-row,
+body.pms-ui .pms-grid-compact .dx-datagrid-rowsview .dx-row {
+    min-height: var(--pms-grid-compact-row-min-height) !important;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-rowsview .dx-data-row > td,
+body.pms-ui .pms-grid-compact .dx-datagrid-rowsview .dx-data-row > td {
+    padding: 1px 4px !important;
+    line-height: 1.12 !important;
+    font-size: var(--pms-grid-compact-font-size) !important;
+    vertical-align: middle;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-headers .dx-header-row > td,
+body.pms-ui .pms-grid-compact .dx-datagrid-headers .dx-header-row > td {
+    padding: 2px 4px !important;
+    font-size: var(--pms-grid-compact-header-font-size) !important;
+    line-height: 1.15 !important;
+    font-weight: 800;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-headers .dx-datagrid-text-content,
+body.pms-ui .pms-grid-compact .dx-datagrid-headers .dx-datagrid-text-content {
+    line-height: 1.15;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-filter-row td,
+body.pms-ui .pms-grid-compact .dx-datagrid-filter-row td {
+    padding: 1px 3px !important;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-search-panel,
+body.pms-ui .pms-grid-compact .dx-datagrid-search-panel {
+    display: flex;
+    align-items: center;
+    margin: 0 0 6px;
+    min-height: 36px;
+    padding: 2px 0;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-search-panel .dx-texteditor,
+body.pms-ui .pms-grid-compact .dx-datagrid-search-panel .dx-texteditor,
+body.pms-ui .dx-datagrid .dx-toolbar .dx-item-content .dx-texteditor {
+    margin: 0;
+    width: 100%;
+    min-height: 34px;
+    height: auto;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-search-panel .dx-texteditor-container,
+body.pms-ui .pms-grid-compact .dx-datagrid-search-panel .dx-texteditor-container,
+body.pms-ui .dx-datagrid .dx-toolbar .dx-item-content .dx-texteditor-container {
+    align-items: center;
+    min-height: 34px;
+}
+
+body.pms-ui .dx-datagrid .dx-toolbar .dx-toolbar-item {
+    align-self: center;
+}
+
+/* Header filter popup search (بحث) — keep label/input vertically centered */
+body.pms-ui .dx-header-filter-menu .dx-list-search,
+body.pms-ui .dx-header-filter-menu .dx-searchbox {
+    display: flex;
+    align-items: center;
+    padding: 6px 8px 4px;
+    box-sizing: border-box;
+}
+
+body.pms-ui .dx-header-filter-menu .dx-list-search .dx-texteditor,
+body.pms-ui .dx-header-filter-menu .dx-searchbox .dx-texteditor {
+    margin: 0;
+    width: 100%;
+}
+
+body.pms-ui .dx-header-filter-menu .dx-list-search .dx-texteditor-input,
+body.pms-ui .dx-header-filter-menu .dx-searchbox .dx-texteditor-input {
+    padding-top: 7px;
+    padding-bottom: 6px;
+    line-height: 1.25;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-search-panel .dx-texteditor-input,
+body.pms-ui .pms-grid-compact .dx-datagrid-search-panel .dx-texteditor-input,
+body.pms-ui .dx-datagrid .dx-toolbar .dx-item-content .dx-texteditor-input {
+    font-size: var(--pms-grid-compact-search-font-size);
+    padding: 7px 8px 6px;
+    line-height: 1.35 !important;
+    min-height: 30px;
+    height: auto;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-search-panel .dx-placeholder,
+body.pms-ui .pms-grid-compact .dx-datagrid-search-panel .dx-placeholder,
+body.pms-ui .dx-datagrid .dx-toolbar .dx-item-content .dx-placeholder {
+    line-height: 1.35;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Action buttons column — spacing and no link underline (Bootstrap / browser defaults) */
+body.pms-ui .dx-datagrid .dx-command-edit,
+body.pms-ui .dx-datagrid .dx-command-edit-with-icons,
+body.pms-ui .pms-grid-compact .dx-command-edit,
+body.pms-ui .pms-grid-compact .dx-command-edit-with-icons {
+    display: inline-flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: auto !important;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2px 4px;
+    white-space: nowrap;
+    text-decoration: none !important;
+}
+
+body.pms-ui .dx-datagrid .dx-command-edit .dx-link,
+body.pms-ui .dx-datagrid .dx-command-edit-with-icons .dx-link,
+body.pms-ui .pms-grid-compact .dx-command-edit .dx-link,
+body.pms-ui .pms-grid-compact .dx-command-edit-with-icons .dx-link {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 28px;
+    min-height: 28px;
+    margin: 0 !important;
+    padding: 4px;
+    border-radius: 6px;
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    line-height: 1;
+    text-decoration: none !important;
+}
+
+body.pms-ui .dx-datagrid .dx-command-edit .dx-link:hover,
+body.pms-ui .dx-datagrid .dx-command-edit .dx-link:focus,
+body.pms-ui .dx-datagrid .dx-command-edit-with-icons .dx-link:hover,
+body.pms-ui .dx-datagrid .dx-command-edit-with-icons .dx-link:focus {
+    text-decoration: none !important;
+    background: var(--pms-primary-soft, #e8f0f7);
+}
+
+body.pms-ui .dx-datagrid .dx-command-edit .dx-link .dx-icon,
+body.pms-ui .dx-datagrid .dx-command-edit-with-icons .dx-link .dx-icon {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--pms-primary, #3f6f9f);
+}
+
+/* Horizontal scroll — especially RTL; do not clip scrollbars on grid hosts */
+body.pms-ui .dx-datagrid .dx-scrollable-wrapper,
+body.pms-ui .dx-datagrid .dx-scrollable-container {
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.pms-ui .dx-datagrid .dx-scrollable-scrollbar.dx-scrollbar-horizontal {
+    height: 10px;
+}
+
+body.pms-ui .dx-datagrid .dx-scrollable-scrollbar.dx-scrollbar-horizontal .dx-scrollable-scroll {
+    height: 10px;
+}
+
+body.pms-ui .dx-datagrid .dx-datagrid-nodata,
+body.pms-ui .pms-grid-compact .dx-datagrid-nodata {
+    font-size: var(--pms-grid-compact-font-size);
+    padding: 6px 8px;
+}
+
+body.pms-ui .dx-datagrid .pms-grid-compact-row-highlight > td,
+body.pms-ui .dx-datagrid .dx-datagrid-rowsview .dx-row.pms-grid-compact-row-highlight > td,
+body.pms-ui .pms-grid-compact .pms-grid-compact-row-highlight > td,
+body.pms-ui .pms-grid-compact .dx-datagrid-rowsview .dx-row.pms-grid-compact-row-highlight > td {
+    background: var(--pms-grid-compact-row-highlight) !important;
+}
+
+body.pms-ui .dx-datagrid .cc-missing,
+body.pms-ui .pms-grid-compact .cc-missing {
+    color: var(--pms-grid-compact-cc-missing);
+    font-size: var(--pms-grid-compact-font-size);
+}
+
+body.pms-ui .dx-datagrid .cc-val,
+body.pms-ui .pms-grid-compact .cc-val {
+    font-size: var(--pms-grid-compact-font-size);
+}
+
+/* Picker grids: select via icon column (not row click) */
+body.pms-ui .guest-picker-grid .dx-datagrid-rowsview .dx-data-row {
+    cursor: default;
+}
+
+body.pms-ui .guest-picker-grid .guest-picker-col-select {
+    text-align: center;
+    vertical-align: middle;
+}
+
+body.pms-ui .guest-picker-grid .guest-picker-select-btn.dx-button {
+    min-width: 28px;
+    width: 28px;
+    height: 26px;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.18);
+}
+
+body.pms-ui .guest-picker-grid .guest-picker-select-btn.dx-button .dx-icon {
+    font-size: 16px;
+}
+
+body.pms-ui .guest-picker-grid .guest-picker-select-btn--arrow.dx-button {
+    background: var(--pms-primary-soft, #e8f0f7);
+    border: 1px solid rgba(63, 111, 159, 0.28);
+}
+
+body.pms-ui .guest-picker-grid .guest-picker-select-btn--arrow.dx-button .dx-icon {
+    color: var(--pms-primary, #3f6f9f);
+}
+
+body.pms-ui .guest-picker-grid .guest-picker-col-select .dx-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

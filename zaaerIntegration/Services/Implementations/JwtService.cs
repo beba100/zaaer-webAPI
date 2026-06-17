@@ -2,7 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using zaaerIntegration.Configuration;
 using zaaerIntegration.Services.Auth;
 using zaaerIntegration.Services.Interfaces;
 using zaaerIntegration.Utilities;
@@ -25,22 +27,20 @@ namespace zaaerIntegration.Services.Implementations
         /// Constructor for JwtService
         /// </summary>
         /// <param name="configuration">Configuration</param>
+        /// <param name="jwtOptions">Validated JWT options from startup</param>
         /// <param name="logger">Logger</param>
-        public JwtService(IConfiguration configuration, ILogger<JwtService> logger)
+        public JwtService(IConfiguration configuration, IOptions<JwtOptions> jwtOptions, ILogger<JwtService> logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            _secretKey = _configuration["Jwt:SecretKey"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLong!";
-            _issuer = _configuration["Jwt:Issuer"] ?? "ZaaerIntegration";
-            _audience = _configuration["Jwt:Audience"] ?? "ZaaerIntegration";
-            _accessTokenMinutes = _configuration.GetValue("Jwt:AccessTokenMinutes",
-                _configuration.GetValue("Jwt:ExpirationMinutes", 1440));
-
-            if (string.IsNullOrWhiteSpace(_secretKey) || _secretKey.Length < 32)
-            {
-                _logger.LogWarning("JWT SecretKey is too short or empty. Using default key. Please set Jwt:SecretKey in appsettings.json");
-            }
+            var options = jwtOptions?.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
+            _secretKey = options.SecretKey;
+            _issuer = options.Issuer;
+            _audience = options.Audience;
+            _accessTokenMinutes = options.AccessTokenMinutes > 0
+                ? options.AccessTokenMinutes
+                : configuration.GetValue("Jwt:ExpirationMinutes", 1440);
         }
 
         /// <summary>

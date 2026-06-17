@@ -22,6 +22,10 @@ namespace FinanceLedgerAPI.Models
         [MaxLength(50)]
         public string? HotelName { get; set; }
 
+        [Column("hotel_name_en")]
+        [MaxLength(100)]
+        public string? HotelNameEn { get; set; }
+
         [Column("default_currency")]
         [MaxLength(10)]
         public string? DefaultCurrency { get; set; }
@@ -140,7 +144,9 @@ namespace FinanceLedgerAPI.Models
         public ICollection<Apartment> Apartments { get; set; } = new List<Apartment>();
         public ICollection<Building> Buildings { get; set; } = new List<Building>();
         public ICollection<Floor> Floors { get; set; } = new List<Floor>();
+        public ICollection<Facility> Facilities { get; set; } = new List<Facility>();
         public ICollection<CorporateCustomer> CorporateCustomers { get; set; } = new List<CorporateCustomer>();
         public ICollection<CreditNote> CreditNotes { get; set; } = new List<CreditNote>();
+        public ICollection<DebitNote> DebitNotes { get; set; } = new List<DebitNote>();
     }
 }

@@ -73,6 +73,13 @@ namespace FinanceLedgerAPI.Models
 		public string? Comment { get; set; }
 
 		/// <summary>
+		/// Comma-separated maintenance work types (e.g. ac,paint,pest_control).
+		/// </summary>
+		[Column("maintenance_categories")]
+		[MaxLength(200)]
+		public string? MaintenanceCategories { get; set; }
+
+		/// <summary>
 		/// Maintenance status (e.g., "active", "completed", "cancelled")
 		/// </summary>
 		[Column("status")]

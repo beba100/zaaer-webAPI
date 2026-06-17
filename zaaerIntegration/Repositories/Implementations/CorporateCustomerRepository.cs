@@ -21,7 +21,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             var query = _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .AsQueryable();
 
             if (filter != null)
@@ -43,15 +42,13 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .FirstOrDefaultAsync(cc => cc.CorporateName == corporateName);
         }
 
         public async Task<IEnumerable<CorporateCustomer>> GetByHotelIdAsync(int hotelId)
         {
             return await _context.CorporateCustomers
-                .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
+                .AsNoTracking()
                 .Where(cc => cc.HotelId == hotelId)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -61,7 +58,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.Country == country)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -71,7 +67,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.City == city)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -81,7 +76,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .FirstOrDefaultAsync(cc => cc.VatRegistrationNo == vatRegistrationNo);
         }
 
@@ -89,7 +83,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .FirstOrDefaultAsync(cc => cc.CommercialRegistrationNo == commercialRegistrationNo);
         }
 
@@ -97,7 +90,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.ContactPersonName.Contains(contactPersonName))
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -107,7 +99,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .FirstOrDefaultAsync(cc => cc.Email == email);
         }
 
@@ -115,7 +106,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.CorporatePhone.Contains(phone) || cc.ContactPersonPhone.Contains(phone))
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -125,7 +115,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.IsActive)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -135,7 +124,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => !cc.IsActive)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -145,7 +133,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.CorporateName.Contains(name))
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -155,7 +142,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.CorporateNameAr.Contains(nameAr))
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -165,7 +151,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.DiscountValue.HasValue && cc.DiscountValue > 0)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -175,7 +160,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.DiscountMethod == discountMethod)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -185,7 +169,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.DiscountValue >= minValue && cc.DiscountValue <= maxValue)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -278,12 +261,15 @@ namespace zaaerIntegration.Repositories.Implementations
                 .ToListAsync();
 
             var topCorporateCustomers = await _context.CorporateCustomers
-                .GroupBy(cc => cc.CorporateId)
-                .Select(g => new { 
-                    CorporateId = g.Key, 
-                    CorporateName = g.First().CorporateName,
-                    ReservationCount = g.First().Reservations.Count,
-                    HotelName = g.First().HotelSettings.HotelName
+                .Select(cc => new
+                {
+                    cc.CorporateId,
+                    cc.CorporateName,
+                    ReservationCount = _context.Reservations.Count(r =>
+                        r.CorporateId != null &&
+                        (r.CorporateId == cc.CorporateId ||
+                         (cc.ZaaerId != null && r.CorporateId == cc.ZaaerId))),
+                    HotelName = cc.HotelSettings.HotelName
                 })
                 .OrderByDescending(x => x.ReservationCount)
                 .Take(10)
@@ -310,7 +296,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .FirstOrDefaultAsync(cc => cc.CorporateId == id);
         }
 
@@ -318,7 +303,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .FirstOrDefaultAsync(cc => cc.CorporateName == corporateName);
         }
 
@@ -326,7 +310,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.CreatedAt >= startDate && cc.CreatedAt <= endDate)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -336,7 +319,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.CreatedAt.Date == createdDate.Date)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -346,8 +328,10 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
-                .Where(cc => cc.Reservations.Any())
+                .Where(cc => _context.Reservations.Any(r =>
+                    r.CorporateId != null &&
+                    (r.CorporateId == cc.CorporateId ||
+                     (cc.ZaaerId != null && r.CorporateId == cc.ZaaerId))))
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
         }
@@ -356,27 +340,48 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
-                .Where(cc => cc.Reservations.Count >= minCount && cc.Reservations.Count <= maxCount)
+                .Where(cc =>
+                    _context.Reservations.Count(r =>
+                        r.CorporateId != null &&
+                        (r.CorporateId == cc.CorporateId ||
+                         (cc.ZaaerId != null && r.CorporateId == cc.ZaaerId))) >= minCount
+                    && _context.Reservations.Count(r =>
+                        r.CorporateId != null &&
+                        (r.CorporateId == cc.CorporateId ||
+                         (cc.ZaaerId != null && r.CorporateId == cc.ZaaerId))) <= maxCount)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<CorporateCustomer>> GetTopByReservationCountAsync(int topCount = 10)
         {
-            return await _context.CorporateCustomers
-                .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
-                .OrderByDescending(cc => cc.Reservations.Count)
+            var rankedIds = await _context.CorporateCustomers
+                .Select(cc => new
+                {
+                    cc.CorporateId,
+                    Cnt = _context.Reservations.Count(r =>
+                        r.CorporateId != null &&
+                        (r.CorporateId == cc.CorporateId ||
+                         (cc.ZaaerId != null && r.CorporateId == cc.ZaaerId)))
+                })
+                .OrderByDescending(x => x.Cnt)
                 .Take(topCount)
+                .Select(x => x.CorporateId)
                 .ToListAsync();
+
+            var rows = await _context.CorporateCustomers
+                .Include(cc => cc.HotelSettings)
+                .Where(cc => rankedIds.Contains(cc.CorporateId))
+                .ToListAsync();
+
+            var order = rankedIds.Select((id, i) => (id, i)).ToDictionary(t => t.id, t => t.i);
+            return rows.OrderBy(cc => order[cc.CorporateId]).ToList();
         }
 
         public async Task<IEnumerable<CorporateCustomer>> GetByPostalCodeAsync(string postalCode)
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.PostalCode == postalCode)
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();
@@ -386,7 +391,6 @@ namespace zaaerIntegration.Repositories.Implementations
         {
             return await _context.CorporateCustomers
                 .Include(cc => cc.HotelSettings)
-                .Include(cc => cc.Reservations)
                 .Where(cc => cc.Address.Contains(address))
                 .OrderByDescending(cc => cc.CreatedAt)
                 .ToListAsync();

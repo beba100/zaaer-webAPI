@@ -44,6 +44,13 @@ namespace FinanceLedgerAPI.Models
 		public string? CommercialRegistrationNo { get; set; }
 
 		/// <summary>
+		/// Corporate number / identifier (رقم المؤسسة)
+		/// </summary>
+		[Column("cor_no")]
+		[MaxLength(50)]
+		public string? CorNo { get; set; }
+
+		/// <summary>
 		/// Discount Method: Amount or Percentage
 		/// طريقة الخصم: مبلغ أو نسبة
 		/// </summary>
@@ -114,6 +121,12 @@ namespace FinanceLedgerAPI.Models
 
 		[Column("updated_at")]
 		public DateTime? UpdatedAt { get; set; }
+
+		/// <summary>
+		/// Global integration id (Master DB / Zaaer), allocated with <c>cor_no</c> via central numbering.
+		/// </summary>
+		[Column("zaaer_id")]
+		public int? ZaaerId { get; set; }
 
 		/// <summary>
 		/// Hotel reference

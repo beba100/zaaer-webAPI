@@ -1,0 +1,598 @@
+body.pms-ui.pms-role-perms-page #pageSubtitle {
+    display: none;
+}
+
+body.pms-ui.pms-role-perms-page .pms-role-perms-bc-sep,
+body.pms-ui.pms-role-perms-page .pms-role-perms-bc-title {
+    display: none !important;
+}
+
+body.pms-ui.pms-role-perms-page .room-board-workspace {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+body.pms-ui.pms-role-perms-page .pms-role-perms-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 2px;
+}
+
+body.pms-ui .pms-role-perms-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+body.pms-ui .pms-role-perms-toolbar-start {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+body.pms-ui .pms-role-perms-heading {
+    min-width: 0;
+}
+
+body.pms-ui .pms-role-perms-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+body.pms-ui .pms-role-perms-summary {
+    display: none;
+}
+
+body.pms-ui .pms-role-perms-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 10px 10px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+body.pms-ui .pms-role-perms-master {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: var(--pms-panel-bg-strong);
+    border: 1px solid var(--pms-border);
+    flex-shrink: 0;
+}
+
+body.pms-ui .pms-role-perms-master-start {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    min-width: 0;
+}
+
+body.pms-ui .pms-role-perms-accordion-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.pms-ui .pms-role-perms-accordion-btn {
+    border: 1px solid rgba(30, 58, 95, 0.22);
+    background: #fff;
+    color: #1e3a5f;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--pms-font, "Inter", "Tajawal", "Segoe UI", sans-serif);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+body.pms-ui .pms-role-perms-accordion-btn:hover {
+    background: #e8f0f7;
+    border-color: rgba(30, 58, 95, 0.35);
+}
+
+body.pms-ui .pms-role-perms-master .dx-checkbox-text {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+body.pms-ui .pms-role-perms-count {
+    font-size: 11px;
+    color: #475569;
+    font-weight: 600;
+}
+
+/* Module cards — vertical stack */
+body.pms-ui .pms-role-perms-cards {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 2px 4px 8px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.pms-ui .pms-role-perms-cards::-webkit-scrollbar {
+    width: 8px;
+}
+
+body.pms-ui .pms-role-perms-cards::-webkit-scrollbar-thumb {
+    background: #c5d0de;
+    border-radius: 999px;
+}
+
+body.pms-ui .pms-role-perms-module-card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    max-height: none;
+    min-height: 0;
+    border: 1px solid var(--pms-border);
+    border-radius: 12px;
+    background: var(--pms-surface);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+body.pms-ui .pms-role-perms-module-card[data-module-code="pos"],
+body.pms-ui .pms-role-perms-module-card--pos {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+}
+
+body.pms-ui .pms-role-perms-module-card--wide {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+}
+
+body.pms-ui .pms-role-perms-module-card--collapsed {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    max-height: none;
+}
+
+body.pms-ui .pms-role-perms-module-card--collapsed.pms-role-perms-module-card--wide {
+    min-width: 0;
+    width: 100%;
+}
+
+body.pms-ui .pms-role-perms-module-card--collapsed .pms-role-perms-module-card-body {
+    display: none;
+}
+
+body.pms-ui .pms-role-perms-module-card--collapsed .pms-role-perms-module-card-head {
+    border-bottom: none;
+    border-radius: 10px;
+}
+
+body.pms-ui .pms-role-perms-module-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(30, 58, 95, 0.12);
+    background: linear-gradient(180deg, #f0f5fb 0%, var(--pms-panel-bg-strong) 100%);
+    border-radius: 10px 10px 0 0;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+body.pms-ui .pms-role-perms-module-card-toggle {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(30, 58, 95, 0.14);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #1e3a5f;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+body.pms-ui .pms-role-perms-module-card-toggle:hover,
+body.pms-ui .pms-role-perms-module-card-toggle:focus-visible {
+    background: #e8f0f7;
+    border-color: rgba(30, 58, 95, 0.28);
+    outline: none;
+}
+
+body.pms-ui .pms-role-perms-module-card-chevron {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #1e3a5f;
+    transition: transform 0.2s ease;
+    pointer-events: none;
+}
+
+body.pms-ui .pms-role-perms-module-card-chevron--collapsed {
+    transform: rotate(-90deg);
+}
+
+html[dir="rtl"] body.pms-ui .pms-role-perms-module-card-chevron--collapsed {
+    transform: rotate(90deg);
+}
+
+body.pms-ui .pms-role-perms-module-card-head-main {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-inline-start: 10px;
+    margin-inline-start: 2px;
+    border-inline-start: 1px solid rgba(30, 58, 95, 0.14);
+}
+
+body.pms-ui .pms-role-perms-module-card-check {
+    flex: 1;
+    min-width: 0;
+    padding-inline-end: 8px;
+}
+
+body.pms-ui .pms-role-perms-module-card-check .dx-checkbox {
+    margin: 0;
+}
+
+body.pms-ui .pms-role-perms-module-card-head .dx-checkbox-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e3a5f;
+    line-height: 1.25;
+}
+
+body.pms-ui .pms-role-perms-module-badge {
+    flex-shrink: 0;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1e3a5f;
+    background: #e8f0f7;
+    border: 1px solid rgba(30, 58, 95, 0.2);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Submodule cards — responsive grid under each module header */
+body.pms-ui .pms-role-perms-module-card-body {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    padding: 10px 12px 12px;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+}
+
+body.pms-ui .pms-role-perms-submodule-wrap {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+}
+
+body.pms-ui .pms-role-perms-submodule-parent {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-start;
+    max-width: 100%;
+    margin: 0 8px 0;
+    padding: 2px 8px 2px 6px;
+    border-radius: 999px;
+    background: rgba(63, 111, 159, 0.08);
+    border: 1px solid rgba(63, 111, 159, 0.14);
+    color: #475569;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+body.pms-ui .pms-role-perms-submodule-parent-arrow {
+    flex-shrink: 0;
+    width: 0;
+    height: 0;
+    margin-top: -1px;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-inline-end: 5px solid #94a3b8;
+    opacity: 0.85;
+}
+
+html[dir="rtl"] body.pms-ui .pms-role-perms-submodule-parent-arrow {
+    border-inline-end: none;
+    border-inline-start: 5px solid #94a3b8;
+}
+
+body.pms-ui .pms-role-perms-submodule-parent-label {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.pms-ui .pms-role-perms-submodule {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 120px;
+    padding-top: 6px;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    background: #fbfcfd;
+    overflow: hidden;
+}
+
+body.pms-ui .pms-role-perms-module-card--wide .pms-role-perms-submodule {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    body.pms-ui .pms-role-perms-module-card-body {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    body.pms-ui .pms-role-perms-module-card-body {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+body.pms-ui .pms-role-perms-module-card--property-hub .pms-role-perms-module-card-head {
+    border-inline-start: 3px solid var(--pms-primary, #3f6f9f);
+}
+
+body.pms-ui .pms-role-perms-module-card--hall-hub .pms-role-perms-module-card-head {
+    border-inline-start-color: #7c5ba8;
+}
+
+body.pms-ui .pms-role-perms-module-card--resort-hub .pms-role-perms-module-card-head {
+    border-inline-start-color: #2f8f6d;
+}
+
+body.pms-ui .pms-role-perms-module-card--hotel-hub .pms-role-perms-module-card-head {
+    border-inline-start-color: #2563eb;
+}
+
+body.pms-ui .pms-role-perms-module-card--property-hub .pms-role-perms-submodule-parent {
+    background: rgba(63, 111, 159, 0.1);
+}
+
+body.pms-ui .pms-role-perms-module-card--hall-hub .pms-role-perms-submodule-parent {
+    background: rgba(124, 91, 168, 0.1);
+    border-color: rgba(124, 91, 168, 0.18);
+    color: #5b4a73;
+}
+
+body.pms-ui .pms-role-perms-module-card--resort-hub .pms-role-perms-submodule-parent {
+    background: rgba(47, 143, 109, 0.1);
+    border-color: rgba(47, 143, 109, 0.18);
+    color: #256552;
+}
+
+body.pms-ui .pms-role-perms-module-card--hotel-hub .pms-role-perms-submodule-parent {
+    background: rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.18);
+    color: #1e40af;
+}
+
+body.pms-ui .pms-role-perms-submodule-head {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(30, 58, 95, 0.1);
+    background: linear-gradient(180deg, #f8fafc 0%, #eef3f9 100%);
+    flex-shrink: 0;
+}
+
+body.pms-ui .pms-role-perms-submodule-head .dx-checkbox-icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 0;
+}
+
+body.pms-ui .pms-role-perms-submodule-head .dx-checkbox-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #234a73;
+    line-height: 1.25;
+}
+
+body.pms-ui .pms-role-perms-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 8px 8px;
+    flex: 1;
+    min-height: 0;
+    overflow: visible;
+}
+
+body.pms-ui .pms-role-perms-cell {
+    display: block;
+    padding: 4px 6px;
+    border-radius: 6px;
+    min-height: 0;
+    flex-shrink: 0;
+}
+
+body.pms-ui .pms-role-perms-cell:hover {
+    background: rgba(63, 111, 159, 0.06);
+}
+
+body.pms-ui .pms-role-perms-cell .dx-checkbox {
+    width: 100%;
+    min-height: 0;
+}
+
+body.pms-ui .pms-role-perms-cell .dx-checkbox-container {
+    align-items: flex-start;
+    gap: 5px;
+    min-height: 0;
+}
+
+body.pms-ui .pms-role-perms-cell .dx-checkbox-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+body.pms-ui .pms-role-perms-cell .dx-checkbox-text {
+    font-size: 11px;
+    line-height: 1.3;
+    white-space: normal;
+    word-break: break-word;
+    color: #334155;
+}
+
+body.pms-ui .pms-role-perms-indeterminate .dx-checkbox-icon {
+    background: var(--pms-primary-soft);
+    border-color: var(--pms-primary);
+}
+
+body.pms-ui .pms-role-perms-footer {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+body.pms-ui .pms-role-perms-footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--pms-border);
+    background: linear-gradient(180deg, #ffffff 0%, var(--pms-panel-bg) 100%);
+    box-shadow: 0 -6px 18px rgba(15, 23, 42, 0.08);
+}
+
+body.pms-ui .pms-role-perms-footer-meta {
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+}
+
+body.pms-ui .pms-role-perms-footer-save .dx-button {
+    min-width: 160px;
+    height: 36px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Narrow phones: allow vertical stack only when truly cramped */
+@media (max-width: 520px) {
+    body.pms-ui .pms-role-perms-cards {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        overflow-x: hidden;
+    }
+
+    body.pms-ui .pms-role-perms-module-card,
+    body.pms-ui .pms-role-perms-module-card--wide {
+        width: 100%;
+        min-width: 0;
+        max-height: none;
+    }
+
+    body.pms-ui .pms-role-perms-module-card-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.pms-ui .pms-role-perms-gate-panel {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding: 14px 16px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f8fafc 0%, var(--pms-panel-bg-strong, #f3f4f6) 100%);
+    border-inline-start: 3px solid var(--pms-primary, #3f6f9f);
+}
+
+body.pms-ui .pms-role-perms-gate-panel-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+body.pms-ui .pms-role-perms-gate-panel-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--pms-primary-soft, #e8f0f7);
+    color: var(--pms-primary, #3f6f9f);
+    font-size: 18px;
+}
+
+body.pms-ui .pms-role-perms-gate-panel-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+body.pms-ui .pms-role-perms-gate-title {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+body.pms-ui .pms-role-perms-gate-hint {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #64748b;
+}
+
+body.pms-ui .pms-role-perms-gate-tagbox .dx-tagbox {
+    width: 100%;
+}
+
+body.pms-ui .pms-role-perms-module-card--resort .pms-role-perms-module-card-body {
+    align-items: stretch;
+}

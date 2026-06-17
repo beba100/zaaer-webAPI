@@ -1,0 +1,59 @@
+### 🧪 VoM API - Direct Testing (Without Our Backend)
+### اختبار VoM API مباشرة (بدون Backend)
+
+@vomBaseUrl = https://kimoo.getvom.com
+@email = Info@aleairygroup.com
+@password = Aa1xyjPlNHd
+
+### ========================================
+### 1️⃣ Step 1: Login to VoM API (Get Token)
+### الخطوة 1: تسجيل الدخول للحصول على Token
+POST {{vomBaseUrl}}/api/companyuser/login
+Content-Type: application/json
+Accept: application/json
+Api-Agent: zapier
+Accept-Language: en
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### ========================================
+### 2️⃣ Step 2: Get Accounts (Replace TOKEN with token from Step 1)
+### الخطوة 2: جلب الحسابات (استبدل TOKEN بالرمز من الخطوة 1)
+GET {{vomBaseUrl}}/api/accounting/accounts
+Content-Type: application/json
+Accept: application/json
+Api-Agent: zapier
+Accept-Language: en
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### ========================================
+### 3️⃣ Get Accounts (Arabic)
+### جلب الحسابات (عربي)
+GET {{vomBaseUrl}}/api/accounting/accounts
+Content-Type: application/json
+Accept: application/json
+Api-Agent: zapier
+Accept-Language: ar
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### ========================================
+### 4️⃣ Test with cURL (Copy and paste in terminal)
+### اختبار باستخدام cURL
+### First: Login
+# curl -X POST "https://kimoo.getvom.com/api/companyuser/login" \
+#   -H "Content-Type: application/json" \
+#   -H "Accept: application/json" \
+#   -H "Api-Agent: zapier" \
+#   -H "Accept-Language: en" \
+#   -d "{\"email\":\"Info@aleairygroup.com\",\"password\":\"Aa1xyjPlNHd\"}"
+
+### Then: Get Accounts (replace TOKEN with actual token)
+# curl -X GET "https://kimoo.getvom.com/api/accounting/accounts?language=en" \
+#   -H "Content-Type: application/json" \
+#   -H "Accept: application/json" \
+#   -H "Api-Agent: zapier" \
+#   -H "Accept-Language: en" \
+#   -H "Authorization: Bearer TOKEN_HERE"

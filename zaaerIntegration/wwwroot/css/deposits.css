@@ -1,0 +1,13 @@
+body.pms-ui #depositsGrid .dx-datagrid-rowsview .dx-data-row > td {
+    font-size: 10px !important;
+    line-height: 1.35;
+}
+
+body.pms-ui .deposits-summary-banks {
+    display: contents;
+}
+
+body.pms-ui .deposits-summary-banks .expenses-summary-card--bank strong {
+    color: #0f172a;
+    font-size: var(--pms-text-md, 14px);
+}

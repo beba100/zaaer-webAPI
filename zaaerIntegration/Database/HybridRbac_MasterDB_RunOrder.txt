@@ -1,0 +1,22 @@
+Master DB — PMS RBAC migration order (run in SSMS on Master database)
+================================================================================
+
+LEGACY (myMainProject) — only if Roles/UserRoles were renamed before:
+  1. HybridRbac_RestoreLegacyTableNames.sql
+
+FIRST-TIME or UPGRADE PMS tables:
+  2. HybridRbac_RenameToPmsPrefix.sql          — users -> pms_users, rbac_roles -> pms_roles, etc.
+  3. HybridRbac_MasterDB.sql                   — create missing pms_* tables (fresh install)
+  4. HybridRbac_MasterUsers_AlterUsersLogin.sql — username, employee_number on pms_users (if missing)
+  5. HybridRbac_AddPmsNewColumns.sql           — NEW COLUMNS (run before Simplify) ***
+  6. HybridRbac_SimplifyPmsSchema.sql            — drop hotel groups, default_hotel_id, etc.
+  7. HybridRbac_SeedPermissions.sql            — permission catalog AR/EN
+  8. HybridRbac_MigrateMasterUsersToUsers.sql  — copy MasterUsers -> pms_users (once)
+
+DO NOT RUN (deprecated):
+  - HybridRbac_MasterDB_LegacyRename.sql
+  - HybridRbac_LegacyCompatibilitySynonyms.sql
+  - HybridRbac_FixRolesNameConflict.sql        — use Restore + AddPmsNewColumns instead
+
+Paths (relative to repo):
+  zaaerIntegration/Database/<script name>.sql

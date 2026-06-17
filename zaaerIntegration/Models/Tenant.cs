@@ -21,6 +21,11 @@ namespace FinanceLedgerAPI.Models
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
+        /// اسم الفندق بالإنجليزية (عمود name_en في Master Tenants).
+        /// </summary>
+        public string? NameEn { get; set; }
+
+        /// <summary>
         /// Connection String الخاص بقاعدة بيانات الفندق (اختياري - النظام يستخدم DatabaseName بدلاً منه)
         /// </summary>
         public string? ConnectionString { get; set; }
@@ -64,6 +69,18 @@ namespace FinanceLedgerAPI.Models
         /// اسم الشريك الافتراضي المستخدم عند الاستدعاء (مثلاً Zaaer)
         /// </summary>
         public string? DefaultPartner { get; set; }
+
+        /// <summary>
+        /// تمكين مزامنة البيانات مع نظام VoM (القيد اليومي) - Enable/Disable VoM Sync
+        /// true = يتم إرسال البيانات إلى VoM تلقائياً
+        /// false = لا يتم إرسال البيانات (الفندق معطل)
+        /// </summary>
+        public bool EnableVoMSync { get; set; } = true;
+
+        /// <summary>
+        /// معرف Zaaer الخاص بالفندق (zaaer_id من hotel_settings)
+        /// </summary>
+        public int? ZaaerId { get; set; }
     }
 }
 

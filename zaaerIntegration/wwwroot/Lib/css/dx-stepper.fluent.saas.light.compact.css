@@ -1,0 +1,72 @@
+/* Extracted from DevExtreme 25.1.3 dx.fluent.saas.light.compact.css (stepper + step item rules). */
+.dx-stepper{display:flex;position:relative;padding:8px}
+.dx-stepper-vertical{height:100%;align-items:center}
+.dx-stepper-horizontal{width:100%;justify-content:center}
+.dx-stepper-connector{display:flex;position:absolute;align-items:center;pointer-events:none}
+.dx-stepper-connector-horizontal .dx-stepper-connector-value{width:0;height:100%}
+.dx-stepper-connector-vertical{flex-direction:column;height:100%}
+.dx-stepper-connector-vertical .dx-stepper-connector-container{flex-direction:column}
+.dx-stepper-connector-vertical .dx-stepper-connector-value{height:0;width:100%}
+.dx-stepper-connector-container{display:flex;flex:1;background-color:#e5e8f0}
+.dx-stepper-connector-value{transition:flex-grow .5s ease-in-out;background-color:#5486ff}
+.dx-stepper-vertical .dx-step-list{height:100%;flex-direction:column}
+.dx-stepper-vertical .dx-step{display:flex;min-height:40px}
+.dx-stepper-vertical .dx-step-content{flex-direction:row;width:100%}
+.dx-stepper-vertical .dx-step-label,.dx-stepper-vertical .dx-step-optional-mark{text-align:start}
+.dx-stepper-connector-horizontal{width:100%;padding-inline:8px;height:24px}
+.dx-stepper-connector-horizontal .dx-stepper-connector-container{height:2px}
+.dx-stepper-connector-vertical{padding-block:8px;width:24px}
+.dx-stepper-connector-vertical .dx-stepper-connector-container{width:2px}
+.dx-stepper-horizontal .dx-step{min-width:40px}
+.dx-stepper.dx-state-focused .dx-step-selected .dx-step-indicator{box-shadow:0 0 0 8px #fafbff}
+.dx-stepper.dx-state-focused .dx-step-selected.dx-state-focused .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #4077fb,0 0 0 8px #fafbff}
+.dx-stepper.dx-state-focused .dx-step-selected.dx-state-focused.dx-step-invalid .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #c62424,0 0 0 8px #fafbff}
+.dx-step-list{display:flex;width:100%}
+.dx-stepper-vertical .dx-step-list{height:100%;flex-direction:column}
+.dx-step-indicator{display:flex;align-items:center;justify-content:center;flex-shrink:0;transition-property:color,background-color,border-color;transition-timing-function:ease-in-out;border-style:solid;border-radius:999em;border-width:1px}
+.dx-step-content{display:flex;align-items:center;flex-direction:column;row-gap:6px;-moz-column-gap:8px;column-gap:8px}
+.dx-step-caption{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#21293b}
+.dx-step-label,.dx-step-optional-mark{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.dx-stepper-vertical .dx-step-content{flex-direction:row;width:100%}
+.dx-stepper-vertical .dx-step-label,.dx-stepper-vertical .dx-step-optional-mark{text-align:start}
+.dx-step-content .dx-icon{width:16px;height:16px;background-position:0 0;background-size:16px 16px;padding:0;font-size:16px;text-align:center;line-height:16px}
+.dx-step-content .dx-step-optional-mark{font-size:12px}
+.dx-step-indicator{z-index:0;width:24px;height:24px;transition-duration:.4s;background-color:#fff;border-color:#e5e8f0;box-shadow:0 0 0 8px #fafbff;color:#21293b}
+.dx-step.dx-state-active .dx-step-indicator{background-color:#e5edff}
+.dx-step.dx-step-invalid .dx-step-indicator{background-color:#fff;border-color:#e5e8f0;color:#dc2828}
+.dx-step.dx-step-invalid .dx-step-caption{color:#dc2828}
+.dx-step.dx-step-completed .dx-step-text{font-weight:600}
+.dx-step.dx-step-completed .dx-step-indicator{color:#fff;border-color:#5486ff;background-color:#5486ff;box-shadow:0 0 0 8px #fafbff}
+.dx-step.dx-step-completed .dx-step-caption{color:#5486ff}
+.dx-step.dx-step-completed.dx-step-invalid .dx-step-indicator{border-color:#dc2828;background-color:#dc2828;box-shadow:0 0 0 8px #fafbff}
+.dx-step.dx-step-completed.dx-step-invalid .dx-step-caption{color:#dc2828}
+.dx-step.dx-step-selected .dx-step-caption,.dx-step.dx-step-selected .dx-step-text{font-weight:600}
+.dx-step.dx-step-selected .dx-step-indicator{color:#fff;border-color:#5486ff;background-color:#5486ff;box-shadow:0 0 0 2px #fafbff,0 0 0 4px #5486ff,0 0 0 8px #fafbff}
+.dx-step.dx-step-selected .dx-step-caption{color:#5486ff}
+.dx-step.dx-step-selected.dx-step-invalid .dx-step-indicator{border-color:#dc2828;background-color:#dc2828;box-shadow:0 0 0 2px #fafbff,0 0 0 4px #dc2828,0 0 0 8px #fafbff}
+.dx-step.dx-step-selected.dx-step-invalid .dx-step-caption{color:#dc2828}
+.dx-step.dx-state-hover .dx-step-indicator{border-color:#c5ccde;background-color:#e5edff}
+.dx-step.dx-state-hover.dx-step-completed .dx-step-indicator,.dx-step.dx-state-hover.dx-step-selected .dx-step-indicator{border-color:#4077fb;background-color:#4077fb}
+.dx-step.dx-state-hover.dx-step-invalid .dx-step-indicator{color:#c62424;border-color:#c5ccde;background-color:#e5edff}
+.dx-step.dx-state-hover.dx-step-invalid.dx-step-completed .dx-step-indicator,.dx-step.dx-state-hover.dx-step-invalid.dx-step-selected .dx-step-indicator{color:#fff;border-color:#c62424;background-color:#c62424}
+.dx-step.dx-state-focused .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #5486ff,0 0 0 8px #fafbff}
+.dx-step.dx-state-focused.dx-step-completed .dx-step-indicator{border-color:#4077fb;background-color:#4077fb}
+.dx-step.dx-state-focused.dx-step-selected .dx-step-indicator{border-color:#4077fb;background-color:#4077fb;box-shadow:0 0 0 2px #fafbff,0 0 0 4px #4077fb,0 0 0 8px #fafbff}
+.dx-step.dx-state-focused.dx-state-hover .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #4077fb,0 0 0 8px #fafbff}
+.dx-step.dx-state-focused.dx-step-invalid .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #dc2828,0 0 0 8px #fafbff}
+.dx-step.dx-state-focused.dx-step-invalid.dx-step-completed .dx-step-indicator{border-color:#c62424;background-color:#c62424}
+.dx-step.dx-state-focused.dx-step-invalid.dx-step-selected .dx-step-indicator{border-color:#c62424;background-color:#c62424;box-shadow:0 0 0 2px #fafbff,0 0 0 4px #c62424,0 0 0 8px #fafbff}
+.dx-step.dx-state-focused.dx-step-invalid.dx-state-hover .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #c62424,0 0 0 8px #fafbff}
+.dx-step.dx-state-focused.dx-state-disabled .dx-step-indicator{box-shadow:0 0 0 2px #fff,0 0 0 4px #5486ff,0 0 0 8px #fff}
+.dx-step.dx-state-focused.dx-state-disabled.dx-step-invalid .dx-step-indicator{box-shadow:0 0 0 2px #fff,0 0 0 4px #dc2828,0 0 0 8px #fff}
+.dx-step.dx-state-disabled .dx-step-indicator{color:#b7c1d7;border-color:#dbe6ff;background-color:#dbe6ff}
+.dx-step.dx-state-disabled .dx-step-caption{color:#b7c1d7}
+.dx-step.dx-state-disabled.dx-state-focused .dx-step-indicator{color:#b7c1d7;border-color:#dbe6ff;background-color:#dbe6ff}
+.dx-step.dx-state-disabled.dx-state-focused .dx-step-caption{color:#b7c1d7}
+.dx-step.dx-state-disabled.dx-step-invalid .dx-step-indicator{color:#b7c1d7;border-color:#dbe6ff;background-color:#dbe6ff}
+.dx-step.dx-state-disabled.dx-step-invalid .dx-step-caption{color:#b7c1d7}
+.dx-step.dx-state-disabled.dx-step-invalid.dx-state-focused .dx-step-indicator{color:#b7c1d7;border-color:#dbe6ff;background-color:#dbe6ff}
+.dx-step.dx-state-disabled.dx-step-invalid.dx-state-focused .dx-step-caption{color:#b7c1d7}
+.dx-stepper.dx-state-focused .dx-step-selected .dx-step-indicator{box-shadow:0 0 0 8px #fafbff}
+.dx-stepper.dx-state-focused .dx-step-selected.dx-state-focused .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #4077fb,0 0 0 8px #fafbff}
+.dx-stepper.dx-state-focused .dx-step-selected.dx-state-focused.dx-step-invalid .dx-step-indicator{box-shadow:0 0 0 2px #fafbff,0 0 0 4px #c62424,0 0 0 8px #fafbff}

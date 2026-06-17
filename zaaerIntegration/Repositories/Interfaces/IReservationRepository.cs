@@ -67,6 +67,12 @@ namespace zaaerIntegration.Repositories.Interfaces
         Task<object> GetStatisticsAsync();
 
         /// <summary>
+        /// Gets the preferred reservation row for a Zaaer id (highest <see cref="Reservation.ReservationId"/>).
+        /// When multiple rows match, <paramref name="hasMultipleMatches"/> is true (non-unique zaaer_id data).
+        /// </summary>
+        Task<(Reservation? Reservation, bool HasMultipleMatches)> ResolveByZaaerIdAsync(int zaaerId, int? hotelId);
+
+        /// <summary>
         /// Get reservations with full details (includes all navigation properties)
         /// </summary>
         Task<Reservation?> GetWithDetailsAsync(int id);

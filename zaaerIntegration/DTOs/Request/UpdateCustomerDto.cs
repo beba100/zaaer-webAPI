@@ -44,6 +44,13 @@ namespace zaaerIntegration.DTOs.Request
 
         public DateTime? Birthday { get; set; }
         public DateTime? BirthdateGregorian { get; set; }
-        public DateTime? BirthdateHijri { get; set; }
+
+        [StringLength(50)]
+        public string? BirthdateHijri { get; set; }
+
+        /// <summary>
+        /// When set, replaces all identification rows for this customer (PMS full guest editor).
+        /// </summary>
+        public List<CustomerIdentificationDto>? Identifications { get; set; }
     }
 }

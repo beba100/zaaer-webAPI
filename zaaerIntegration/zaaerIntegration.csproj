@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
@@ -19,6 +20,33 @@
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="MimeKit" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="24.1.9" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="Zatca.EInvoice" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Reports\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Reporting\Fonts\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Database\ZatcaIntegration_Phase1.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\ZatcaIntegration_Phase1b_WidenDeviceTokens.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\AddHallEvents.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\AddCashLedger.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\SeedHallVenueSample.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\FixPropertyNullColumns.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\AddHallEventMasterSetup.sql" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Database\AddHotelReportsSetup.sql" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

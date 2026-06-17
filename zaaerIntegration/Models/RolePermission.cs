@@ -1,45 +1,37 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using zaaerIntegration.Utilities;
 
 namespace FinanceLedgerAPI.Models
 {
-	/// <summary>
-	/// جدول ربط الأدوار بالصلاحيات - RolePermissions junction table
-	/// </summary>
-	[Table("role_permissions")]
-	public class RolePermission
-	{
-		[Key]
-		[Column("role_permission_id")]
-		public int RolePermissionId { get; set; }
+    /// <summary>
+    /// Tenant-local mapping between roles and permissions.
+    /// </summary>
+    [Table("role_permissions")]
+    public class RolePermission
+    {
+        [Key]
+        [Column("role_permission_id")]
+        public int RolePermissionId { get; set; }
 
-		[Column("role_id")]
-		[Required]
-		public int RoleId { get; set; }
+        [Column("role_id")]
+        public int RoleId { get; set; }
 
-		[Column("permission_id")]
-		[Required]
-		public int PermissionId { get; set; }
+        [Column("permission_id")]
+        public int PermissionId { get; set; }
 
-		[Column("granted")]
-		[Required]
-		public bool Granted { get; set; } = true;
+        [Column("granted")]
+        public bool Granted { get; set; } = true;
 
-		[Column("created_at")]
-		[Required]
-		public DateTime CreatedAt { get; set; } = KsaTime.Now;
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; } = KsaTime.Now;
 
-		[Column("created_by")]
-		public int? CreatedBy { get; set; }
+        [Column("created_by")]
+        public int? CreatedBy { get; set; }
 
-		// Navigation properties
-		[ForeignKey("RoleId")]
-		public Role Role { get; set; } = null!;
+        [Column("zaaer_id")]
+        public int? ZaaerId { get; set; }
 
-		[ForeignKey("PermissionId")]
-		public Permission Permission { get; set; } = null!;
-
-		[ForeignKey("CreatedBy")]
-		public User? CreatedByUser { get; set; }
-	}
+        public Permission? Permission { get; set; }
+    }
 }

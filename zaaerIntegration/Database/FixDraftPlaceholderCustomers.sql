@@ -1,0 +1,1 @@
+-- Use MakeReservationCustomerIdNullable.sql (same folder) for tenant DB cleanup and schema change.

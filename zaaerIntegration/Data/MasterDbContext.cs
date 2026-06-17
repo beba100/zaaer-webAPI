@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using FinanceLedgerAPI.Models;
-using zaaerIntegration.Models.VoM;
 
 namespace zaaerIntegration.Data
 {
@@ -109,30 +108,6 @@ namespace zaaerIntegration.Data
         /// Master supplier / corporate companies.
         /// </summary>
         public DbSet<MasterCompany> Companies { get; set; }
-
-        // ================================================================
-        // VoM Integration DbSets
-        // ================================================================
-
-        /// <summary>
-        /// جدول دليل الحسابات من VoM (Chart of Accounts)
-        /// </summary>
-        public DbSet<ChartOfAccounts> ChartOfAccounts { get; set; }
-
-        /// <summary>
-        /// جدول مراكز التكلفة (Cost Centers) - مطابقة للفنادق
-        /// </summary>
-        public DbSet<CostCenter> CostCenters { get; set; }
-
-        /// <summary>
-        /// جدول الضرائب من VoM (VoM Taxes)
-        /// </summary>
-        public DbSet<zaaerIntegration.Models.VoM.Tax> VoMTaxes { get; set; }
-
-        /// <summary>
-        /// جدول أنواع الضرائب من VoM (VoM Tax Types)
-        /// </summary>
-        public DbSet<zaaerIntegration.Models.VoM.TaxType> VoMTaxTypes { get; set; }
 
         /// <summary>
         /// تكوين نموذج البيانات
@@ -354,127 +329,6 @@ namespace zaaerIntegration.Data
                     .HasFilter("[ExpenseCategoryId] IS NOT NULL");
             });
 
-            // ================================================================
-            // VoM Integration Table Configurations
-            // ================================================================
-
-            // تكوين جدول ChartOfAccounts
-            modelBuilder.Entity<ChartOfAccounts>(entity =>
-            {
-                entity.ToTable("ChartOfAccounts");
-                entity.HasKey(c => c.Id);
-                
-                // تكوين أسماء الأعمدة بشكل صريح
-                entity.Property(c => c.Id).HasColumnName("id");
-                entity.Property(c => c.NameAr).HasColumnName("name_ar").HasMaxLength(255);
-                entity.Property(c => c.NameEn).HasColumnName("name_en").HasMaxLength(255);
-                entity.Property(c => c.Code).HasColumnName("code").HasMaxLength(50);
-                entity.Property(c => c.AccountType).HasColumnName("account_type").HasMaxLength(50);
-                entity.Property(c => c.ParentId).HasColumnName("parent_id");
-                entity.Property(c => c.IsActive).HasColumnName("is_active").IsRequired();
-                entity.Property(c => c.CreatedAt).HasColumnName("created_at");
-                entity.Property(c => c.UpdatedAt).HasColumnName("updated_at");
-                entity.Property(c => c.DeletedAt).HasColumnName("deleted_at");
-                entity.Property(c => c.Level).HasColumnName("level");
-
-                // Index على Code للبحث السريع
-                entity.HasIndex(c => c.Code);
-
-                // Index على IsActive
-                entity.HasIndex(c => c.IsActive);
-
-                // Index على ParentId للتسلسل الهرمي
-                entity.HasIndex(c => c.ParentId);
-            });
-
-            // تكوين جدول CostCenters
-            modelBuilder.Entity<CostCenter>(entity =>
-            {
-                entity.ToTable("CostCenters");
-                entity.HasKey(c => c.Id);
-                
-                // تكوين أسماء الأعمدة بشكل صريح - فقط الأعمدة الموجودة في قاعدة البيانات
-                entity.Property(c => c.Id).HasColumnName("id");
-                entity.Property(c => c.HotelId).HasColumnName("hotel_id").IsRequired();
-                entity.Property(c => c.NameAr).HasColumnName("name_ar").IsRequired().HasMaxLength(255);
-                entity.Property(c => c.MainCenterId).HasColumnName("main_center_id");
-                entity.Property(c => c.AccountId).HasColumnName("AccountId"); // PascalCase في قاعدة البيانات
-                entity.Property(c => c.IsActive).HasColumnName("is_active").IsRequired();
-                entity.Property(c => c.CreatedAt).HasColumnName("created_at");
-                
-                // الأعمدة التالية غير موجودة في قاعدة البيانات - لا يتم تكوينها
-                // NameEn, VoMCostCenterId, UpdatedAt, Notes
-
-                // Index على HotelId للبحث السريع
-                entity.HasIndex(c => c.HotelId);
-
-                // Index على IsActive
-                entity.HasIndex(c => c.IsActive);
-
-                // Unique constraint على HotelId للفنادق النشطة (فندق واحد = مركز تكلفة واحد نشط)
-                entity.HasIndex(c => new { c.HotelId, c.IsActive })
-                    .HasFilter("[is_active] = 1")
-                    .IsUnique();
-            });
-
-            // تكوين جدول VoM Taxes
-            modelBuilder.Entity<zaaerIntegration.Models.VoM.Tax>(entity =>
-            {
-                entity.ToTable("TaxesChart");
-                entity.HasKey(t => t.Id);
-
-                // تكوين أسماء الأعمدة بشكل صريح
-                entity.Property(t => t.Id).HasColumnName("id");
-                entity.Property(t => t.NameAr).HasColumnName("name_ar").HasMaxLength(200).IsRequired();
-                entity.Property(t => t.NameEn).HasColumnName("name_en").HasMaxLength(200).IsRequired();
-                entity.Property(t => t.Percentage).HasColumnName("percentage").HasColumnType("decimal(5,2)").IsRequired();
-                entity.Property(t => t.IsDefault).HasColumnName("is_default");
-                entity.Property(t => t.AccountId).HasColumnName("account_id").IsRequired();
-                entity.Property(t => t.TypeId).HasColumnName("type_id").IsRequired();
-                entity.Property(t => t.ZatcaTaxType).HasColumnName("zatca_tax_type").HasMaxLength(50);
-                entity.Property(t => t.ZatcaExemptionReason).HasColumnName("zatca_exemption_reason").HasMaxLength(200);
-                entity.Property(t => t.Description).HasColumnName("description");
-                entity.Property(t => t.IsActive).HasColumnName("is_active").IsRequired();
-                entity.Property(t => t.CreatedAt).HasColumnName("created_at");
-                entity.Property(t => t.UpdatedAt).HasColumnName("updated_at");
-                entity.Property(t => t.DeletedAt).HasColumnName("deleted_at");
-
-                // Index على AccountId للبحث السريع
-                entity.HasIndex(t => t.AccountId);
-
-                // Index على TypeId للبحث السريع
-                entity.HasIndex(t => t.TypeId);
-
-                // Index على IsActive
-                entity.HasIndex(t => t.IsActive);
-            });
-
-            // تكوين جدول VoM TaxTypes
-            modelBuilder.Entity<zaaerIntegration.Models.VoM.TaxType>(entity =>
-            {
-                entity.ToTable("TaxTypes");
-                entity.HasKey(tt => tt.Id);
-
-                // تكوين أسماء الأعمدة بشكل صريح
-                entity.Property(tt => tt.Id).HasColumnName("id");
-                entity.Property(tt => tt.NameAr).HasColumnName("name_ar").HasMaxLength(100).IsRequired();
-                entity.Property(tt => tt.NameEn).HasColumnName("name_en").HasMaxLength(100).IsRequired();
-                entity.Property(tt => tt.CreatedAt).HasColumnName("created_at");
-                entity.Property(tt => tt.UpdatedAt).HasColumnName("updated_at");
-            });
-
-            // تكوين العلاقات بين VoM Tax و TaxType و ChartOfAccounts
-            modelBuilder.Entity<zaaerIntegration.Models.VoM.Tax>()
-                .HasOne(t => t.Account)
-                .WithMany() // ChartOfAccounts doesn't have navigation to Taxes
-                .HasForeignKey(t => t.AccountId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<zaaerIntegration.Models.VoM.Tax>()
-                .HasOne(t => t.TaxType)
-                .WithMany(tt => tt.Taxes)
-                .HasForeignKey(t => t.TypeId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private static void ConfigureRbacModel(ModelBuilder modelBuilder)

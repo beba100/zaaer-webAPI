@@ -35,13 +35,11 @@ namespace FinanceLedgerAPI.Models
 		[Column("discount_code")]
 		public string? DiscountCode { get; set; }
 
-		[Required]
-		[MaxLength(100)]
-		[Column("discount_name")]
+		/// <summary>Not in tenant <c>discounts</c> schema; reason text is stored in <see cref="Description"/>.</summary>
+		[NotMapped]
 		public string DiscountName { get; set; } = string.Empty;
 
-		[MaxLength(100)]
-		[Column("discount_name_ar")]
+		[NotMapped]
 		public string? DiscountNameAr { get; set; }
 
 		[MaxLength(500)]
@@ -94,8 +92,7 @@ namespace FinanceLedgerAPI.Models
 		[Column("updated_at")]
 		public DateTime? UpdatedAt { get; set; }
 
-		[MaxLength(1000)]
-		[Column("notes")]
+		[NotMapped]
 		public string? Notes { get; set; }
 
 		// Navigation Properties

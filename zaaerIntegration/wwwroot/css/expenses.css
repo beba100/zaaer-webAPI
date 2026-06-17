@@ -1,0 +1,671 @@
+body.pms-ui .expense-form-popup .dx-popup-bottom .dx-toolbar {
+    padding: 10px 14px 14px;
+}
+
+body.pms-ui .expense-form-popup .dx-closebutton {
+    display: inline-flex !important;
+}
+
+body.pms-ui .expense-form-popup .dx-popup-content {
+    border-radius: var(--pms-radius-popup, 16px);
+    box-shadow: var(--pms-shadow-lg);
+    overflow-x: hidden;
+}
+
+body.pms-ui .expense-form-popup .dx-popup-content .dx-form {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    background: transparent;
+    min-width: 0;
+}
+
+body.pms-ui .expense-form-popup .dx-layout-manager .dx-box-flex,
+body.pms-ui .expense-form-popup .dx-field-item,
+body.pms-ui .expense-form-popup .dx-field-item-content,
+body.pms-ui .expense-form-popup .dx-field-item-content-wrapper {
+    min-width: 0;
+    max-width: 100%;
+}
+
+body.pms-ui .expense-form-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border-radius: var(--pms-radius-form, 12px);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body.pms-ui .expense-form-shell > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+body.pms-ui .expense-form-panel {
+    padding: 12px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+body.pms-ui .expense-form-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+body.pms-ui .expense-form-panel-title {
+    margin: 0;
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: #334155;
+    flex: 1 1 auto;
+}
+
+body.pms-ui .expense-form-panel-head .expense-form-panel-title {
+    margin-bottom: 0;
+}
+
+body.pms-ui .expense-uploader-host {
+    flex: 0 0 auto;
+}
+
+body.pms-ui .expense-uploader-host .dx-fileuploader-wrapper {
+    padding: 0;
+}
+
+body.pms-ui .expense-uploader-host .dx-fileuploader-input-wrapper {
+    padding: 0;
+    border: none;
+}
+
+body.pms-ui .expense-uploader-host .dx-fileuploader-input-container {
+    display: flex;
+    align-items: center;
+}
+
+body.pms-ui .expense-images-existing:not(:empty) {
+    margin-top: 2px;
+}
+
+body.pms-ui .expense-tax-readonly {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+body.pms-ui .expense-tax-readonly .expense-kv {
+    padding: 8px 10px;
+    background: var(--pms-panel-bg, #f6f7f9);
+    border-radius: 8px;
+    font-size: var(--pms-text-sm, 13px);
+}
+
+body.pms-ui .expense-tax-readonly .expense-kv strong {
+    display: block;
+    font-size: var(--pms-text-xs, 12px);
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+body.pms-ui .expense-images-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+body.pms-ui .expense-image-thumb {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--pms-border, #d9dee7);
+    background: #fff;
+}
+
+body.pms-ui .expense-image-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+body.pms-ui .expense-image-thumb .expense-image-remove {
+    position: absolute;
+    top: 2px;
+    inset-inline-end: 2px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.72);
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+}
+
+body.pms-ui .expense-image-thumb .expense-image-zoom {
+    position: absolute;
+    bottom: 2px;
+    inset-inline-start: 2px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--pms-primary, #3f6f9f);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18);
+}
+
+body.pms-ui .expense-image-thumb .expense-image-zoom .dx-icon {
+    font-size: 13px;
+}
+
+body.pms-ui .expense-image-preview-shell {
+    padding: 12px;
+    text-align: center;
+    background: #0f172a;
+    border-radius: var(--pms-radius-form, 12px);
+}
+
+body.pms-ui .expense-image-preview-img {
+    max-width: 100%;
+    max-height: min(68vh, 720px);
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+body.pms-ui .expense-no-cell {
+    display: inline-flex;
+    flex-direction: row;
+    direction: rtl;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    width: 100%;
+    unicode-bidi: isolate;
+}
+
+body.pms-ui .expense-no-cell__no {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+}
+
+body.pms-ui .expense-no-cell__history {
+    flex: 0 0 auto;
+}
+
+body.pms-ui .expense-no-cell__history .dx-button {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+}
+
+body.pms-ui .dx-datagrid .expenses-col-comment {
+    white-space: normal !important;
+    vertical-align: top;
+}
+
+body.pms-ui .dx-datagrid .expenses-col-category,
+body.pms-ui .dx-datagrid .expenses-col-status {
+    white-space: normal !important;
+    vertical-align: top;
+}
+
+body.pms-ui #expensesGrid .dx-datagrid-rowsview .dx-data-row > td {
+    font-size: 10px !important;
+    line-height: 1.35;
+}
+
+body.pms-ui #expensesGrid .dx-datagrid-rowsview .dx-data-row > td .dx-button .dx-icon {
+    font-size: 14px;
+}
+
+body.pms-ui #expensesGrid .expense-status-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+}
+
+body.pms-ui .expenses-grid-category-cell {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+    font-size: 10px;
+    max-width: 100%;
+}
+
+body.pms-ui .expenses-grid-comment-cell {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+    font-size: 10px;
+    max-width: 100%;
+    cursor: help;
+}
+
+body.pms-ui .expense-approval-popup-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body.pms-ui .expense-approval-popup-no {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: var(--pms-primary, #3f6f9f);
+}
+
+body.pms-ui .expense-approval-history-shell {
+    padding: 12px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border-radius: var(--pms-radius-form, 12px);
+}
+
+body.pms-ui .expense-approval-step {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+body.pms-ui .expense-approval-step-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+body.pms-ui .expense-approval-step-action {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 700;
+    color: #0f172a;
+}
+
+body.pms-ui .expense-approval-step-date {
+    font-size: var(--pms-text-xs, 12px);
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+body.pms-ui .expense-approval-step-by {
+    font-size: var(--pms-text-xs, 12px);
+    color: #475569;
+}
+
+body.pms-ui .expense-approval-step-comments {
+    font-size: var(--pms-text-sm, 13px);
+    color: #334155;
+    line-height: 1.45;
+}
+
+body.pms-ui .expense-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #e2e8f0;
+    color: #334155;
+}
+
+body.pms-ui .expense-status-badge--accepted,
+body.pms-ui .expense-status-badge--auto-approved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+body.pms-ui .expense-status-badge--pending {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+body.pms-ui .expense-status-badge--rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+body.pms-ui .expenses-filter-bar.pms-admin-card {
+    flex: 0 0 auto;
+    padding: 10px 12px;
+    margin-bottom: 0;
+}
+
+body.pms-ui .expenses-filter-bar__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+body.pms-ui .expenses-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+body.pms-ui .expenses-filter-field {
+    width: 152px;
+    flex: 0 0 152px;
+}
+
+body.pms-ui .expenses-filter-field .dx-datebox,
+body.pms-ui .expenses-filter-field .dx-texteditor {
+    width: 100%;
+}
+
+body.pms-ui .expenses-filter-action {
+    flex: 0 0 auto;
+    padding-bottom: 1px;
+}
+
+body.pms-ui .expenses-filter-action .dx-button {
+    min-width: 88px;
+    height: 36px;
+}
+
+body.pms-ui .expenses-summary-strip {
+    display: flex;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px 14px;
+    padding: 8px 12px;
+    background: var(--pms-panel-bg, #f6f7f9);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+body.pms-ui .expenses-summary-card {
+    flex: 0 0 auto;
+    padding: 0;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    white-space: nowrap;
+}
+
+body.pms-ui .expenses-summary-card:not(:last-child)::after {
+    content: "";
+    width: 1px;
+    height: 14px;
+    margin-inline-start: 8px;
+    background: #cbd5e1;
+    align-self: center;
+}
+
+body.pms-ui .expenses-summary-card--count strong {
+    color: #64748b;
+}
+
+body.pms-ui .expenses-summary-label {
+    font-size: var(--pms-text-sm, 13px);
+    line-height: 1.2;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+}
+
+body.pms-ui .expenses-summary-card strong {
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #0f172a;
+    font-variant-numeric: tabular-nums;
+}
+
+body.pms-ui .expenses-summary-card--total strong,
+body.pms-ui .expenses-summary-card-total-strong {
+    font-size: var(--pms-text-lg, 16px);
+    color: var(--pms-primary, #3f6f9f);
+    font-weight: 700;
+}
+
+body.pms-ui .expenses-summary-total-value {
+    display: inline-flex;
+    flex-direction: row-reverse !important;
+    align-items: center;
+    gap: 5px;
+    direction: ltr !important;
+    unicode-bidi: isolate;
+}
+
+body.pms-ui .expenses-summary-total-value #expensesSummaryTotalAmount {
+    flex: 0 0 auto;
+}
+
+body.pms-ui .expenses-summary-currency {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+}
+
+body.pms-ui .expenses-summary-sar-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    opacity: 0.78;
+}
+
+body.pms-ui .expenses-summary-currency-code {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+body.pms-ui .expenses-summary-total-amount,
+body.pms-ui .expenses-summary-total-value > span {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+}
+
+body.pms-ui .expense-form-tax-block {
+    padding: 10px 12px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+body.pms-ui .expense-form-company-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+body.pms-ui .expense-company-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+body.pms-ui .expense-company-field--tax {
+    position: relative;
+}
+
+body.pms-ui .expense-tax-lookup-indicator {
+    position: absolute;
+    inset-inline-end: 8px;
+    bottom: 10px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+body.pms-ui .expense-company-field--lookup .expense-company-input .dx-texteditor-input {
+    padding-inline-end: 34px;
+}
+
+body.pms-ui .expense-company-input .dx-texteditor,
+body.pms-ui .expense-company-input-row .expense-company-input .dx-texteditor {
+    width: 100%;
+}
+
+body.pms-ui .expense-company-input .dx-texteditor-input,
+body.pms-ui .expense-company-input-row .expense-company-input .dx-texteditor-input {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 1.35;
+    min-height: 20px;
+}
+
+body.pms-ui .expense-company-input .dx-texteditor-container,
+body.pms-ui .expense-company-input-row .expense-company-input .dx-texteditor-container {
+    align-items: center;
+}
+
+body.pms-ui .expense-inline-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: var(--pms-text-xs, 12px);
+    font-weight: 600;
+    color: #475569;
+}
+
+body.pms-ui .expense-company-input-row {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+}
+
+body.pms-ui .expense-company-input-row > .dx-textbox {
+    flex: 1;
+}
+
+body.pms-ui .expense-form-hint {
+    margin: 0 0 8px;
+    font-size: var(--pms-text-xs, 12px);
+    color: #64748b;
+}
+
+body.pms-ui .expense-image-link {
+    color: var(--pms-primary, #3f6f9f);
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body.pms-ui .expense-image-link:hover {
+    text-decoration: underline;
+}
+
+body.pms-ui .expense-company-picker-search {
+    margin-bottom: 10px;
+}
+
+body.pms-ui .expense-company-picker-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+body.pms-ui .expense-company-picker-toolbar__search {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+body.pms-ui .expense-company-picker-toolbar__add {
+    flex: 0 0 auto;
+}
+
+body.pms-ui .expense-company-form-shell {
+    padding: 14px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border-radius: var(--pms-radius-form, 12px);
+}
+
+@media (max-width: 720px) {
+    body.pms-ui .expense-tax-readonly {
+        grid-template-columns: 1fr;
+    }
+
+    body.pms-ui .expense-form-company-row {
+        grid-template-columns: 1fr;
+    }
+
+    body.pms-ui .expenses-filter-bar__row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    body.pms-ui .expenses-filter-group {
+        width: 100%;
+    }
+
+    body.pms-ui .expenses-filter-field {
+        flex: 1 1 calc(50% - 4px);
+        width: auto;
+        min-width: 130px;
+    }
+
+    body.pms-ui .expenses-filter-action {
+        width: 100%;
+    }
+
+    body.pms-ui .expenses-filter-action .dx-button {
+        width: 100%;
+    }
+
+    body.pms-ui .expenses-summary-strip {
+        flex: 1 1 100%;
+        gap: 8px 10px;
+    }
+
+    body.pms-ui .expenses-summary-card:not(:last-child)::after {
+        display: none;
+    }
+}

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FinanceLedgerAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using zaaerIntegration.Models;
 using zaaerIntegration.Repositories.Interfaces;
@@ -50,10 +51,18 @@ namespace zaaerIntegration.Services.Implementations
 				throw new ArgumentNullException(nameof(receipt));
 			}
 
-			// Ignore ledger when no customer is associated (e.g. pure expense)
-			if (receipt.CustomerId == 0)
+			// Ignore ledger when no customer is associated (e.g. pure expense, walk-in orders)
+			if (!receipt.CustomerId.HasValue || receipt.CustomerId.Value == 0)
 			{
-				_logger.LogDebug("Skipping ledger sync for receipt {ReceiptId} because customer_id is 0", receipt.ReceiptId);
+				_logger.LogDebug("Skipping ledger sync for receipt {ReceiptId} because customer_id is null or 0", receipt.ReceiptId);
+				return;
+			}
+
+			// Ignore ledger when no reservation is associated
+			// أي سند لا يوجد له reservation_id أو كانت قيمته null لا يُضاف إلى الجداول
+			if (!receipt.ReservationId.HasValue || receipt.ReservationId.Value == 0)
+			{
+				_logger.LogDebug("Skipping ledger sync for receipt {ReceiptId} because reservation_id is null or 0", receipt.ReceiptId);
 				return;
 			}
 
@@ -61,7 +70,7 @@ namespace zaaerIntegration.Services.Implementations
 			var reservationKeys = ResolveReservationKeys(matchedReservation?.ReservationId, matchedReservation?.ZaaerId, receipt.ReservationId);
 
 			var account = await GetOrCreateAccountAsync(
-				receipt.CustomerId,
+				receipt.CustomerId.Value,
 				receipt.HotelId,
 				reservationKeys,
 				matchedReservation?.ZaaerId,
@@ -81,7 +90,7 @@ namespace zaaerIntegration.Services.Implementations
 				transaction = new CustomerTransaction
 				{
 					AccountId = account.AccountId,
-					CustomerId = receipt.CustomerId,
+					CustomerId = receipt.CustomerId.Value, // Already checked for null above
 					ReservationId = reservationKeys.LedgerReservationId,
 					HotelId = receipt.HotelId,
 					PaymentReceiptId = receipt.ReceiptId,
@@ -107,7 +116,7 @@ namespace zaaerIntegration.Services.Implementations
 			}
 			else
 			{
-				transaction.CustomerId = receipt.CustomerId;
+				transaction.CustomerId = receipt.CustomerId.Value; // Already checked for null above
 				transaction.ReservationId = reservationKeys.LedgerReservationId;
 				transaction.HotelId = receipt.HotelId;
 				transaction.ReceiptNo = receipt.ReceiptNo;
@@ -131,6 +140,98 @@ namespace zaaerIntegration.Services.Implementations
 
 			await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
 			await RecalculateAccountAsync(account.AccountId, cancellationToken).ConfigureAwait(false);
+			
+			// Update reservation amount_paid and balance_amount from customer_accounts
+			// تحديث amount_paid و balance_amount في reservations من customer_accounts
+			if (receipt.ReservationId.HasValue && receipt.ReservationId.Value > 0)
+			{
+				await UpdateReservationFromAccountAsync(account, receipt.ReservationId.Value, cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		/// <summary>
+		/// Update reservation amount_paid and balance_amount from customer_accounts
+		/// تحديث amount_paid و balance_amount في reservations من customer_accounts
+		/// 
+		/// Performance Optimized: Uses FindSingleAsync for efficient database queries
+		/// Optimistic Concurrency: Checks values before update to prevent race conditions
+		/// </summary>
+		private async Task UpdateReservationFromAccountAsync(CustomerAccount account, int reservationId, CancellationToken cancellationToken)
+		{
+			try
+			{
+				// Performance Optimization: Try by zaaer_id first (most common case)
+				// تحسين الأداء: البحث أولاً بـ zaaer_id (الحالة الأكثر شيوعاً)
+				var reservation = await _unitOfWork.Reservations
+					.FindSingleAsync(r => r.ZaaerId == reservationId)
+					.ConfigureAwait(false);
+
+				// Fallback to reservation_id if not found by zaaer_id
+				// البحث بـ reservation_id إذا لم يتم العثور عليه بـ zaaer_id
+				if (reservation == null)
+				{
+					reservation = await _unitOfWork.Reservations
+						.FindSingleAsync(r => r.ReservationId == reservationId)
+						.ConfigureAwait(false);
+				}
+
+				if (reservation == null)
+				{
+					_logger.LogDebug("Reservation with ID {ReservationId} not found. Skipping reservation update from account.", reservationId);
+					return;
+				}
+
+				// Calculate new values
+				// حساب القيم الجديدة
+				var newAmountPaid = account.TotalCredit;
+				var totalAmount = reservation.TotalAmount ?? reservation.Subtotal ?? 0.00M;
+				var newBalanceAmount = totalAmount - account.TotalCredit;
+
+				// Optimistic Concurrency: Check if values actually changed
+				// Concurrency المتفائلة: التحقق من تغيير القيم فعلياً
+				var amountPaidChanged = reservation.AmountPaid == null || 
+					Math.Abs(reservation.AmountPaid.Value - newAmountPaid) > 0.01M;
+				var balanceAmountChanged = reservation.BalanceAmount == null || 
+					Math.Abs(reservation.BalanceAmount.Value - newBalanceAmount) > 0.01M;
+
+				// Only update if there are actual changes (optimistic concurrency check)
+				// تحديث فقط إذا كانت هناك تغييرات فعلية (فحص concurrency المتفائلة)
+				if (!amountPaidChanged && !balanceAmountChanged)
+				{
+					_logger.LogDebug("Reservation {ReservationId} values unchanged. Skipping update.", reservation.ReservationId);
+					return;
+				}
+
+				// Update amount_paid from total_credit (sum of all receipts/credits)
+				// تحديث amount_paid من total_credit (مجموع جميع الإيصالات/الإيداعات)
+				reservation.AmountPaid = newAmountPaid;
+
+				// Calculate balance_amount = TotalAmount - AmountPaid
+				// حساب balance_amount = TotalAmount - AmountPaid
+				reservation.BalanceAmount = newBalanceAmount;
+
+				// Save changes (EF Core will handle optimistic concurrency if row_version exists)
+				// حفظ التغييرات (EF Core سيتعامل مع optimistic concurrency إذا كان row_version موجوداً)
+				await _unitOfWork.Reservations.UpdateAsync(reservation).ConfigureAwait(false);
+				await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+
+				_logger.LogDebug("Updated reservation {ReservationId}: AmountPaid={AmountPaid:N2}, BalanceAmount={BalanceAmount:N2} from account {AccountId}",
+					reservation.ReservationId, reservation.AmountPaid, reservation.BalanceAmount, account.AccountId);
+			}
+			catch (DbUpdateConcurrencyException ex)
+			{
+				// Handle optimistic concurrency conflict (if row_version is added later)
+				// معالجة تعارض optimistic concurrency (إذا تم إضافة row_version لاحقاً)
+				_logger.LogWarning(ex, "Concurrency conflict while updating reservation {ReservationId} from account {AccountId}. Reservation was modified by another process.",
+					reservationId, account.AccountId);
+			}
+			catch (Exception ex)
+			{
+				// Log error but don't throw - reservation update is best-effort
+				// تسجيل الخطأ ولكن عدم إلقاء استثناء - تحديث الحجز هو best-effort
+				_logger.LogWarning(ex, "Failed to update reservation {ReservationId} from account {AccountId}. Error: {ErrorMessage}",
+					reservationId, account.AccountId, ex.Message);
+			}
 		}
 
 		public async Task CancelReceiptAsync(PaymentReceipt receipt, CancellationToken cancellationToken = default)
@@ -156,6 +257,17 @@ namespace zaaerIntegration.Services.Implementations
 			await _unitOfWork.SaveChangesAsync().ConfigureAwait(false);
 
 			await RecalculateAccountAsync(transaction.AccountId, cancellationToken).ConfigureAwait(false);
+			
+			// Update reservation amount_paid and balance_amount from customer_accounts after cancellation
+			// تحديث amount_paid و balance_amount في reservations من customer_accounts بعد الإلغاء
+			if (receipt.ReservationId.HasValue && receipt.ReservationId.Value > 0)
+			{
+				var account = await _unitOfWork.CustomerAccounts.GetByIdAsync(transaction.AccountId).ConfigureAwait(false);
+				if (account != null)
+				{
+					await UpdateReservationFromAccountAsync(account, receipt.ReservationId.Value, cancellationToken).ConfigureAwait(false);
+				}
+			}
 		}
 
 		public async Task SyncReservationAsync(Reservation reservation, CancellationToken cancellationToken = default)
@@ -165,9 +277,19 @@ namespace zaaerIntegration.Services.Implementations
 				throw new ArgumentNullException(nameof(reservation));
 			}
 
-			if (reservation.CustomerId == 0)
+			// Ignore ledger when no customer is associated
+			// أي حجز لا يوجد له customer_id أو كانت قيمته 0 لا يُضاف إلى الجداول
+			if (!reservation.CustomerId.HasValue || reservation.CustomerId.Value == 0)
 			{
-				_logger.LogDebug("Skipping reservation ledger sync because customer_id is 0. ReservationId={ReservationId}", reservation.ReservationId);
+				_logger.LogDebug("Skipping reservation ledger sync because customer_id is missing. ReservationId={ReservationId}", reservation.ReservationId);
+				return;
+			}
+
+			// Ignore ledger when no reservation_id is associated
+			// أي حجز لا يوجد له reservation_id أو كانت قيمته 0 لا يُضاف إلى الجداول
+			if (reservation.ReservationId == 0)
+			{
+				_logger.LogDebug("Skipping reservation ledger sync because reservation_id is 0. ReservationId={ReservationId}", reservation.ReservationId);
 				return;
 			}
 
@@ -180,13 +302,13 @@ namespace zaaerIntegration.Services.Implementations
 
 			var transactionDate = reservation.ReservationDate == default ? KsaTime.Now : reservation.ReservationDate;
 			var reservationKeys = ResolveReservationKeys(reservation.ReservationId, reservation.ZaaerId, null);
-			var lockKey = BuildReservationLockKey(reservation.CustomerId, reservation.HotelId, reservationKeys);
+			var lockKey = BuildReservationLockKey(reservation.CustomerId!.Value, reservation.HotelId, reservationKeys);
 			var reservationLock = await AcquireReservationLockAsync(lockKey, cancellationToken).ConfigureAwait(false);
 
 			try
 			{
 			var account = await GetOrCreateAccountAsync(
-				reservation.CustomerId,
+				reservation.CustomerId!.Value,
 				reservation.HotelId,
 				reservationKeys,
 				reservation.ZaaerId,
@@ -203,7 +325,7 @@ namespace zaaerIntegration.Services.Implementations
 				transaction = new CustomerTransaction
 				{
 					AccountId = account.AccountId,
-					CustomerId = reservation.CustomerId,
+					CustomerId = reservation.CustomerId!.Value,
 					ReservationId = reservationKeys.LedgerReservationId,
 					HotelId = reservation.HotelId,
 					TransactionDate = transactionDate,
@@ -239,6 +361,13 @@ namespace zaaerIntegration.Services.Implementations
 				}
 
 			await RecalculateAccountAsync(account.AccountId, cancellationToken).ConfigureAwait(false);
+			
+			// Update reservation amount_paid and balance_amount from customer_accounts
+			// تحديث amount_paid و balance_amount في reservations من customer_accounts
+			if (reservationKeys.LedgerReservationId.HasValue && reservationKeys.LedgerReservationId.Value > 0)
+			{
+				await UpdateReservationFromAccountAsync(account, reservationKeys.LedgerReservationId.Value, cancellationToken).ConfigureAwait(false);
+			}
 			}
 			finally
 			{
@@ -445,8 +574,12 @@ namespace zaaerIntegration.Services.Implementations
 				return false;
 			}
 
+			// Exclude security deposits and bank transfers from balance calculation
+			// استثناء التأمينات والتحويلات البنكية من حساب الرصيد
 			return string.Equals(transaction.VoucherCode, "security_deposit", StringComparison.OrdinalIgnoreCase)
-				|| string.Equals(transaction.VoucherCode, "security_deposit_refund", StringComparison.OrdinalIgnoreCase);
+				|| string.Equals(transaction.VoucherCode, "security_deposit_refund", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(transaction.VoucherCode, "transfers_to_bank", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(transaction.VoucherCode, "transfer_bank_balance", StringComparison.OrdinalIgnoreCase);
 		}
 
 		private async Task RecalculateAccountAsync(int accountId, CancellationToken cancellationToken)

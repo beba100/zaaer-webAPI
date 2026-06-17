@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Board</title>
+    <link rel="stylesheet" href="/Lib/css/dx.common.css">
+    <link data-theme="material.teal.light.compact" rel="dx-theme" href="/Lib/css/dx.material.teal.light.compact.css">
+    <script src="/js/core/pms-dx-theme-boot.js?v=20260609materiallight1"></script>
+    <link rel="stylesheet" href="/css/room-board.css?v=20260616navCompact4">
+    <link rel="stylesheet" href="/css/room-board-rack.css?v=20260609overstay1">
+    <link rel="stylesheet" href="/css/pms-theme.css?v=20260606themes2">
+    <link rel="stylesheet" href="/css/pms-grid-compact.css?v=20260530g">
+    <link rel="stylesheet" href="/css/resort-tickets.css?v=20260610g">
+    <link rel="stylesheet" href="/css/room-board-room-features.css?v=20260526e">
+</head>
+<body class="pms-ui">
+    <main class="room-board-shell">
+        <aside class="room-board-sidebar" id="roomBoardSidebar" aria-label="PMS navigation">
+            <div class="room-board-brand">
+                <span class="dx-icon dx-icon-home"></span>
+                <div>
+                    <strong>Aleairy PMS</strong>
+                    <small>Enterprise Edition</small>
+                </div>
+            </div>
+            <div id="roomBoardNavTree" class="room-board-nav-tree"></div>
+            <div class="room-board-hotel-card">
+                <span class="dx-icon dx-icon-home"></span>
+                <div>
+                    <strong>Aleairy PMS</strong>
+                    <small id="businessDateText"></small>
+                </div>
+            </div>
+        </aside>
+
+        <section class="room-board-workspace">
+            <div class="room-board-sticky-top">
+            <header class="room-board-header">
+                <div class="room-board-breadcrumb">
+                    <button type="button" class="room-board-nav-toggle" id="roomBoardNavToggle" aria-expanded="true" aria-controls="roomBoardSidebar">
+                        <span class="dx-icon dx-icon-menu" aria-hidden="true"></span>
+                        <span data-i18n="roomBoard.dashboard"></span>
+                    </button>
+                    <span class="dx-icon dx-icon-chevronright room-board-bc-sep" aria-hidden="true"></span>
+                    <div id="pmsHeaderHotelPicker" class="pms-header-hotel-picker pms-header-hotel-picker--breadcrumb"></div>
+                </div>
+                <div class="room-board-top-actions">
+                    <div id="refreshButton"></div>
+                    <div id="userAccountMenu" class="pms-user-account-menu"></div>
+                </div>
+            </header>
+
+            <section id="roomBoardSummary" class="room-board-summary" aria-label="Room status summary"></section>
+            </div>
+
+            <section class="room-board-main" id="roomBoardMain">
+                <button
+                    type="button"
+                    class="room-board-filter-toggle"
+                    id="roomBoardFilterToggle"
+                    aria-expanded="false"
+                    aria-controls="roomBoardFilterCard">
+                    <span class="dx-icon dx-icon-filter" aria-hidden="true"></span>
+                    <span data-i18n="roomBoard.filters"></span>
+                </button>
+                <aside class="room-board-filter-card" id="roomBoardFilterCard">
+                    <div class="room-board-view-title" data-i18n="roomBoard.view"></div>
+                    <div id="viewModeSwitch"></div>
+                    <div class="room-board-filter-title" data-i18n="roomBoard.filters"></div>
+                    <div class="room-board-filter-search-row">
+                        <div id="searchFilter" class="room-board-filter-search"></div>
+                        <div id="searchFilterBtn" class="room-board-filter-search-btn" aria-label="Search"></div>
+                    </div>
+                    <div id="hotelCodeFilterRow" class="room-board-filter-hotel-row">
+                        <div id="hotelCodeFilter"></div>
+                    </div>
+                    <div id="dateFilter"></div>
+                    <div id="buildingFilter"></div>
+                    <div id="floorFilter"></div>
+                    <div id="roomTypeFilter"></div>
+                    <div id="statusFilter"></div>
+                    <div id="rentalTypeFilter"></div>
+                    <div id="guestColorFilter"></div>
+                </aside>
+
+                <section class="room-board-content">
+                    <div class="room-board-content-toolbar">
+                        <strong data-i18n="roomBoard.roomManagement"></strong>
+                        <div class="room-board-actions"></div>
+                    </div>
+                    <div id="cardsPanel" class="room-board-panel"></div>
+                    <div id="rackPanel" class="room-board-panel" hidden></div>
+                    <div id="gridPanel" class="room-board-panel" hidden></div>
+                    <div id="calendarPanel" class="room-board-panel" hidden></div>
+                </section>
+            </section>
+
+            <div id="roomBoardLoadPanel"></div>
+            <div id="numberingSettingsPopup"></div>
+        </section>
+    </main>
+
+    <script src="/Lib/js/jquery.min.js"></script>
+    <script src="/Lib/js/dx.all.js"></script>
+    <script src="/js/core/devextreme-license.js"></script>
+    <script src="/Lib/js/localization/dx.messages.en.js"></script>
+    <script src="/Lib/js/localization/dx.messages.ar.js"></script>
+    <script src="/js/i18n/en.js?v=20260609maintreason1"></script>
+    <script src="/js/i18n/ar.js?v=20260609maintreason1"></script>
+    <script src="/js/core/room-type-labels.js"></script>
+    <script src="/js/core/localization-service.js"></script>
+    <script src="/js/core/pms-grid-options.js?v=20260530g"></script>
+    <script src="/js/core/api-service.js?v=20260614navmenuStrict"></script>
+    <script src="/js/core/pms-rbac-policy.js?v=20260520j"></script>
+    <script src="/js/core/pms-rbac-nav.js?v=20260614navmenuStrict"></script>
+    <script src="/js/core/pms-theme-switcher.js?v=20260609materiallight1"></script>
+    <script src="/js/core/pms-top-chrome.js?v=20260606themes2"></script>
+    <script src="/js/core/pms-admin-shell.js?v=20260616navCompact4"></script>
+    <script src="/js/core/pms-hotel-lookup.js"></script>
+    <script src="/js/core/pms-save-guard.js"></script>
+    <script src="/js/services/property-settings-service.js"></script>
+    <script src="/js/services/room-board-service.js"></script>
+    <script src="/js/services/reservation-detail-service.js"></script>
+    <script src="/js/services/resort-ticket-service.js?v=20260610c"></script>
+    <script src="/js/services/hall-events-service.js?v=20260612hall1"></script>
+    <script src="/js/components/room-maintenance-board-popup.js?v=20260609maintdupfix1"></script>
+    <script src="/js/components/room-board-room-features.js?v=20260526e"></script>
+    <script src="/js/core/pms-pricing-tax.js?v=20260530a"></script>
+    <script src="/js/components/resort-ticket-sales-panel.js?v=20260610cancel1"></script>
+    <script src="/js/components/room-resort-ticket-popup.js?v=20260610b"></script>
+    <script src="/js/components/room-card-view.js?v=20260609maintfix1"></script>
+    <script src="/js/components/room-board-rack-view.js?v=20260609rack3"></script>
+    <script src="/js/components/room-board-grid.js?v=20260602colorfilter"></script>
+    <script src="/js/components/room-board-scheduler.js?v=20260602p"></script>
+    <script src="/js/pages/room-board.js?v=20260614navKeepOpen1"></script>
+</body>
+</html>
+
+
+

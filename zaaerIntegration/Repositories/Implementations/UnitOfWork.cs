@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage;
 using FinanceLedgerAPI.Models;
 using zaaerIntegration.Data;
 using zaaerIntegration.Repositories.Interfaces;
@@ -36,6 +36,7 @@ namespace zaaerIntegration.Repositories.Implementations
         public IGenericRepository<RoomType> RoomTypes { get; private set; }
         public IGenericRepository<Invoice> Invoices { get; private set; }
         public IGenericRepository<PaymentReceipt> PaymentReceipts { get; private set; }
+        public IGenericRepository<InvoiceReceiptMapping> InvoiceReceiptMappings { get; private set; }
         public IGenericRepository<CorporateCustomer> CorporateCustomers { get; private set; }
         public IGenericRepository<GuestType> GuestTypes { get; private set; }
         public IGenericRepository<GuestCategory> GuestCategories { get; private set; }
@@ -55,7 +56,6 @@ namespace zaaerIntegration.Repositories.Implementations
         public IGenericRepository<User> Users { get; private set; }
         public IGenericRepository<Role> Roles { get; private set; }
         public IGenericRepository<Permission> Permissions { get; private set; }
-        public IGenericRepository<RolePermission> RolePermissions { get; private set; }
         public IGenericRepository<HotelSettings> HotelSettings { get; private set; }
         
         // New tables (Rate Types, Seasonal Rates, etc.)
@@ -106,6 +106,7 @@ namespace zaaerIntegration.Repositories.Implementations
             RoomTypes = new GenericRepository<RoomType>(_context);
             Invoices = new GenericRepository<Invoice>(_context);
             PaymentReceipts = new GenericRepository<PaymentReceipt>(_context);
+            InvoiceReceiptMappings = new GenericRepository<InvoiceReceiptMapping>(_context);
             CorporateCustomers = new GenericRepository<CorporateCustomer>(_context);
             GuestTypes = new GenericRepository<GuestType>(_context);
             GuestCategories = new GenericRepository<GuestCategory>(_context);
@@ -125,7 +126,6 @@ namespace zaaerIntegration.Repositories.Implementations
             Users = new GenericRepository<User>(_context);
             Roles = new GenericRepository<Role>(_context);
             Permissions = new GenericRepository<Permission>(_context);
-            RolePermissions = new GenericRepository<RolePermission>(_context);
             HotelSettings = new GenericRepository<HotelSettings>(_context);
             
             // New tables (Rate Types, Seasonal Rates, etc.)

@@ -7,6 +7,10 @@ namespace zaaerIntegration.DTOs.Response
     public class CustomerResponseDto
     {
         public int CustomerId { get; set; }
+
+        /// <summary>External Zaaer integration id (<c>customers.zaaer_id</c>).</summary>
+        public int? ZaaerId { get; set; }
+
         public string? CustomerNo { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public int? GtypeId { get; set; }
@@ -23,12 +27,19 @@ namespace zaaerIntegration.DTOs.Response
         public string? Gender { get; set; }
         public DateTime? Birthday { get; set; }
         public DateTime? BirthdateGregorian { get; set; }
-        public DateTime? BirthdateHijri { get; set; }
+
+        /// <summary>Hijri birth date stored as text (e.g. yyyy/MM/dd per Um Al Qura).</summary>
+        public string? BirthdateHijri { get; set; }
 
         // Related data
         public string? GuestTypeName { get; set; }
         public string? NationalityName { get; set; }
+
+        /// <summary>Arabic nationality label (<c>n_name_ar</c>).</summary>
+        public string? NationalityNameAr { get; set; }
         public string? IdTypeName { get; set; }
         public string? GuestCategoryName { get; set; }
+
+        public IReadOnlyList<CustomerIdentificationResponseDto>? Identifications { get; set; }
     }
 }

@@ -40,7 +40,14 @@ namespace zaaerIntegration.DTOs.Request
 
         public DateTime? Birthday { get; set; }
         public DateTime? BirthdateGregorian { get; set; }
-        public DateTime? BirthdateHijri { get; set; }
+
+        [StringLength(50)]
+        public string? BirthdateHijri { get; set; }
+
+        /// <summary>
+        /// Hotel scope when creating from PMS (tenant-specific DB row).
+        /// </summary>
+        public int? HotelId { get; set; }
 
         /// <summary>
         /// List of customer identifications

@@ -1,0 +1,280 @@
+/* Hotel / resort reservation — compact party cards in header */
+
+body.pms-ui.lodging-reservation-detail #res-section-company,
+body.pms-ui.lodging-reservation-detail #guestsGridShell,
+body.pms-ui.lodging-reservation-detail #res-section-guests .res-section-head,
+body.pms-ui.lodging-reservation-detail .res-companions-head,
+body.pms-ui.lodging-reservation-detail #companionsGridShell {
+    display: none !important;
+}
+
+body.pms-ui.lodging-reservation-detail .res-kv--main-guest {
+    display: none !important;
+}
+
+body.pms-ui.lodging-reservation-detail #res-section-guests .res-guests-section-body {
+    padding-top: 0;
+}
+
+body.pms-ui.lodging-reservation-detail #res-section-guests .res-guests-companions {
+    margin-top: 0;
+}
+
+.res-lodging-party-cards {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+body.pms-ui.lodging-reservation-detail .res-lodging-party-cards {
+    display: flex;
+}
+
+body.pms-ui .res-lodging-party-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    min-width: 0;
+}
+
+body.pms-ui .res-lodging-party-row--primary {
+    flex-wrap: nowrap;
+}
+
+body.pms-ui .res-lodging-party-row--primary .res-lodging-party-card--guest {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+body.pms-ui .res-lodging-party-row--company .res-lodging-party-card--company {
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+body.pms-ui .res-lodging-party-card {
+    position: relative;
+    min-width: 0;
+    padding: 10px 12px 11px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
+}
+
+body.pms-ui .res-lodging-party-card--guest {
+    border-inline-start: 3px solid var(--pms-primary, #3f6f9f);
+}
+
+body.pms-ui .res-lodging-party-card--companions {
+    flex: 0 0 auto;
+    width: min(248px, 36%);
+    min-width: 176px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-color: #c9d8ea;
+    background: linear-gradient(135deg, #f8fbff 0%, #eef4fb 100%);
+}
+
+body.pms-ui .res-lodging-party-card--companions:hover,
+body.pms-ui .res-lodging-party-card--companions:focus-visible {
+    border-color: #94b4d4;
+    box-shadow: 0 6px 18px rgba(63, 111, 159, 0.14);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+body.pms-ui .res-lodging-party-card--companions.has-companions {
+    border-color: #7fa8cc;
+    background: linear-gradient(135deg, #f3f8fd 0%, #e6f0fa 100%);
+}
+
+body.pms-ui .res-lodging-party-card--hidden {
+    display: none !important;
+}
+
+body.pms-ui .res-lodging-party-row--company:has(.res-lodging-party-card--hidden) {
+    display: none;
+}
+
+body.pms-ui .res-lodging-party-card__label {
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    line-height: 1.2;
+}
+
+body.pms-ui .res-lodging-party-card__label-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+    min-height: 16px;
+}
+
+body.pms-ui .res-lodging-party-card__label-row .res-lodging-party-card__label {
+    margin-bottom: 0;
+}
+
+body.pms-ui .res-lodging-party-card__label-icon {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    font-size: 14px;
+    line-height: 15px;
+    color: var(--pms-primary, #3f6f9f);
+}
+
+body.pms-ui .res-lodging-party-card__body {
+    display: flex;
+    align-items: center;
+    gap: 4px 6px;
+    min-width: 0;
+}
+
+body.pms-ui .res-lodging-party-card__value {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.pms-ui .res-lodging-party-card__value--empty {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+body.pms-ui .res-lodging-party-card__edit {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+body.pms-ui .res-lodging-party-card__edit .dx-button {
+    min-width: 30px;
+    min-height: 30px;
+}
+
+body.pms-ui .res-lodging-party-card__companions-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    height: 100%;
+}
+
+body.pms-ui .res-lodging-party-card__companions-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(63, 111, 159, 0.12);
+    color: var(--pms-primary, #3f6f9f);
+    font-size: 17px;
+    line-height: 1;
+}
+
+body.pms-ui .res-lodging-party-card--companions.has-companions .res-lodging-party-card__companions-icon {
+    background: rgba(63, 111, 159, 0.18);
+    color: #2d5a84;
+}
+
+body.pms-ui .res-lodging-party-card__companions-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+body.pms-ui .res-lodging-party-card__companions-text .res-lodging-party-card__label {
+    margin-bottom: 2px;
+}
+
+body.pms-ui .res-lodging-party-card__companions-text .res-lodging-party-card__value {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+body.pms-ui .res-lodging-party-card__badge {
+    flex-shrink: 0;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #3f6f9f 0%, #31597f 100%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 26px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 2px 8px rgba(63, 111, 159, 0.28);
+}
+
+body.pms-ui .res-lodging-party-card__badge--empty {
+    background: #fff;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    box-shadow: none;
+    line-height: 24px;
+}
+
+body.pms-ui .res-lodging-party-card__edit-btn .dx-icon-plus {
+    border: 1px solid #cbd5e1;
+    box-shadow: none;
+    line-height: 24px;
+}
+
+/* Companions popup — simple flex shell (no dx-toolbar overrides) */
+body.pms-ui .res-lodging-companions-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+}
+
+body.pms-ui .res-lodging-companions-popup__head {
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+body.pms-ui .res-lodging-companions-popup__grid {
+    flex: 1 1 auto;
+    min-height: 160px;
+}
+
+body.pms-ui .res-lodging-companions-popup__foot {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--pms-border, #d9dee7);
+}
+
+body.pms-ui .res-lodging-companions-popup-wrap .dx-popup-content {
+    padding: 12px 14px 14px;
+}
+
+body.pms-ui .res-lodging-companion-lookup-overlay {
+    z-index: 16000 !important;
+}
+
+@media (max-width: 720px) {
+    body.pms-ui .res-lodging-party-row--primary {
+        flex-direction: column;
+    }
+
+    body.pms-ui .res-lodging-party-card--companions {
+        width: 100%;
+        min-width: 0;
+    }
+}

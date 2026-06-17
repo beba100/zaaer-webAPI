@@ -1,0 +1,1890 @@
+body.pms-ui.hall-operations-page {
+    --hall-accent: #7c3aed;
+    --hall-accent-soft: #ede9fe;
+}
+
+/* Customer field on event create form */
+.hall-ops-customer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hall-ops-customer-display {
+    display: none;
+    min-height: 36px;
+    padding: 8px 10px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: #fff;
+    font-size: var(--pms-text-sm);
+}
+
+.hall-ops-customer-field--create .hall-ops-customer-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-height: 38px;
+}
+
+.hall-ops-customer-display.is-visible {
+    display: block;
+}
+
+.hall-ops-customer-field--create .hall-ops-customer-display.is-visible {
+    display: flex;
+}
+
+.hall-ops-customer-display.is-empty {
+    flex-direction: row;
+    align-items: center;
+    background: var(--pms-panel-bg, #f6f7f9);
+    border-style: dashed;
+}
+
+.hall-ops-customer-display__placeholder {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: var(--pms-text-sm, 13px);
+}
+
+.hall-ops-customer-display__placeholder .dx-icon {
+    color: var(--pms-primary, #3f6f9f);
+    font-size: 16px;
+}
+
+.hall-ops-customer-display__name {
+    display: block;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.hall-ops-customer-display__mobile {
+    display: block;
+    font-size: var(--pms-text-xs);
+    color: #6b7280;
+}
+
+.hall-ops-customer-display strong {
+    display: block;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.hall-ops-customer-display span {
+    display: block;
+    margin-top: 2px;
+    font-size: var(--pms-text-xs);
+    color: #6b7280;
+}
+
+.hall-ops-customer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hall-ops-customer-field--create {
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.hall-ops-customer-field--create .hall-ops-customer-actions {
+    gap: 8px;
+    padding-top: 2px;
+    border-top: 1px solid var(--pms-border, #d9dee7);
+}
+
+/* Compact new-event popup — single view without scroll */
+.hall-ops-event-form-shell {
+    padding: 8px 10px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border-radius: 12px;
+}
+
+.hall-ops-event-popup--compact .dx-popup-content {
+    padding: 10px 12px !important;
+    overflow: visible !important;
+}
+
+.hall-ops-event-popup--compact .dx-popup-title {
+    font-size: 16px;
+    padding: 10px 14px 8px;
+}
+
+.hall-ops-event-popup--compact .dx-toolbar-bottom {
+    padding: 6px 10px 10px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-event-form .dx-field-item {
+    padding-bottom: 4px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-event-form .dx-field-item-label-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 2px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-event-form .dx-texteditor-input,
+.hall-ops-event-popup--compact .hall-ops-event-form .dx-texteditor-container {
+    min-height: 30px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-event-form .dx-texteditor-input {
+    font-size: 13px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-customer-field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.hall-ops-event-popup--compact .hall-ops-customer-field--create {
+    gap: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.hall-ops-event-popup--compact .hall-ops-customer-display {
+    flex: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 10px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-customer-actions {
+    flex: none;
+    width: 100%;
+    gap: 8px;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid var(--pms-border, #d9dee7);
+}
+
+.hall-ops-event-popup--compact .hall-ops-customer-actions .dx-button {
+    min-height: 32px;
+    flex: 1 1 auto;
+}
+
+.hall-ops-event-popup--compact .hall-ops-customer-actions .dx-button-content {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-create-hijri--form .pms-hijri-datebox__field {
+    min-height: 34px;
+    height: auto;
+}
+
+.hall-ops-event-popup--compact .hall-ops-create-hijri--form .pms-hijri-datebox__input {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hall-ops-event-popup--compact .hall-ops-create-hijri--form .pms-hijri-datebox__input:not(.is-set) {
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.hall-ops-event-popup--compact .hall-ops-create-hijri--form .pms-hijri-datebox__icon {
+    flex: 0 0 36px;
+    height: 34px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-form-row--dates .dx-box-item,
+.hall-ops-event-popup--compact .hall-ops-form-row--times .dx-box-item,
+.hall-ops-event-popup--compact .hall-ops-form-row--meta .dx-box-item,
+.hall-ops-event-popup--compact .hall-ops-form-row--money .dx-box-item {
+    padding-inline: 4px;
+}
+
+.hall-ops-event-popup--compact .hall-ops-owner-readonly {
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+body.hall-operations-page .hall-ops-appt--rack.hall-ops-event-card {
+    cursor: context-menu;
+}
+
+/* Guest picker popup (subset from reservation-detail) */
+.guest-picker-popup .dx-popup-content {
+    padding: 10px 12px 12px;
+    height: 100%;
+}
+
+.guest-picker-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.guest-picker-grid {
+    flex: 1;
+    min-height: 0;
+}
+
+.guest-picker-popup--wide .dx-popup-content {
+    padding: 12px 14px 14px;
+}
+
+.guest-picker-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.guest-picker-toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.guest-picker-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4b5563;
+    margin-inline-end: 4px;
+}
+
+.guest-picker-mode-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.guest-picker-toolbar-end {
+    margin-inline-start: auto;
+}
+
+.guest-picker-toolbar-actions {
+    margin-inline-start: auto;
+}
+
+.guest-picker-field {
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+.hall-ops-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.hall-ops-tabs-host {
+    min-height: 520px;
+}
+
+.hall-ops-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.hall-ops-widget {
+    background: var(--pms-panel-bg-strong);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    padding: 12px 14px;
+}
+
+.hall-ops-widget strong {
+    display: block;
+    font-size: 20px;
+    color: var(--hall-accent);
+}
+
+.hall-ops-widget span {
+    font-size: var(--pms-text-xs);
+    color: #64748b;
+}
+
+.hall-ops-kanban {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    min-height: 400px;
+}
+
+.hall-ops-kanban-col {
+    background: var(--pms-panel-bg);
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    padding: 8px;
+    min-height: 360px;
+}
+
+.hall-ops-kanban-col h4 {
+    margin: 0 0 8px;
+    font-size: var(--pms-text-sm);
+    font-weight: 600;
+    color: #334155;
+}
+
+.hall-ops-kanban-card {
+    background: #fff;
+    border: 1px solid var(--pms-border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: var(--pms-text-sm);
+}
+
+.hall-ops-kanban-card:hover {
+    border-color: var(--hall-accent);
+    background: var(--hall-accent-soft);
+}
+
+.hall-ops-occupancy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.hall-ops-occ-card {
+    background: #fff;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-card);
+    padding: 14px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.hall-ops-occ-card__code {
+    font-size: var(--pms-text-lg);
+    font-weight: 700;
+    color: var(--hall-accent);
+}
+
+.hall-ops-occ-card__status {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    background: var(--pms-panel-bg-strong);
+}
+
+.hall-ops-completion-form {
+    max-width: 480px;
+    background: var(--pms-panel-bg-strong);
+    border-radius: var(--pms-radius-form);
+    padding: 16px;
+}
+
+.hall-ops-period-host {
+    display: none;
+    margin-bottom: 12px;
+}
+
+.hall-ops-period-host.is-visible {
+    display: block;
+}
+
+.hall-ops-filter-period-toggle {
+    align-self: center;
+    padding-bottom: 6px;
+    min-width: 168px;
+}
+
+.hall-ops-reports-bar,
+.hall-ops-period-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: var(--pms-panel-bg-strong);
+}
+
+.hall-ops-period-bar__label {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: #334155;
+    margin-inline-end: 4px;
+    padding-bottom: 8px;
+}
+
+.hall-ops-hijri-hint {
+    font-size: var(--pms-text-xs, 12px);
+    color: #6b7280;
+    padding: 4px 2px 0;
+}
+
+.hall-ops-filter-host {
+    margin-bottom: 12px;
+}
+
+.hall-ops-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: var(--pms-panel-bg-strong);
+}
+
+.hall-ops-filter-bar__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.hall-ops-filter-period-toggle {
+    margin-inline-start: auto;
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    padding-bottom: 2px;
+}
+
+.hall-ops-period-util-btn {
+    margin-inline-start: auto;
+}
+
+.hall-ops-period-util-btn .dx-button-content {
+    padding-inline: 8px;
+}
+
+.hall-ops-pay-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hall-ops-pay-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-form, 12px);
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    font-size: var(--pms-text-sm, 13px);
+    color: #334155;
+}
+
+.hall-ops-pay-summary__item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: var(--pms-radius-input, 8px);
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    white-space: nowrap;
+}
+
+.hall-ops-pay-summary__item--balance {
+    border-color: var(--pms-primary, #3f6f9f);
+    background: var(--pms-primary-soft, #e8f0f7);
+}
+
+.hall-ops-pay-summary__label {
+    color: #64748b;
+    font-size: var(--pms-text-xs, 12px);
+}
+
+.hall-ops-pay-summary__value {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #0f172a;
+}
+
+.hall-ops-pay-summary__item--balance .hall-ops-pay-summary__value {
+    color: var(--pms-primary, #3f6f9f);
+}
+
+.hall-ops-pay-grid-host {
+    min-height: 0;
+}
+
+body.pms-ui .hall-ops-payments-popup .dx-popup-content {
+    padding: 14px 16px 16px;
+    border-radius: var(--pms-radius-popup, 16px);
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-headers {
+    font-size: var(--pms-text-xs, 12px);
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-rowsview {
+    font-size: var(--pms-text-sm, 13px);
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-headers .dx-datagrid-text-content,
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-rowsview .dx-row > td {
+    text-align: center !important;
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid-actions .dx-link {
+    margin-inline: 2px;
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid-host {
+    min-height: 300px;
+    width: 100%;
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-rowsview .dx-row > td.hall-ops-pay-grid-notes,
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-rowsview .dx-row > td.hall-ops-pay-grid-notes .dx-datagrid-text-content {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.35;
+    text-align: center;
+}
+
+body.pms-ui .hall-ops-payments-popup .dx-overlay-content {
+    max-width: min(1180px, calc(100vw - 16px));
+}
+
+body.pms-ui .hall-ops-payments-popup .hall-ops-pay-grid .dx-datagrid-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+body.pms-ui .hall-ops-card-context-menu.dx-context-menu {
+    direction: rtl;
+    z-index: 25000 !important;
+}
+
+body.pms-ui .dx-overlay-wrapper.hall-ops-card-context-menu,
+body.pms-ui .dx-context-menu.dx-overlay-content.hall-ops-card-context-menu,
+body.pms-ui .dx-overlay-wrapper .hall-ops-card-context-menu {
+    z-index: 25000 !important;
+}
+
+html[dir="ltr"] body.pms-ui .hall-ops-card-context-menu.dx-context-menu {
+    direction: ltr;
+}
+
+body.pms-ui .hall-ops-card-context-menu .dx-menu-item-content {
+    font-size: var(--pms-text-sm, 13px);
+}
+
+body.pms-ui .hall-ops-card-context-menu .dx-menu-item-text {
+    text-align: start;
+}
+
+.hall-ops-filter-bar__label {
+    font-size: var(--pms-text-xs, 12px);
+    color: #6b7280;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+/* Scheduler — month cells: weekday in header, full dates in body */
+.hall-ops-calendar-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.hall-ops-calendar-layout-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hall-ops-calendar-layout-switch-host {
+    flex: 0 1 auto;
+}
+
+.hall-ops-calendar-span-host {
+    flex: 0 1 auto;
+    min-width: 148px;
+}
+
+.hall-ops-calendar-span-host--hidden {
+    display: none !important;
+}
+
+.hall-ops-calendar-span-field .dx-texteditor-input {
+    font-size: var(--pms-text-sm, 13px);
+}
+
+.hall-ops-calendar-layout-btn-group.dx-buttongroup {
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+}
+
+.hall-ops-calendar-layout-btn-group .dx-buttongroup-item {
+    min-width: 0;
+}
+
+.hall-ops-calendar-layout-btn-group .dx-button {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    min-height: 34px;
+    padding-inline: 12px;
+}
+
+.hall-ops-calendar-pane--hidden {
+    display: none !important;
+}
+
+.hall-ops-calendar-pane {
+    width: 100%;
+    min-width: 0;
+}
+
+.hall-ops-scheduler-host {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.hall-ops-scheduler-host .dx-scheduler {
+    width: 100% !important;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-date-table-cell-text,
+body.hall-operations-page .dx-scheduler-header-panel-cell-date {
+    display: none !important;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-header-panel thead tr:nth-child(2) {
+    display: none;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-date-table-cell {
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.hall-ops-month-cell {
+    width: 100%;
+    min-height: 16px;
+    height: 100%;
+    padding: 1px 3px 0;
+    box-sizing: border-box;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.hall-ops-month-cell__dates {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    gap: 4px;
+    line-height: 1.2;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.hall-ops-month-cell__sep {
+    display: none;
+}
+
+.hall-ops-month-cell__g {
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e293b;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.hall-ops-month-cell__h {
+    flex: 0 0 auto;
+    font-size: 10px;
+    font-weight: 500;
+    color: #64748b;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.hall-ops-month-cell__suffix {
+    direction: rtl;
+    unicode-bidi: isolate;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-date-table-other-month .hall-ops-month-cell__g,
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-date-table-other-month .hall-ops-month-cell__h {
+    opacity: 0.55;
+}
+
+.hall-ops-sched-datehdr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 4px 2px;
+}
+
+.hall-ops-sched-datehdr__dow {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* legacy selectors kept for safety */
+.hall-ops-sched-cell,
+.hall-ops-sched-cell__stack,
+.hall-ops-sched-datehdr__stack,
+.hall-ops-sched-cell__g,
+.hall-ops-sched-datehdr__g,
+.hall-ops-sched-cell__h,
+.hall-ops-sched-datehdr__h,
+.hall-ops-sched-cell__suffix,
+.hall-ops-sched-datehdr__suffix {
+    display: none;
+}
+
+/* Appointment chips — month view (DevExtreme sets inline top/left/width/height) */
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-date-table-cell .dx-template-wrapper {
+    max-width: 100%;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-appointment {
+    display: none !important;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-appointment-content {
+    display: none !important;
+}
+
+.hall-ops-appt--month {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 100%;
+    min-height: 22px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--pms-border, #d9dee7);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.hall-ops-appt--month.hall-ops-appt--rich {
+    min-height: 36px;
+}
+
+.hall-ops-appt--month .hall-ops-appt__body {
+    padding: 1px 4px;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+}
+
+.hall-ops-appt--month .hall-ops-appt__title {
+    font-size: 10px;
+    line-height: 1.15;
+    max-width: 100%;
+    flex: 1;
+    min-width: 0;
+}
+
+.hall-ops-appt__head,
+.hall-ops-cell-card__head {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.hall-ops-appt__status-icon,
+.hall-ops-cell-card__status-icon {
+    flex: 0 0 auto;
+    font-size: 13px;
+    line-height: 1;
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__head {
+    gap: 3px;
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__status-icon {
+    font-size: 11px;
+}
+
+.hall-ops-appt--month .hall-ops-appt__meta {
+    font-size: 9px;
+    line-height: 1.1;
+    max-width: 100%;
+}
+
+.hall-ops-appt--month .hall-ops-appt__money {
+    margin-top: 0;
+    gap: 2px 6px;
+    font-size: 8px;
+    line-height: 1.1;
+    overflow: hidden;
+}
+
+.hall-ops-appt--month .hall-ops-appt__money span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+body.hall-operations-page .dx-scheduler-work-space-month .dx-scheduler-appointment-collector {
+    display: none !important;
+}
+
+body.hall-operations-page .dx-scheduler-appointment {
+    border-radius: 8px;
+}
+
+body.hall-operations-page .hall-ops-appt--timeline {
+    display: flex;
+    align-items: stretch;
+    min-height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+body.hall-operations-page .hall-ops-appt--timeline .hall-ops-appt__bar {
+    flex: 0 0 4px;
+    background: var(--appt-accent, var(--pms-primary, #3f6f9f));
+}
+
+body.hall-operations-page .hall-ops-appt--timeline .hall-ops-appt__body {
+    flex: 1;
+    min-width: 0;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+}
+
+body.hall-operations-page .hall-ops-appt--timeline .hall-ops-appt__title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-time-panel,
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-all-day-panel {
+    display: none !important;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-header-panel-cell {
+    vertical-align: middle;
+    min-height: 62px;
+    height: auto !important;
+    padding: 4px 2px;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-cell-sizes-horizontal {
+    width: 122px;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .hall-ops-rack-datehdr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 4px;
+    line-height: 1.2;
+    width: 100%;
+    min-height: 54px;
+    box-sizing: border-box;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .hall-ops-rack-datehdr__dow {
+    display: block;
+    width: 100%;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pms-primary, #3f6f9f);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    padding: 2px 4px;
+    border-radius: 6px;
+    background: var(--pms-primary-soft, #e8f0f7);
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .hall-ops-rack-datehdr__dates {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .hall-ops-rack-datehdr__day {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .hall-ops-rack-datehdr__h {
+    font-size: 10px;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-group-header {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    min-width: 120px;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-date-table-cell {
+    min-width: 122px;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-cell-sizes-vertical {
+    height: 72px;
+}
+
+body.hall-operations-page .hall-ops-appt--rack {
+    display: flex;
+    align-items: stretch;
+    min-height: 54px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__bar {
+    flex: 0 0 4px;
+    background: var(--appt-accent, var(--pms-primary, #3f6f9f));
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__body {
+    flex: 1;
+    min-width: 0;
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__time {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--pms-primary, #3f6f9f);
+    font-variant-numeric: tabular-nums;
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__meta,
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__money {
+    font-size: 10px;
+    line-height: 1.2;
+    color: #64748b;
+}
+
+body.hall-operations-page .hall-ops-appt--rack .hall-ops-appt__money {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-variant-numeric: tabular-nums;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--rack .dx-scheduler-appointment {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 2px !important;
+}
+
+body.hall-operations-page .hall-ops-scheduler-host--timeline .dx-scheduler-group-header {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+}
+
+.hall-ops-agenda-host {
+    width: 100%;
+}
+
+.hall-ops-agenda-empty {
+    padding: 28px 16px;
+    text-align: center;
+    color: #64748b;
+    font-size: var(--pms-text-md, 14px);
+    border: 1px dashed var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-card, 14px);
+    background: var(--pms-panel-bg, #f6f7f9);
+}
+
+.hall-ops-agenda-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hall-ops-agenda-day {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 12px;
+    margin: 10px 0 4px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border: 1px solid var(--pms-border, #d9dee7);
+}
+
+.hall-ops-agenda-day__greg {
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.hall-ops-agenda-day__hijri {
+    font-size: var(--pms-text-sm, 13px);
+    color: #64748b;
+}
+
+.hall-ops-agenda-card {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    text-align: inherit;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hall-ops-agenda-card:hover {
+    border-color: #b8c2d1;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.hall-ops-agenda-card__bar {
+    flex: 0 0 5px;
+    border-radius: 12px 0 0 12px;
+    background: var(--appt-accent, var(--pms-primary, #3f6f9f));
+}
+
+[dir="rtl"] .hall-ops-agenda-card__bar {
+    border-radius: 0 12px 12px 0;
+}
+
+.hall-ops-agenda-card__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+}
+
+.hall-ops-agenda-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hall-ops-agenda-card__time {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: var(--pms-primary, #3f6f9f);
+    font-variant-numeric: tabular-nums;
+}
+
+.hall-ops-agenda-card__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.hall-ops-agenda-card__status-icon {
+    font-size: 12px;
+    color: #fff !important;
+}
+
+.hall-ops-agenda-card__status-text {
+    line-height: 1.2;
+}
+
+.hall-ops-agenda-card__title {
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.hall-ops-agenda-card__meta {
+    font-size: var(--pms-text-sm, 13px);
+    color: #64748b;
+}
+
+.hall-ops-agenda-card__money {
+    font-size: var(--pms-text-xs, 12px);
+    color: #475569;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+    .hall-ops-calendar-layout-bar {
+        justify-content: stretch;
+    }
+
+    .hall-ops-calendar-layout-switch-host {
+        width: 100%;
+    }
+
+    .hall-ops-calendar-layout-btn-group.dx-buttongroup {
+        width: 100%;
+    }
+
+    .hall-ops-calendar-layout-btn-group .dx-buttongroup-wrapper {
+        width: 100%;
+    }
+
+    .hall-ops-calendar-layout-btn-group .dx-button {
+        flex: 1 1 50%;
+    }
+
+    .hall-ops-scheduler-host--timeline {
+        overflow-x: auto;
+    }
+
+    .hall-ops-agenda-card__head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+body.hall-operations-page .dx-scheduler-appointment {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 1px 2px !important;
+}
+
+.hall-ops-appt {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 22px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--pms-border, #d9dee7);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.hall-ops-appt__bar {
+    flex: 0 0 4px;
+    background: var(--appt-accent, var(--pms-primary, #3f6f9f));
+}
+
+.hall-ops-appt__body {
+    flex: 1;
+    min-width: 0;
+    padding: 2px 6px;
+}
+
+.hall-ops-appt__title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hall-ops-appt__meta {
+    font-size: 10px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hall-ops-appt--rich {
+    min-height: 52px;
+}
+
+.hall-ops-appt__dates {
+    font-size: 9px;
+    color: #475569;
+    line-height: 1.25;
+    margin-top: 1px;
+}
+
+.hall-ops-appt__money {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.hall-ops-appt__money span {
+    white-space: nowrap;
+}
+
+.hall-ops-filter-applied {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: var(--pms-radius-input, 8px);
+    background: var(--pms-primary-soft, #e8f0f7);
+    border: 1px solid #c5d9ec;
+    font-size: var(--pms-text-sm, 13px);
+}
+
+.hall-ops-filter-applied__label {
+    color: #475569;
+}
+
+.hall-ops-filter-applied__value {
+    color: var(--pms-primary, #3f6f9f);
+    font-weight: 600;
+}
+
+.hall-ops-filter-date-host {
+    min-width: 200px;
+}
+
+/* Keep Hijri search date control same visual height as dxDateBox. */
+.hall-ops-filter-date-host .pms-hijri-picker-host {
+    position: relative;
+    min-height: 56px;
+}
+
+.hall-ops-filter-date-host .pms-hijri-picker-label {
+    position: absolute;
+    top: -8px;
+    inset-inline-end: 10px;
+    margin: 0;
+    padding: 0 4px;
+    font-size: 11px;
+    line-height: 1;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hall-ops-filter-date-host .pms-hijri-datebox__field {
+    min-height: 36px;
+    height: 36px;
+}
+
+.hall-ops-filter-date-host .pms-hijri-datebox__input {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.hall-ops-filter-date-host .pms-hijri-datebox__icon {
+    height: 36px;
+    flex-basis: 36px;
+}
+
+.hall-ops-month-cell__cards {
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1 1 auto;
+    min-height: 0;
+    pointer-events: auto;
+}
+
+.hall-ops-cell-card {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 34px;
+    padding: 0;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    color: inherit;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+    cursor: pointer;
+    text-align: start;
+    pointer-events: auto;
+}
+
+.hall-ops-cell-card:hover {
+    filter: brightness(0.99);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+}
+
+/* Card theme variants (switch via filter "Card Theme") */
+body.hall-operations-page.hall-ops-card-theme-classic .hall-ops-cell-card {
+    border-color: #d7dde6;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.09);
+}
+
+body.hall-operations-page.hall-ops-card-theme-classic .hall-ops-cell-card:hover {
+    box-shadow: 0 3px 7px rgba(15, 23, 42, 0.14);
+}
+
+body.hall-operations-page.hall-ops-card-theme-soft .hall-ops-cell-card {
+    border-color: #d7e4f2;
+    background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.10);
+}
+
+body.hall-operations-page.hall-ops-card-theme-soft .hall-ops-cell-card:hover {
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.16);
+}
+
+body.hall-operations-page.hall-ops-card-theme-bold .hall-ops-cell-card {
+    border-color: #c8d7ea;
+    background: linear-gradient(180deg, #eef5ff 0%, #e4efff 100%);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.16);
+}
+
+body.hall-operations-page.hall-ops-card-theme-bold .hall-ops-cell-card__title {
+    color: #0b2a53;
+}
+
+body.hall-operations-page.hall-ops-card-theme-bold .hall-ops-cell-card__money {
+    color: #1f3b64;
+}
+
+body.hall-operations-page.hall-ops-card-theme-bold .hall-ops-cell-card:hover {
+    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.22);
+}
+
+.hall-ops-cell-card__bar {
+    flex: 0 0 4px;
+    background: var(--appt-accent, var(--pms-primary, #3f6f9f));
+}
+
+.hall-ops-cell-card__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 2px 5px;
+}
+
+.hall-ops-cell-card__head .hall-ops-cell-card__title {
+    flex: 1;
+    min-width: 0;
+}
+
+.hall-ops-cell-card__title,
+.hall-ops-cell-card__meta,
+.hall-ops-cell-card__money {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.15;
+}
+
+.hall-ops-cell-card__title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.hall-ops-cell-card__meta {
+    font-size: 9px;
+    color: #334155;
+}
+
+.hall-ops-cell-card__money {
+    font-size: 9px;
+    color: #475569;
+    font-weight: 600;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+}
+
+.hall-ops-month-cell__more {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pms-primary, #3f6f9f);
+    padding-inline: 2px;
+    margin-top: auto;
+}
+
+@media (max-width: 1100px) {
+    .hall-ops-cell-card {
+        min-height: 26px;
+    }
+
+    .hall-ops-cell-card__money {
+        display: none;
+    }
+}
+
+.hall-ops-kanban-card strong {
+    display: block;
+    font-size: var(--pms-text-sm, 13px);
+    margin-bottom: 2px;
+}
+
+.hall-ops-kanban-card span {
+    display: block;
+    font-size: var(--pms-text-xs, 12px);
+    color: #64748b;
+}
+
+.hall-ops-kanban-card small {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #475569;
+}
+
+.hall-ops-kanban-card__status {
+    display: inline-block;
+    margin-bottom: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.hall-ops-kanban-hint {
+    margin: 0 0 10px;
+    padding: 8px 12px;
+    font-size: var(--pms-text-xs, 12px);
+    color: #475569;
+    background: var(--pms-panel-bg-strong);
+    border-radius: var(--pms-radius-input);
+    border: 1px solid var(--pms-border);
+}
+
+.hall-ops-create-hijri {
+    width: 100%;
+}
+
+.hall-ops-create-hijri .pms-hijri-datebox-host,
+.hall-ops-create-hijri .pms-hijri-datebox {
+    width: 100%;
+}
+
+.hall-ops-owner-readonly {
+    min-height: 34px;
+    padding: 8px 10px;
+    border: 1px solid var(--pms-border);
+    border-radius: var(--pms-radius-input);
+    background: var(--pms-panel-bg-strong);
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.hall-ops-status-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Umm al-Qura picker — PMS theme */
+.pms-hijri-picker-host {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pms-hijri-picker-label {
+    font-size: var(--pms-text-xs, 12px);
+    color: #6b7280;
+}
+
+.pms-hijri-datebox {
+    width: 100%;
+}
+
+.pms-hijri-datebox__field {
+    display: flex;
+    align-items: center;
+    min-height: 34px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    background: #fff;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.pms-hijri-datebox__field:hover {
+    border-color: #b8c2d1;
+}
+
+.pms-hijri-datebox__field.is-set .pms-hijri-datebox__input {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.pms-hijri-datebox__input {
+    flex: 1;
+    min-width: 0;
+    padding: 7px 10px;
+    border: none;
+    background: transparent;
+    font-size: var(--pms-text-sm, 13px);
+    font-family: var(--pms-font, inherit);
+    color: #94a3b8;
+    cursor: pointer;
+    outline: none;
+}
+
+.pms-hijri-datebox__input.is-set {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.pms-hijri-datebox__icon {
+    flex: 0 0 34px;
+    height: 34px;
+    border: none;
+    border-inline-start: 1px solid var(--pms-border, #d9dee7);
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    color: var(--pms-primary, #3f6f9f);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pms-hijri-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+}
+
+.pms-hijri-picker-display {
+    flex: 1;
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    background: #fff;
+    font-size: var(--pms-text-sm, 13px);
+    font-family: var(--pms-font, inherit);
+    color: #94a3b8;
+    line-height: 1.2;
+}
+
+.pms-hijri-picker-display.is-set {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.pms-hijri-picker-trigger {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 34px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    background: #fff;
+    color: var(--pms-primary, #3f6f9f);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pms-hijri-picker-trigger:hover {
+    border-color: #b8c2d1;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+}
+
+.pms-hijri-picker-input-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+/* pickerClass is on inner .calendars; outer shell is div.calendars-popup on body */
+body.pms-ui div.calendars-popup,
+body.pms-ui div.calendars-popup.pms-hijri-picker-popup-shell {
+    z-index: 20000 !important;
+    pointer-events: auto;
+}
+
+body.pms-ui div.calendars-popup.pms-hijri-picker-popup-shell {
+    border-radius: var(--pms-radius-input, 8px);
+    border-color: var(--pms-border, #d9dee7);
+    box-shadow: var(--pms-shadow-lg, 0 10px 30px rgba(15, 23, 42, 0.14));
+}
+
+.pms-hijri-picker-popup .calendars-nav,
+.pms-hijri-picker-popup .calendars-ctrl {
+    background-color: var(--pms-primary, #3f6f9f) !important;
+}
+
+.pms-hijri-picker-popup .calendars-cmd:hover {
+    background-color: var(--pms-primary-hover, #31597f) !important;
+}
+
+.hall-ops-occ-card__badge {
+    display: inline-block;
+    margin-bottom: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.hall-ops-occ-card__badge--upcoming {
+    background: var(--pms-primary-soft, #e8f0f7);
+    color: var(--pms-primary, #3f6f9f);
+}
+
+@media (max-width: 768px) {
+    .hall-ops-kanban {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Unpaid balance notification bell */
+.hall-operations-page .room-board-top-actions {
+    align-items: center;
+    gap: 8px;
+}
+
+.hall-ops-unpaid-notify-host {
+    position: relative;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hall-ops-unpaid-notify-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: 10px;
+    background: #fff;
+    color: #64748b;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(15, 47, 82, 0.06);
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hall-ops-unpaid-notify-btn:hover {
+    border-color: #b8c2d1;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    color: var(--pms-primary, #3f6f9f);
+}
+
+.hall-ops-unpaid-notify-btn:focus-visible {
+    outline: 2px solid var(--pms-primary-soft, #e8f0f7);
+    outline-offset: 2px;
+}
+
+.hall-ops-unpaid-notify-btn__icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.hall-ops-unpaid-notify-host--active .hall-ops-unpaid-notify-btn {
+    border-color: #c7d9ec;
+    background: var(--pms-primary-soft, #e8f0f7);
+    color: var(--pms-primary, #3f6f9f);
+}
+
+.hall-ops-unpaid-notify-btn__badge {
+    display: none;
+    position: absolute;
+    top: -5px;
+    inset-inline-end: -5px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #dc2626;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    pointer-events: none;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.22);
+    border: 2px solid #fff;
+}
+
+.hall-ops-unpaid-notify-btn__badge[data-visible="true"] {
+    display: block;
+}
+
+.hall-ops-unpaid-popup__hint {
+    margin: 0 0 10px;
+    font-size: var(--pms-text-sm, 13px);
+    color: #64748b;
+}
+
+.hall-ops-unpaid-popup__summary {
+    margin-bottom: 8px;
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.hall-ops-unpaid-popup__footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+body.pms-ui .hall-ops-unpaid-notify-popup .dx-popup-content {
+    padding: 14px 16px 16px;
+}
+
+body.pms-ui .hall-ops-unpaid-balance-cell {
+    color: #b45309;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .hall-operations-page .room-board-top-actions #hallOpsUnpaidNotifyBtn {
+        flex: 0 0 auto;
+        order: 2;
+    }
+
+    .hall-operations-page .room-board-top-actions #adminRefreshButton {
+        order: 3;
+    }
+
+    .hall-operations-page .room-board-top-actions .pms-user-account-menu {
+        order: 1;
+    }
+
+    .hall-ops-unpaid-notify-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+
+    .hall-ops-unpaid-notify-btn__icon {
+        font-size: 16px;
+    }
+
+    .hall-ops-unpaid-notify-btn__badge {
+        top: -4px;
+        inset-inline-end: -4px;
+        min-width: 16px;
+        height: 16px;
+        line-height: 16px;
+        font-size: 9px;
+        padding: 0 4px;
+    }
+
+    body.pms-ui .hall-ops-unpaid-notify-popup .dx-overlay-content {
+        width: calc(100vw - 16px) !important;
+        max-width: calc(100vw - 16px) !important;
+    }
+}

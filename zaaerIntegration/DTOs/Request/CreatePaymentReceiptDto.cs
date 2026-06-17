@@ -39,6 +39,12 @@ namespace zaaerIntegration.DTOs.Request
 
         public int? BankId { get; set; }
 
+        /// <summary>
+        /// Bank Name (اسم البنك)
+        /// </summary>
+        [StringLength(255)]
+        public string? BankName { get; set; }
+
         [StringLength(100)]
         public string? TransactionNo { get; set; }
 

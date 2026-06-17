@@ -1,8 +1,9 @@
-﻿using FinanceLedgerAPI.Models;
+using FinanceLedgerAPI.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using zaaerIntegration.Data;
+using zaaerIntegration.Services;
 using zaaerIntegration.Services.Interfaces;
 
 namespace zaaerIntegration.Services.Implementations
@@ -16,6 +17,7 @@ namespace zaaerIntegration.Services.Implementations
         private readonly MasterDbContext _masterDbContext;
         private readonly IConfiguration _configuration;
         private readonly ILogger<TenantService> _logger;
+        private readonly SmartLogger? _smartLogger;
         private Tenant? _currentTenant;
 
         /// <summary>
@@ -25,16 +27,19 @@ namespace zaaerIntegration.Services.Implementations
         /// <param name="masterDbContext">Master database context</param>
         /// <param name="configuration">Configuration</param>
         /// <param name="logger">Logger</param>
+        /// <param name="smartLogger">Smart logger for optimized logging</param>
         public TenantService(
             IHttpContextAccessor httpContextAccessor, 
             MasterDbContext masterDbContext,
             IConfiguration configuration,
-            ILogger<TenantService> logger)
+            ILogger<TenantService> logger,
+            SmartLogger? smartLogger = null)
         {
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
             _masterDbContext = masterDbContext ?? throw new ArgumentNullException(nameof(masterDbContext));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _smartLogger = smartLogger;
         }
 
         /// <summary>
@@ -43,31 +48,38 @@ namespace zaaerIntegration.Services.Implementations
         public Tenant? GetTenant()
         {
             // استخدام الـ Tenant المخزن مؤقتاً إذا كان موجوداً (Caching)
+            // This allows background workers to set tenant before calling GetTenant()
             if (_currentTenant != null)
                 return _currentTenant;
 
             var httpContext = _httpContextAccessor.HttpContext;
             if (httpContext == null)
             {
-                _logger.LogWarning("HttpContext is null - cannot resolve tenant");
+                _smartLogger?.LogWarning(
+                    category: "SECURITY",
+                    message: "HttpContext is null - cannot resolve tenant",
+                    action: "GetTenant");
                 throw new InvalidOperationException("HttpContext is not available. Cannot resolve tenant.");
             }
 
-            // قراءة قيمة X-Hotel-Code من Header
-            if (!httpContext.Request.Headers.TryGetValue("X-Hotel-Code", out var hotelCodeValues) || 
-                string.IsNullOrWhiteSpace(hotelCodeValues))
-            {
-                _logger.LogWarning("Missing or empty X-Hotel-Code header");
-                throw new UnauthorizedAccessException("Missing X-Hotel-Code header. Please provide a valid hotel code.");
-            }
+            // قراءة قيمة X-Hotel-Code من Header، مع fallback للـ query حتى تعمل روابط API المفتوحة من DevTools.
+            var hotelCode = httpContext.Request.Headers.TryGetValue("X-Hotel-Code", out var hotelCodeValues)
+                ? hotelCodeValues.ToString().Trim()
+                : string.Empty;
 
-            // تحويل StringValues إلى string وtrim whitespace
-            string hotelCode = hotelCodeValues.ToString().Trim();
+            if (string.IsNullOrWhiteSpace(hotelCode) &&
+                httpContext.Request.Query.TryGetValue("hotelCode", out var hotelCodeQuery))
+            {
+                hotelCode = hotelCodeQuery.ToString().Trim();
+            }
 
             if (string.IsNullOrWhiteSpace(hotelCode))
             {
-                _logger.LogWarning("X-Hotel-Code header is empty or whitespace only");
-                throw new UnauthorizedAccessException("X-Hotel-Code header cannot be empty. Please provide a valid hotel code.");
+                _smartLogger?.LogWarning(
+                    category: "SECURITY",
+                    message: "Missing or empty X-Hotel-Code header / hotelCode query",
+                    action: "GetTenant");
+                throw new UnauthorizedAccessException("Missing X-Hotel-Code header. Please provide a valid hotel code.");
             }
 
             try
@@ -79,22 +91,26 @@ namespace zaaerIntegration.Services.Implementations
 
                 if (_currentTenant == null)
                 {
-                    _logger.LogError("Tenant not found for code: {HotelCode} in Master DB (db29328)", hotelCode);
+                    _smartLogger?.LogError(
+                        category: "SECURITY",
+                        message: $"Tenant not found for code: {hotelCode} in Master DB",
+                        action: "GetTenant");
                     throw new KeyNotFoundException($"Tenant not found for code: {hotelCode}. Please verify the hotel code exists in Master Database.");
                 }
 
                 // التحقق من وجود DatabaseName
                 if (string.IsNullOrWhiteSpace(_currentTenant.DatabaseName))
                 {
-                    _logger.LogError("DatabaseName is not set for tenant: {TenantCode} (Id: {TenantId})", 
-                        _currentTenant.Code, _currentTenant.Id);
+                    _smartLogger?.LogError(
+                        category: "DB",
+                        message: $"DatabaseName is not set for tenant: {_currentTenant.Code} (Id: {_currentTenant.Id})",
+                        action: "GetTenant");
                     throw new InvalidOperationException(
                         $"DatabaseName is not configured for tenant: {_currentTenant.Code}. " +
                         "Please add DatabaseName to the tenant record in Master Database.");
                 }
 
-                _logger.LogInformation("✅ Tenant resolved successfully: {TenantName} ({TenantCode}), Database: {DatabaseName}", 
-                    _currentTenant.Name, _currentTenant.Code, _currentTenant.DatabaseName);
+                // Removed routine LogInformation - only log errors/warnings
 
                 return _currentTenant;
             }
@@ -110,8 +126,11 @@ namespace zaaerIntegration.Services.Implementations
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "❌ Database error while resolving tenant for code: {HotelCode}. Error: {ErrorMessage}", 
-                    hotelCode, ex.Message);
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: $"Database error while resolving tenant for code: {hotelCode}: {ex.Message}",
+                    action: "GetTenant",
+                    exception: ex);
                 
                 // Check if it's a database connection error
                 if (ex is Microsoft.Data.SqlClient.SqlException || 
@@ -146,11 +165,21 @@ namespace zaaerIntegration.Services.Implementations
                     return string.IsNullOrWhiteSpace(code) ? null : code;
                 }
 
+                if (httpContext.Request.Query.TryGetValue("hotelCode", out var hotelCodeQuery))
+                {
+                    var code = hotelCodeQuery.ToString().Trim();
+                    return string.IsNullOrWhiteSpace(code) ? null : code;
+                }
+
                 return null;
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Error getting tenant code from header: {ErrorMessage}", ex.Message);
+                _smartLogger?.LogWarning(
+                    category: "SECURITY",
+                    message: $"Error getting tenant code from header: {ex.Message}",
+                    action: "GetTenantCode",
+                    exception: ex);
                 return null;
             }
         }
@@ -167,7 +196,10 @@ namespace zaaerIntegration.Services.Implementations
                 
                 if (tenant == null)
                 {
-                    _logger.LogError("Cannot get connection string - Tenant is null");
+                    _smartLogger?.LogError(
+                        category: "DB",
+                        message: "Cannot get connection string - Tenant is null",
+                        action: "GetTenantConnectionString");
                     throw new InvalidOperationException("Tenant not resolved. Cannot get connection string.");
                 }
 
@@ -185,8 +217,11 @@ namespace zaaerIntegration.Services.Implementations
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "❌ Error getting connection string for tenant: {TenantCode}. Error: {ErrorMessage}", 
-                    _currentTenant?.Code ?? "Unknown", ex.Message);
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: $"Error getting connection string for tenant: {_currentTenant?.Code ?? "Unknown"}: {ex.Message}",
+                    action: "GetTenantConnectionString",
+                    exception: ex);
                 throw new InvalidOperationException(
                     $"Failed to get connection string for tenant. Error: {ex.Message}", ex);
             }
@@ -201,15 +236,20 @@ namespace zaaerIntegration.Services.Implementations
         {
             if (tenant == null)
             {
-                _logger.LogError("BuildConnectionStringForTenant: Tenant is null");
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: "BuildConnectionStringForTenant: Tenant is null",
+                    action: "BuildConnectionStringForTenant");
                 throw new ArgumentNullException(nameof(tenant));
             }
 
             // التحقق من وجود DatabaseName
             if (string.IsNullOrWhiteSpace(tenant.DatabaseName))
             {
-                _logger.LogError("DatabaseName is null or empty for tenant: {TenantCode} (Id: {TenantId})", 
-                    tenant.Code, tenant.Id);
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: $"DatabaseName is null or empty for tenant: {tenant.Code} (Id: {tenant.Id})",
+                    action: "BuildConnectionStringForTenant");
                 throw new InvalidOperationException(
                     $"DatabaseName is not set for tenant: {tenant.Code}. " +
                     "Please add DatabaseName to the tenant record in Master Database.");
@@ -223,7 +263,10 @@ namespace zaaerIntegration.Services.Implementations
             // التحقق من وجود جميع الإعدادات المطلوبة
             if (string.IsNullOrWhiteSpace(server))
             {
-                _logger.LogError("TenantDatabase:Server is missing in appsettings.json");
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: "TenantDatabase:Server is missing in appsettings.json",
+                    action: "BuildConnectionStringForTenant");
                 throw new InvalidOperationException(
                     "TenantDatabase:Server is not configured in appsettings.json. " +
                     "Please add TenantDatabase:Server setting.");
@@ -231,7 +274,10 @@ namespace zaaerIntegration.Services.Implementations
 
             if (string.IsNullOrWhiteSpace(userId))
             {
-                _logger.LogError("TenantDatabase:UserId is missing in appsettings.json");
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: "TenantDatabase:UserId is missing in appsettings.json",
+                    action: "BuildConnectionStringForTenant");
                 throw new InvalidOperationException(
                     "TenantDatabase:UserId is not configured in appsettings.json. " +
                     "Please add TenantDatabase:UserId setting.");
@@ -239,7 +285,10 @@ namespace zaaerIntegration.Services.Implementations
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                _logger.LogError("TenantDatabase:Password is missing in appsettings.json");
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: "TenantDatabase:Password is missing in appsettings.json",
+                    action: "BuildConnectionStringForTenant");
                 throw new InvalidOperationException(
                     "TenantDatabase:Password is not configured in appsettings.json. " +
                     "Please add TenantDatabase:Password setting.");
@@ -248,8 +297,7 @@ namespace zaaerIntegration.Services.Implementations
             // بناء Connection String ديناميكياً
             var connectionString = $"Server={server}; Database={tenant.DatabaseName}; User Id={userId}; Password={password}; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;";
 
-            _logger.LogDebug("Built connection string for tenant: {TenantCode}, Database: {DatabaseName}, Server: {Server}", 
-                tenant.Code, tenant.DatabaseName, server);
+            // Removed routine LogDebug - only log errors/warnings
 
             return connectionString;
         }
@@ -267,7 +315,10 @@ namespace zaaerIntegration.Services.Implementations
                 
                 if (tenant == null)
                 {
-                    _logger.LogError("Cannot validate connection - Tenant is null");
+                    _smartLogger?.LogError(
+                        category: "DB",
+                        message: "Cannot validate connection - Tenant is null",
+                        action: "ValidateTenantConnectionAsync");
                     return false;
                 }
 
@@ -283,22 +334,68 @@ namespace zaaerIntegration.Services.Implementations
                 
                 if (currentDatabase != tenant.DatabaseName)
                 {
-                    _logger.LogError("❌ Database mismatch! Expected: {Expected}, Actual: {Actual} for tenant: {TenantCode}", 
-                        tenant.DatabaseName, currentDatabase, tenant.Code);
+                    _smartLogger?.LogError(
+                        category: "DB",
+                        message: $"Database mismatch! Expected: {tenant.DatabaseName}, Actual: {currentDatabase} for tenant: {tenant.Code}",
+                        action: "ValidateTenantConnectionAsync");
                     return false;
                 }
                 
-                _logger.LogInformation("✅ Connection validated successfully for tenant: {TenantCode}, Database: {DatabaseName}", 
-                    tenant.Code, tenant.DatabaseName);
+                // Removed routine LogInformation - only log errors/warnings
                 
                 return true;
             }
             catch (Exception ex)
             {
                 var tenantCode = tenant?.Code ?? _currentTenant?.Code ?? "Unknown";
-                _logger.LogError(ex, "❌ Failed to validate connection for tenant: {TenantCode}. Error: {ErrorMessage}", 
-                    tenantCode, ex.Message);
+                _smartLogger?.LogError(
+                    category: "DB",
+                    message: $"Failed to validate connection for tenant: {tenantCode}: {ex.Message}",
+                    action: "ValidateTenantConnectionAsync",
+                    exception: ex);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// تعيين الـ Tenant الحالي مباشرة (للاستخدام في background workers حيث لا يوجد HttpContext)
+        /// </summary>
+        public void SetCurrentTenant(Tenant tenant)
+        {
+            if (tenant == null)
+                throw new ArgumentNullException(nameof(tenant));
+
+            _currentTenant = tenant;
+            // Removed routine LogDebug - only log errors/warnings
+        }
+
+        /// <summary>
+        /// الحصول على الـ Tenant من HotelId (للاستخدام في background workers)
+        /// Note: HotelId here refers to Zaaer ID from hotel_settings, not tenant.Id
+        /// We need to find tenant by matching hotel_settings.zaaer_id
+        /// </summary>
+        public async Task<Tenant?> GetTenantByHotelIdAsync(int hotelId)
+        {
+            try
+            {
+                // HotelId in PartnerQueue refers to hotel_settings.zaaer_id, not tenant.Id
+                // We need to find the tenant by checking all tenant databases for matching hotel_settings.zaaer_id
+                // This is expensive, so we'll use a simpler approach: get tenant from connection string if available
+                // For now, return null and let the handler use SetCurrentTenant with tenant from db connection
+                _smartLogger?.LogWarning(
+                    category: "SYNC",
+                    message: $"GetTenantByHotelIdAsync called with HotelId={hotelId}, but this requires checking all tenant databases. Use SetCurrentTenant instead.",
+                    action: "GetTenantByHotelIdAsync");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _smartLogger?.LogError(
+                    category: "SYNC",
+                    message: $"Error getting tenant by HotelId {hotelId}: {ex.Message}",
+                    action: "GetTenantByHotelIdAsync",
+                    exception: ex);
+                return null;
             }
         }
     }

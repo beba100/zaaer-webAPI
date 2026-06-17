@@ -17,6 +17,9 @@ namespace FinanceLedgerAPI.Models
 		[Required]
 		public int HotelId { get; set; }
 
+		[Column("is_active")]
+		public bool IsActive { get; set; } = true;
+
 		[Column("company_name")]
 		[MaxLength(200)]
 		[Required]
@@ -34,9 +37,23 @@ namespace FinanceLedgerAPI.Models
 		[MaxLength(100)]
 		public string? CorporateRegistrationNumber { get; set; }
 
+		/// <summary>CSR Common Name (الاسم العام) shown on Fatoora device list — e.g. ALEAIRY-Jizan3-300581803400003.</summary>
+		[Column("device_common_name")]
+		[MaxLength(200)]
+		public string? DeviceCommonName { get; set; }
+
 		[Column("environment")]
 		[MaxLength(50)]
 		public string? Environment { get; set; }
+
+		/// <summary>sandbox | simulation | production — API base selection</summary>
+		[Column("api_environment")]
+		[MaxLength(20)]
+		public string ApiEnvironment { get; set; } = "sandbox";
+
+		[Column("device_uuid")]
+		[MaxLength(100)]
+		public string? DeviceUuid { get; set; }
 
 		[Column("otp")]
 		[MaxLength(50)]

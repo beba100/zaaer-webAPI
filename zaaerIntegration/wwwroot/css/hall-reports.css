@@ -1,0 +1,519 @@
+body.pms-ui .hall-reports-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+}
+
+body.pms-ui .hall-reports-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px 12px;
+    padding: 12px 14px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-form, 12px);
+}
+
+body.pms-ui .hall-reports-filter-field {
+    min-width: 160px;
+    flex: 0 1 180px;
+}
+
+body.pms-ui .hall-reports-filter-date-actions,
+body.pms-ui .hall-reports-filter-export-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+body.pms-ui .hall-reports-filter-export-actions {
+    margin-inline-start: auto;
+}
+
+body.pms-ui .hall-reports-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+body.pms-ui .hall-reports-kpi {
+    padding: 10px 12px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+body.pms-ui .hall-reports-kpi__label {
+    font-size: var(--pms-text-xs, 12px);
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+body.pms-ui .hall-reports-kpi__value {
+    font-size: var(--pms-text-lg, 16px);
+    font-weight: 700;
+    color: #0f172a;
+    font-variant-numeric: tabular-nums;
+}
+
+body.pms-ui .hall-reports-kpi__value--negative {
+    color: #dc2626;
+}
+
+body.pms-ui .hall-reports-kpi__value--positive {
+    color: #059669;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview td.hall-reports-status-cell--checked-out {
+    background-color: #fce7f3 !important;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview td.hall-reports-status-cell--checked-in {
+    background-color: #dcfce7 !important;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview .dx-row.dx-state-hover > td.hall-reports-status-cell--checked-out,
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview .dx-row.dx-state-hover:nth-child(even) > td.hall-reports-status-cell--checked-out {
+    background-color: #fbcfe8 !important;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview .dx-row.dx-state-hover > td.hall-reports-status-cell--checked-in,
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview .dx-row.dx-state-hover:nth-child(even) > td.hall-reports-status-cell--checked-in {
+    background-color: #bbf7d0 !important;
+}
+
+body.pms-ui .hall-reports-kpi-row--daily-journal {
+    grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+    align-items: stretch;
+}
+
+body.pms-ui .hall-reports-kpi--net {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body.pms-ui .hall-reports-voucher-stats {
+    padding: 10px 12px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+    min-width: 0;
+}
+
+body.pms-ui .hall-reports-voucher-stats__title {
+    font-size: var(--pms-text-xs, 12px);
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+body.pms-ui .hall-reports-voucher-stats__empty {
+    font-size: var(--pms-text-sm, 13px);
+    color: #94a3b8;
+}
+
+body.pms-ui .hall-reports-voucher-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+}
+
+body.pms-ui .hall-reports-voucher-stat {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--pms-border, #d9dee7);
+    background: var(--pms-panel-bg, #f6f7f9);
+}
+
+body.pms-ui .hall-reports-voucher-stat--inflow {
+    border-inline-start: 3px solid #059669;
+}
+
+body.pms-ui .hall-reports-voucher-stat--outflow {
+    border-inline-start: 3px solid #dc2626;
+}
+
+body.pms-ui .hall-reports-voucher-stat__name {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 6px;
+    line-height: 1.35;
+}
+
+body.pms-ui .hall-reports-voucher-stat__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 10px;
+    font-size: var(--pms-text-xs, 12px);
+    color: #64748b;
+}
+
+body.pms-ui .hall-reports-voucher-stat__amount {
+    font-size: var(--pms-text-md, 14px);
+    font-weight: 700;
+    color: #0f172a;
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+body.pms-ui .hall-reports-grid-host {
+    min-height: 420px;
+    flex: 1 1 auto;
+}
+
+body.pms-ui .pms-report-bc-sep {
+    flex-shrink: 0;
+}
+
+body.pms-ui .pms-report-page-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    max-width: min(520px, 100%);
+    margin-inline-start: 2px;
+    padding: 6px 14px 6px 12px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #eef3f9 100%);
+    border: 1px solid rgba(30, 58, 95, 0.14);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+body.pms-ui .pms-report-page-title__icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--pms-primary-soft, #e8f0f7);
+    color: var(--pms-primary, #3f6f9f);
+    font-size: 18px;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid-headers td.hall-reports-col-company,
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview td.hall-reports-col-company {
+    min-width: 200px;
+    width: 220px;
+    max-width: 280px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+body.pms-ui .pms-report-page-title__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+body.pms-ui .pms-report-page-title__group {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.pms-ui .pms-report-page-title__name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1e3a5f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 900px) {
+    body.pms-ui .pms-report-page-title__group {
+        display: none;
+    }
+
+    body.pms-ui .pms-report-page-title {
+        padding: 5px 10px;
+    }
+
+    body.pms-ui .pms-report-page-title__name {
+        font-size: 13px;
+    }
+}
+
+body.pms-ui .hall-reports-link {
+    color: var(--pms-primary, #3f6f9f);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+body.pms-ui .hall-reports-link:hover {
+    text-decoration: underline;
+}
+
+body.pms-ui .hall-reports-link .dx-icon {
+    font-size: 13px;
+}
+
+body.pms-ui .hall-reports-link--button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+body.pms-ui .hall-reports-amount {
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: end;
+}
+
+body.pms-ui .hall-reports-kpi-row--daily-journal-extended {
+    grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+}
+
+body.pms-ui .hall-reports-kpi-row--daily-journal-extended .hall-reports-voucher-stats--payment-methods {
+    grid-column: 1 / -1;
+}
+
+body.pms-ui .hall-reports-kpi__value--with-currency {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+body.pms-ui .hall-reports-kpi__currency-icon {
+    display: inline-block;
+    flex: 0 0 auto;
+    opacity: 0.88;
+}
+
+body.pms-ui .hall-reports-kpi__currency-code {
+    font-size: var(--pms-text-sm, 13px);
+    font-weight: 600;
+    color: #64748b;
+    letter-spacing: 0.04em;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid {
+    font-size: 11px;
+}
+
+body.pms-ui .hall-reports-card .dx-datagrid-headers .dx-datagrid-text-content,
+body.pms-ui .hall-reports-card .dx-datagrid-rowsview .dx-row > td {
+    font-size: 11px;
+}
+
+body.pms-ui .hall-reports-kpi__label {
+    font-size: 11px;
+}
+
+body.pms-ui .hall-reports-kpi__value {
+    font-size: 14px;
+}
+
+body.pms-ui .hall-reports-voucher-stat__name,
+body.pms-ui .hall-reports-voucher-stat__meta,
+body.pms-ui .hall-reports-voucher-stats__title {
+    font-size: 11px;
+}
+
+body.pms-ui .hall-reports-customer-popup__body {
+    padding: 14px;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+}
+
+body.pms-ui .hall-reports-customer-popup__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+body.pms-ui .hall-reports-customer-popup__field {
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-input, 8px);
+}
+
+body.pms-ui .hall-reports-customer-popup__label {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+body.pms-ui .hall-reports-customer-popup__value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+body.pms-ui .hall-reports-customer-link {
+    cursor: pointer;
+}
+
+body.pms-ui .target-report-tiers__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+body.pms-ui .target-report-tier {
+    padding: 12px 14px;
+    background: var(--pms-surface, #fff);
+    border: 1px solid var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-card, 14px);
+    font-size: 11px;
+}
+
+body.pms-ui .target-report-tier--active {
+    border-color: #3f6f9f;
+    box-shadow: 0 0 0 1px rgba(63, 111, 159, 0.12);
+}
+
+body.pms-ui .target-report-tier--reached {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+body.pms-ui .target-report-tier__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+body.pms-ui .target-report-tier__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+body.pms-ui .target-report-tier__status--ok {
+    color: #059669;
+    font-size: 18px;
+}
+
+body.pms-ui .target-report-tier__meta {
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+body.pms-ui .target-report-tier__amount {
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 6px;
+}
+
+body.pms-ui .target-report-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 28px 16px;
+    text-align: center;
+    background: var(--pms-panel-bg-strong, #f3f4f6);
+    border: 1px dashed var(--pms-border, #d9dee7);
+    border-radius: var(--pms-radius-form, 12px);
+}
+
+body.pms-ui .target-report-empty__icon {
+    font-size: 28px;
+    color: #94a3b8;
+}
+
+body.pms-ui .target-report-empty__text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+body.pms-ui .target-report-empty__hint {
+    font-size: 12px;
+    color: #64748b;
+}
+
+body.pms-ui .target-report-days {
+    margin-top: 16px;
+}
+
+body.pms-ui .target-report-days-host {
+    max-height: 340px;
+}
+
+body.pms-ui .target-settings-form-host {
+    margin-bottom: 12px;
+}
+
+body.pms-ui .target-settings-form-actions {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 12px;
+}
+
+body.pms-ui .target-settings-grid-host {
+    width: 100%;
+    min-height: 260px;
+    overflow: hidden;
+}
+
+body.pms-ui .target-settings-grid-host .target-settings-grid {
+    width: 100%;
+}
+
+body.pms-ui .target-settings-grid-host .dx-datagrid-rowsview {
+    overflow-x: hidden;
+}
+
+body.pms-ui .target-settings-grid-host .dx-datagrid-headers .dx-datagrid-table,
+body.pms-ui .target-settings-grid-host .dx-datagrid-rowsview .dx-datagrid-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+@media print {
+    body.pms-ui .room-board-sidebar,
+    body.pms-ui .room-board-header,
+    body.pms-ui .hall-reports-filters,
+    body.pms-ui .hall-reports-filter-date-actions,
+    body.pms-ui .hall-reports-filter-export-actions,
+    body.pms-ui .dx-datagrid-header-panel {
+        display: none !important;
+    }
+
+    body.pms-ui .room-board-workspace {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body.pms-ui .hall-reports-card {
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+body.pms-ui .month-closing-grid .dx-datagrid-headers .month-closing-ops-band {
+    text-align: center !important;
+}
+
+body.pms-ui .month-closing-grid .dx-datagrid-headers .month-closing-ops-band .dx-datagrid-text-content {
+    width: 100%;
+    text-align: center;
+}

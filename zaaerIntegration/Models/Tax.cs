@@ -76,6 +76,12 @@ namespace FinanceLedgerAPI.Models
 		public bool Enabled { get; set; } = true;
 
 		/// <summary>
+		/// Whether the VAT rate is included in the entered gross amount.
+		/// </summary>
+		[Column("tax_included")]
+		public bool TaxIncluded { get; set; } = true;
+
+		/// <summary>
 		/// Tax Status (e.g., "active", "inactive") - legacy field
 		/// </summary>
 		[Column("status")]

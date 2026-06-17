@@ -14,9 +14,12 @@ namespace zaaerIntegration.Services.Interfaces
         /// الحصول على جميع العملاء مع التصفح
         /// </summary>
         Task<(IEnumerable<CustomerResponseDto> Customers, int TotalCount)> GetAllCustomersAsync(
-            int pageNumber = 1, 
-            int pageSize = 10, 
-            string? searchTerm = null);
+            int pageNumber = 1,
+            int pageSize = 10,
+            string? searchTerm = null,
+            string? searchMode = null,
+            int? nationalityId = null,
+            int? guestCategoryId = null);
 
         /// <summary>
         /// Get customer by ID

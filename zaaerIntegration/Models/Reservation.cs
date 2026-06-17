@@ -24,8 +24,7 @@ namespace FinanceLedgerAPI.Models
 		public int HotelId { get; set; }
 
 		[Column("customer_id")]
-		[Required]
-		public int CustomerId { get; set; }
+		public int? CustomerId { get; set; }
 
 	[Column("visit_purpose_id")]
 	public int? VisitPurposeId { get; set; }
@@ -57,6 +56,13 @@ namespace FinanceLedgerAPI.Models
 	[Column("number_of_months")]
 	public int? NumberOfMonths { get; set; }
 
+	/// <summary>
+	/// Monthly rental calendar mode: ThirtyDay (30-day blocks) or Actual (Gregorian months).
+	/// </summary>
+	[Column("monthly_calendar_mode")]
+	[MaxLength(20)]
+	public string? MonthlyCalendarMode { get; set; }
+
 	[Column("total_nights")]
 	public int? TotalNights { get; set; }
 
@@ -71,6 +77,13 @@ namespace FinanceLedgerAPI.Models
 	/// </summary>
 	[Column("total_discounts", TypeName = "decimal(12,2)")]
 	public decimal? TotalDiscounts { get; set; }
+
+	[Column("booking_coupon_id")]
+	public int? BookingCouponId { get; set; }
+
+	[Column("coupon_promo_code")]
+	[StringLength(40)]
+	public string? CouponPromoCode { get; set; }
 
 	/// <summary>
 	/// Subtotal before taxes (المجموع قبل الضرائب)
@@ -175,6 +188,7 @@ namespace FinanceLedgerAPI.Models
 		[NotMapped]
 		public string StatusColor => ReservationStatusHelper.GetStatusColor(StatusEnum);
 
+		/// <summary>PMS operator id (<c>pms_users.user_id</c> from JWT).</summary>
 		[Column("created_by")]
 		public int? CreatedBy { get; set; }
 
@@ -209,12 +223,48 @@ namespace FinanceLedgerAPI.Models
 	[Column("external_ref_no")]
 	public int? ExternalRefNo { get; set; }
 
-	// Navigation properties
+	/// <summary>
+	/// CM Booking Number (رقم الحجز في نظام CM)
+	/// Booking number from CM system
+	/// </summary>
+	[Column("cm_booking_no")]
+	[MaxLength(100)]
+	public string? CmBookingNo { get; set; }
+
+	/// <summary>
+	/// Source point/platform (نقطة المصدر)
+	/// The source of the reservation (e.g., "المطار", "الموقع", etc.)
+	/// </summary>
+        [Column("source")]
+        [MaxLength(255)]
+        public string? Source { get; set; }
+
+        [Column("ntmp_transaction_id")]
+        [MaxLength(64)]
+        public string? NtmpTransactionId { get; set; }
+
+        [Column("ntmp_last_sync_at")]
+        public DateTime? NtmpLastSyncAt { get; set; }
+
+        [MaxLength(100)]
+        [Column("ntmp_last_event_type")]
+        public string? NtmpLastEventType { get; set; }
+
+        [MaxLength(20)]
+        [Column("ntmp_last_status")]
+        public string? NtmpLastStatus { get; set; }
+
+        /// <summary>Bit flags: 1=booking, 2=check-in, 4=check-out (NTMP synced stages).</summary>
+        [Column("ntmp_synced_stages")]
+        public int NtmpSyncedStages { get; set; }
+
+        // Navigation properties
 		public VisitPurpose? VisitPurpose { get; set; }
 		public CorporateCustomer? CorporateCustomer { get; set; }
 		[ForeignKey("HotelId")]
 		public HotelSettings HotelSettings { get; set; } = null!;
 		public ICollection<ReservationUnit> ReservationUnits { get; set; } = new List<ReservationUnit>();
+		public ICollection<ReservationCompanion> ReservationCompanions { get; set; } = new List<ReservationCompanion>();
 		public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 		public ICollection<PaymentReceipt> PaymentReceipts { get; set; } = new List<PaymentReceipt>();
 		public ICollection<Refund> Refunds { get; set; } = new List<Refund>();
