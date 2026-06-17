@@ -8,11 +8,9 @@ using Microsoft.Data.SqlClient;
 using zaaerIntegration.Services.Interfaces;
 using zaaerIntegration.Services;
 using FinanceLedgerAPI.Models;
-using System.Data;
 using Microsoft.AspNetCore.Authorization;
 using zaaerIntegration.Configuration;
 using zaaerIntegration.Utilities;
-using Microsoft.AspNetCore.Authorization;
 
 namespace zaaerIntegration.Controllers
 {
@@ -587,16 +585,6 @@ namespace zaaerIntegration.Controllers
                 database = tenant.DatabaseName,
                 zaaerId = tenant.ZaaerId
             });
-        }
-
-        /// <summary>
-        /// Get current selected hotel info from frontend
-        /// </summary>
-        [HttpGet("debug-selected-hotel")]
-        public IActionResult DebugSelectedHotel()
-        {
-            // This will help us see what hotelId is being sent from frontend
-            return Ok(new { message = "Use browser console to see hotelId being sent" });
         }
 
         /// <summary>
@@ -1553,306 +1541,8 @@ namespace zaaerIntegration.Controllers
         }
 
         /// <summary>
-        /// Get legacy server comparison data (TEMPORARY - for comparison between old and new server)
+        /// Returns tax rule configuration used by payment daily net reports.
         /// </summary>
-        [HttpGet("legacy-server-comparison")]
-        public async Task<IActionResult> GetLegacyServerComparison([FromQuery] string dateFrom, [FromQuery] string dateTo)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(dateFrom) || string.IsNullOrWhiteSpace(dateTo))
-                {
-                    return BadRequest(new { message = "يجب تحديد تاريخ البداية والنهاية" });
-                }
-
-                if (!DateTime.TryParse(dateFrom, out var fromDate) || !DateTime.TryParse(dateTo, out var toDate))
-                {
-                    return BadRequest(new { message = "صيغة التاريخ غير صحيحة. استخدم YYYY-MM-DD" });
-                }
-
-                // Legacy server connection string (TEMPORARY)
-                var legacyConnectionString = "Server=185.216.75.237,1433; Database=RHotel_db; User Id=beba; Password=HwxQeDND=qMz; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;";
-
-                // Build SQL query for date range - matching the working SQL exactly
-                var sql = @"
-                    DECLARE @DateFrom DATE = @DateFromParam;
-                    DECLARE @DateTo   DATE = @DateToParam;
-                    DECLARE @StartDate DATETIME2 = CAST(@DateFrom AS DATETIME2);
-                    DECLARE @EndDate   DATETIME2 = DATEADD(DAY, 1, CAST(@DateTo AS DATETIME2));
-
-                    IF OBJECT_ID('tempdb..#Results') IS NOT NULL DROP TABLE #Results;
-
-                    CREATE TABLE #Results
-                    (
-                        DatabaseName     NVARCHAR(128),
-                        BookingsCnt      INT,
-                        ReceiptsCnt      INT,
-                        ReceiptsTotal    DECIMAL(18,2),
-                        RefundsCnt       INT,
-                        RefundsTotal     DECIMAL(18,2),
-                        CustomersCnt     INT,
-                        ExpensesCnt      INT,
-                        ExpensesTotal    DECIMAL(18,2),
-                        DepositsCnt      INT,
-                        DepositsTotal    DECIMAL(18,2)
-                    );
-
-                    DECLARE @sql NVARCHAR(MAX) = N'';
-
-                    SELECT @sql += '
-                    IF HAS_DBACCESS(''' + name + ''') = 1
-                    BEGIN
-                        INSERT INTO #Results
-                        (
-                            DatabaseName,
-                            BookingsCnt,
-                            ReceiptsCnt,
-                            ReceiptsTotal,
-                            RefundsCnt,
-                            RefundsTotal,
-                            CustomersCnt,
-                            ExpensesCnt,
-                            ExpensesTotal,
-                            DepositsCnt,
-                            DepositsTotal
-                        )
-                        SELECT
-                            ''' + name + ''',
-
-                            -- Bookings
-                            (SELECT COUNT(*)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_bookings
-                             WHERE b_date >= @StartDate AND b_date < @EndDate),
-
-                            -- Receipts
-                            (SELECT COUNT(*)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_receipts
-                             WHERE receipt_date >= @StartDate AND receipt_date < @EndDate),
-                            (SELECT ISNULL(SUM(total_received),0)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_receipts
-                             WHERE receipt_date >= @StartDate AND receipt_date < @EndDate),
-
-                            -- Refunds
-                            (SELECT COUNT(*)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_refunds
-                             WHERE receipt_date >= @StartDate AND receipt_date < @EndDate),
-                            (SELECT ISNULL(SUM(total_received),0)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_refunds
-                             WHERE receipt_date >= @StartDate AND receipt_date < @EndDate),
-
-                            -- Customers
-                            (SELECT COUNT(*)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_customer
-                             WHERE ch_enteredat >= @StartDate AND ch_enteredat < @EndDate),
-
-                            -- Expenses (non-deposits)
-                            (SELECT COUNT(*)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_expense
-                             WHERE exp_date >= @StartDate AND exp_date < @EndDate
-                               AND (expcat_id NOT IN (712,713,714,715) OR expcat_id IS NULL)),
-                            (SELECT ISNULL(SUM(exp_amt),0)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_expense
-                             WHERE exp_date >= @StartDate AND exp_date < @EndDate
-                               AND (expcat_id NOT IN (712,713,714,715) OR expcat_id IS NULL)),
-
-                            -- Deposits
-                            (SELECT COUNT(*)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_expense
-                             WHERE exp_date >= @StartDate AND exp_date < @EndDate
-                               AND expcat_id IN (712,713,714,715)),
-                            (SELECT ISNULL(SUM(exp_amt),0)
-                             FROM ' + QUOTENAME(name) + '.dbo.h_expense
-                             WHERE exp_date >= @StartDate AND exp_date < @EndDate
-                               AND expcat_id IN (712,713,714,715))
-                    END;
-                    '
-                    FROM sys.databases
-                    WHERE state_desc = 'ONLINE'
-                      AND name NOT IN (
-                          'master','model','msdb','tempdb',
-                          'CentralManagementDB','Madinah9',
-                          'RHotel_db','Resort','Crystal','Ma3ali'
-                      );
-
-                    EXEC sp_executesql
-                        @sql,
-                        N'@StartDate DATETIME2, @EndDate DATETIME2',
-                        @StartDate = @StartDate,
-                        @EndDate   = @EndDate;
-
-                    -- Final result
-                    SELECT
-                        DatabaseName,
-                        BookingsCnt,
-                        ReceiptsCnt,
-                        ReceiptsTotal,
-                        RefundsCnt,
-                        RefundsTotal,
-                        CustomersCnt,
-                        ExpensesCnt,
-                        ExpensesTotal,
-                        DepositsCnt,
-                        DepositsTotal
-                    FROM
-                    (
-                        -- Databases with activity
-                        SELECT
-                            DatabaseName,
-                            BookingsCnt,
-                            ReceiptsCnt,
-                            ReceiptsTotal,
-                            RefundsCnt,
-                            RefundsTotal,
-                            CustomersCnt,
-                            ExpensesCnt,
-                            ExpensesTotal,
-                            DepositsCnt,
-                            DepositsTotal,
-                            0 AS SortOrder
-                        FROM #Results
-                        WHERE BookingsCnt > 0
-                           OR ReceiptsCnt > 0
-                           OR RefundsCnt > 0
-                           OR CustomersCnt > 0
-                           OR ExpensesCnt > 0
-                           OR DepositsCnt > 0
-
-                        UNION ALL
-
-                        -- TOTAL
-                        SELECT
-                            'TOTAL',
-                            SUM(BookingsCnt),
-                            SUM(ReceiptsCnt),
-                            SUM(ReceiptsTotal),
-                            SUM(RefundsCnt),
-                            SUM(RefundsTotal),
-                            SUM(CustomersCnt),
-                            SUM(ExpensesCnt),
-                            SUM(ExpensesTotal),
-                            SUM(DepositsCnt),
-                            SUM(DepositsTotal),
-                            1
-                        FROM #Results
-                    ) AS FinalResult
-                    ORDER BY SortOrder, DatabaseName;";
-
-                using var connection = new SqlConnection(legacyConnectionString);
-                await connection.OpenAsync();
-
-                var results = await connection.QueryAsync<dynamic>(sql, new
-                {
-                    DateFromParam = fromDate,
-                    DateToParam = toDate
-                });
-
-                var databases = results.Select(r => new
-                {
-                    databaseName = r.DatabaseName?.ToString() ?? "",
-                    bookingsCnt = (int)(r.BookingsCnt ?? 0),
-                    receiptsCnt = (int)(r.ReceiptsCnt ?? 0),
-                    receiptsTotal = (decimal)(r.ReceiptsTotal ?? 0),
-                    refundsCnt = (int)(r.RefundsCnt ?? 0),
-                    refundsTotal = (decimal)(r.RefundsTotal ?? 0),
-                    customersCnt = (int)(r.CustomersCnt ?? 0),
-                    expensesCnt = (int)(r.ExpensesCnt ?? 0),
-                    expensesTotal = (decimal)(r.ExpensesTotal ?? 0),
-                    depositsCnt = (int)(r.DepositsCnt ?? 0),
-                    depositsTotal = (decimal)(r.DepositsTotal ?? 0),
-                    netTotal = (decimal)((r.ReceiptsTotal ?? 0) - (r.RefundsTotal ?? 0)) // Net = Receipts - Refunds
-                }).ToList();
-
-                // Calculate totals - find existing TOTAL row or calculate it
-                var totalRow = databases.FirstOrDefault(d => d.databaseName == "TOTAL");
-                if (totalRow == null)
-                {
-                    // Create TOTAL row with same structure
-                    var nonTotalDatabases = databases.Where(d => d.databaseName != "TOTAL").ToList();
-                    var totalReceipts = nonTotalDatabases.Sum(d => d.receiptsTotal);
-                    var totalRefunds = nonTotalDatabases.Sum(d => d.refundsTotal);
-                    var totalExpenses = nonTotalDatabases.Sum(d => d.expensesTotal);
-                    var totalDeposits = nonTotalDatabases.Sum(d => d.depositsTotal);
-                    var grandTotal = totalReceipts - totalRefunds;
-                    
-                    totalRow = new
-                    {
-                        databaseName = (dynamic)"TOTAL",
-                        bookingsCnt = nonTotalDatabases.Sum(d => d.bookingsCnt),
-                        receiptsCnt = nonTotalDatabases.Sum(d => d.receiptsCnt),
-                        receiptsTotal = totalReceipts,
-                        refundsCnt = nonTotalDatabases.Sum(d => d.refundsCnt),
-                        refundsTotal = totalRefunds,
-                        customersCnt = nonTotalDatabases.Sum(d => d.customersCnt),
-                        expensesCnt = nonTotalDatabases.Sum(d => d.expensesCnt),
-                        expensesTotal = totalExpenses,
-                        depositsCnt = nonTotalDatabases.Sum(d => d.depositsCnt),
-                        depositsTotal = totalDeposits,
-                        netTotal = grandTotal
-                    };
-                }
-                
-                // Extract hotel code from database name (remove db prefix if exists)
-                // Legacy DB names: Dammam1, Tabuk2, etc. (without db32415_ prefix)
-                var databasesWithHotelCode = databases.Select(d => new
-                {
-                    databaseName = d.databaseName,
-                    hotelCode = ExtractHotelCodeFromDatabaseName(d.databaseName),
-                    bookingsCnt = d.bookingsCnt,
-                    receiptsCnt = d.receiptsCnt,
-                    receiptsTotal = d.receiptsTotal,
-                    refundsCnt = d.refundsCnt,
-                    refundsTotal = d.refundsTotal,
-                    customersCnt = d.customersCnt,
-                    expensesCnt = d.expensesCnt,
-                    expensesTotal = d.expensesTotal,
-                    depositsCnt = d.depositsCnt,
-                    depositsTotal = d.depositsTotal,
-                    netTotal = d.netTotal
-                }).ToList();
-
-                return Ok(new
-                {
-                    success = true,
-                    databases = databasesWithHotelCode,
-                    totals = totalRow
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving legacy server comparison data: {Message}\n{StackTrace}", ex.Message, ex.StackTrace);
-                return StatusCode(500, new { 
-                    message = "Error retrieving legacy server data", 
-                    error = ex.Message,
-                    innerException = ex.InnerException?.Message,
-                    stackTrace = ex.StackTrace
-                });
-            }
-        }
-
-        /// <summary>
-        /// Extract hotel code from database name (TEMPORARY - for legacy server comparison)
-        /// Legacy DB names: Dammam1, Tabuk2, etc. (without db32415_ prefix)
-        /// </summary>
-        private string ExtractHotelCodeFromDatabaseName(string databaseName)
-        {
-            if (string.IsNullOrWhiteSpace(databaseName) || databaseName == "TOTAL")
-            {
-                return databaseName;
-            }
-
-            // Remove db prefix if exists (e.g., "db32415_Dammam1" -> "Dammam1")
-            if (databaseName.Contains("_"))
-            {
-                var parts = databaseName.Split('_');
-                if (parts.Length > 1)
-                {
-                    return parts[parts.Length - 1]; // Get last part after underscore
-                }
-            }
-
-            return databaseName; // Return as is if no prefix found
-        }
-
         [HttpGet("payment-daily-net-ex-tax-rules")]
         public IActionResult GetPaymentDailyNetExTaxRules()
         {
@@ -1866,8 +1556,11 @@ namespace zaaerIntegration.Controllers
             });
         }
 
+        /// <summary>
+        /// Returns payment method totals across accessible hotels for the selected date range.
+        /// </summary>
         [HttpGet("payment-method-summary")]
-public async Task<IActionResult> GetPaymentMethodSummary([FromQuery] string dateFrom, [FromQuery] string dateTo, [FromQuery] string hotelCodes = null)
+public async Task<IActionResult> GetPaymentMethodSummary([FromQuery] string dateFrom, [FromQuery] string dateTo, [FromQuery] string? hotelCodes = null)
 {
     try
     {

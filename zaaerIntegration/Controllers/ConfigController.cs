@@ -9,6 +9,7 @@ namespace zaaerIntegration.Controllers
 	/// </summary>
 	[ApiController]
 	[Route("api/config")]
+	[Authorize]
 	public class ConfigController : ControllerBase
 	{
 		private readonly IConfiguration _configuration;
@@ -24,7 +25,6 @@ namespace zaaerIntegration.Controllers
 		/// Get DevExtreme license key
 		/// </summary>
 		[HttpGet("devextreme-license")]
-		[AllowAnonymous]
 		public IActionResult GetDevExtremeLicense()
 		{
 			try

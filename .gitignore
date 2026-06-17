@@ -4,6 +4,7 @@
 **/PubTmp/
 **/out/
 **/publish/
+publish-out/
 
 # Visual Studio cache/options
 .vs/

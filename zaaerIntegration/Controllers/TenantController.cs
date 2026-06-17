@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using zaaerIntegration.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using zaaerIntegration.Services.Interfaces;
 
 namespace zaaerIntegration.Controllers
 {
@@ -13,17 +15,30 @@ namespace zaaerIntegration.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TenantController : ControllerBase
     {
         private readonly MasterDbContext _masterDbContext;
         private readonly ILogger<TenantController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly ICurrentUserContext _currentUserContext;
+        private readonly IHotelScopeService _hotelScopeService;
 
-        public TenantController(MasterDbContext masterDbContext, ILogger<TenantController> logger, IConfiguration configuration)
+        /// <summary>
+        /// Initializes a new instance of the TenantController class.
+        /// </summary>
+        public TenantController(
+            MasterDbContext masterDbContext,
+            ILogger<TenantController> logger,
+            IConfiguration configuration,
+            ICurrentUserContext currentUserContext,
+            IHotelScopeService hotelScopeService)
         {
             _masterDbContext = masterDbContext;
             _logger = logger;
             _configuration = configuration;
+            _currentUserContext = currentUserContext;
+            _hotelScopeService = hotelScopeService;
         }
 
         /// <summary>
@@ -37,12 +52,15 @@ namespace zaaerIntegration.Controllers
 		{
 			try
 			{
+				if (!_currentUserContext.IsAuthenticated)
+				{
+					return Unauthorized(new { error = "Authentication is required." });
+				}
+
 				_logger.LogInformation("📋 Fetching all hotels from Master DB");
 
-				var hotels = await _masterDbContext.Tenants
-					.AsNoTracking()
-					.OrderBy(t => t.Id)
-					.ToListAsync();
+				var hotels = await _hotelScopeService.ResolveTenantsAsync();
+				hotels = hotels.OrderBy(t => t.Id).ToList();
 
 				// Return hotels with their existing ZaaerId values from the database
 				// The ZaaerId column in Tenants table contains the correct zaaer_id values
