@@ -2,6 +2,7 @@ using FinanceLedgerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using zaaerIntegration.Data;
+using zaaerIntegration.Security;
 using zaaerIntegration.Services.Integrations;
 using zaaerIntegration.Services.Integrations.Zatca;
 using zaaerIntegration.Utilities;
@@ -54,9 +55,19 @@ namespace zaaerIntegration.Controllers.Jobs
                 return StatusCode(500, new { error = "Jobs:ZatcaAutoSend:ApiKey not configured." });
             }
 
-            var providedApiKey = apiKeyHeader ?? apiKey;
-            if (providedApiKey != configuredApiKey)
+            if (!JobsApiSecurityHelper.ValidateCallerIp(HttpContext, _configuration, "Jobs:AllowedCallerIps"))
             {
+                _logger.LogWarning(
+                    "[SECURITY] Jobs API rejected caller IP {RemoteIp} for {Path}",
+                    HttpContext.Connection.RemoteIpAddress,
+                    HttpContext.Request.Path.Value);
+                return StatusCode(StatusCodes.Status403Forbidden, new { error = "Caller IP not allowed" });
+            }
+
+            var providedApiKey = apiKeyHeader ?? apiKey;
+            if (!JobsApiSecurityHelper.ValidateApiKey(_configuration, "Jobs:ZatcaAutoSend:ApiKey", providedApiKey))
+            {
+                _logger.LogWarning("[SECURITY] Jobs API invalid API key for {Path}", HttpContext.Request.Path.Value);
                 return Unauthorized(new { error = "Invalid API Key" });
             }
 

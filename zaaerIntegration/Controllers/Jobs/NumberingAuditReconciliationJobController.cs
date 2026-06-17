@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using zaaerIntegration.Security;
 using zaaerIntegration.Services.Interfaces;
 using zaaerIntegration.Utilities;
 
@@ -47,9 +48,19 @@ namespace zaaerIntegration.Controllers.Jobs
                 return StatusCode(500, new { error = "Jobs:NumberingAuditReconciliation:ApiKey not configured." });
             }
 
-            var providedApiKey = apiKeyHeader ?? apiKey;
-            if (!string.Equals(providedApiKey, configuredApiKey, StringComparison.Ordinal))
+            if (!JobsApiSecurityHelper.ValidateCallerIp(HttpContext, _configuration, "Jobs:AllowedCallerIps"))
             {
+                _logger.LogWarning(
+                    "[SECURITY] Jobs API rejected caller IP {RemoteIp} for {Path}",
+                    HttpContext.Connection.RemoteIpAddress,
+                    HttpContext.Request.Path.Value);
+                return StatusCode(StatusCodes.Status403Forbidden, new { error = "Caller IP not allowed" });
+            }
+
+            var providedApiKey = apiKeyHeader ?? apiKey;
+            if (!JobsApiSecurityHelper.ValidateApiKey(_configuration, "Jobs:NumberingAuditReconciliation:ApiKey", providedApiKey))
+            {
+                _logger.LogWarning("[SECURITY] Jobs API invalid API key for {Path}", HttpContext.Request.Path.Value);
                 return Unauthorized(new { error = "Invalid API Key" });
             }
 

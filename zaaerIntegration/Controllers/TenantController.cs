@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using zaaerIntegration.Security;
 using zaaerIntegration.Services.Interfaces;
 
 namespace zaaerIntegration.Controllers
@@ -46,6 +47,7 @@ namespace zaaerIntegration.Controllers
         /// </summary>
         /// <returns>List of all hotels with their codes and names</returns>
         [HttpGet("hotels")]
+        [RequirePermission("room_board.view")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 		public async Task<IActionResult> GetAllHotels()

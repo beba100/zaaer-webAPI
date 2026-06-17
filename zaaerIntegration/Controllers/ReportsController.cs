@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using zaaerIntegration.Data;
 using Dapper;
@@ -10,6 +11,7 @@ using zaaerIntegration.Services;
 using FinanceLedgerAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using zaaerIntegration.Configuration;
+using zaaerIntegration.Security;
 using zaaerIntegration.Utilities;
 
 namespace zaaerIntegration.Controllers
@@ -19,6 +21,7 @@ namespace zaaerIntegration.Controllers
     /// </summary>
     [ApiController]
     [Authorize]
+    [RequirePermission("admin.legacy_reports.view")]
     [Route("api/reports")]
     public class ReportsController : ControllerBase
     {
@@ -29,6 +32,8 @@ namespace zaaerIntegration.Controllers
         private readonly SmartLogger? _smartLogger;
         private readonly PaymentDailyNetExTaxOptions _paymentDailyNetExTaxOptions;
         private readonly IHotelScopeService _hotelScopeService;
+        private readonly IMemoryCache _cache;
+        private readonly ICurrentUserContext _currentUser;
 
         /// <summary>
         /// Initializes a new instance of the ReportsController class
@@ -40,6 +45,8 @@ namespace zaaerIntegration.Controllers
             IConfiguration configuration,
             IOptions<PaymentDailyNetExTaxOptions> paymentDailyNetExTaxOptions,
             IHotelScopeService hotelScopeService,
+            IMemoryCache cache,
+            ICurrentUserContext currentUser,
             SmartLogger? smartLogger = null)
         {
             _masterDbContext = masterDbContext;
@@ -48,6 +55,8 @@ namespace zaaerIntegration.Controllers
             _configuration = configuration;
             _paymentDailyNetExTaxOptions = paymentDailyNetExTaxOptions.Value;
             _hotelScopeService = hotelScopeService;
+            _cache = cache;
+            _currentUser = currentUser;
             _smartLogger = smartLogger;
         }
 
@@ -89,6 +98,16 @@ namespace zaaerIntegration.Controllers
             return $"Server={server}; Database={tenant.DatabaseName}; User Id={userId}; Password={password}; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;";
         }
 
+        private string BuildReportCacheKey(string reportName, string? hotelCodes, string dateFrom, string dateTo)
+        {
+            var userId = _currentUser.UserId?.ToString() ?? "anonymous";
+            var hotels = string.IsNullOrWhiteSpace(hotelCodes) ? "*" : hotelCodes.Trim();
+            return $"report:{reportName}:u{userId}:h{hotels}:from{dateFrom}:to{dateTo}";
+        }
+
+        private int GetReportCacheSeconds(string configKey, int defaultSeconds) =>
+            Math.Max(1, _configuration.GetValue<int?>($"Performance:ReportCacheSeconds:{configKey}") ?? defaultSeconds);
+
         /// <summary>
         /// Get daily report for all hotels or specific hotel - using Dapper for direct queries
         /// </summary>
@@ -97,14 +116,20 @@ namespace zaaerIntegration.Controllers
         /// <param name="hotelCode">Optional hotel code filter (comma-separated). When omitted, returns all hotels assigned to the user.</param>
         /// <returns>Report data grouped by hotel and payment method</returns>
         [HttpGet("daily-report")]
-        public async Task<IActionResult> GetDailyReport(
+        public Task<IActionResult> GetDailyReport(
             [FromQuery] string dateFrom,
             [FromQuery] string dateTo,
-            [FromQuery] string? hotelCode = null)
+            [FromQuery] string? hotelCode = null) =>
+            ExecuteDailyReportAsync(dateFrom, dateTo, hotelCode, useCache: true);
+
+        private async Task<IActionResult> ExecuteDailyReportAsync(
+            string dateFrom,
+            string dateTo,
+            string? hotelCode,
+            bool useCache)
         {
             try
             {
-                // Log request
                 _smartLogger?.LogWarning(
                     category: "REPORTS",
                     message: $"Daily report request | DateFrom: {dateFrom}, DateTo: {dateTo}, HotelCode: {hotelCode ?? "ALL"}",
@@ -139,14 +164,46 @@ namespace zaaerIntegration.Controllers
                     return Ok(new { success = true, hotels = Array.Empty<object>(), message = "No accessible hotels" });
                 }
 
+                if (useCache)
+                {
+                    var cacheKey = BuildReportCacheKey("daily-report", hotelCode, dateFrom, dateTo);
+                    if (_cache.TryGetValue(cacheKey, out object? cachedResult))
+                    {
+                        return Ok(cachedResult);
+                    }
+
+                    var payload = await BuildDailyReportAsync(tenants, fromDate, toDate);
+                    _cache.Set(cacheKey, payload, TimeSpan.FromSeconds(GetReportCacheSeconds("DailyReport", 60)));
+                    return Ok(payload);
+                }
+
+                return Ok(await BuildDailyReportAsync(tenants, fromDate, toDate));
+            }
+            catch (Exception ex)
+            {
+                _smartLogger?.LogError(
+                    category: "REPORTS",
+                    message: $"Error generating daily report | DateFrom: {dateFrom}, DateTo: {dateTo}, Error: {ex.Message}",
+                    action: "GetDailyReport",
+                    exception: ex);
+                return StatusCode(500, new { message = "حدث خطأ أثناء إنشاء التقرير", error = ex.Message });
+            }
+        }
+
+        private async Task<object> BuildDailyReportAsync(
+            List<FinanceLedgerAPI.Models.Tenant> tenants,
+            DateTime fromDate,
+            DateTime toDate)
+        {
                 // Process each accessible tenant database
 
                 if (!tenants.Any())
                 {
-                    return Ok(new { hotels = new List<object>() });
+                    return new { hotels = new List<object>() };
                 }
 
                 var hotelsData = new List<object>();
+                var connectionStringsByTenantId = tenants.ToDictionary(t => t.Id, BuildConnectionStringForTenant);
 
                 // SQL queries using direct table access (no joins with mappings)
                 // Include receipts with voucher_code = 'receipt' and receipt_status = 'paid'
@@ -357,7 +414,7 @@ namespace zaaerIntegration.Controllers
                 {
                     try
                     {
-                        var connectionString = BuildConnectionStringForTenant(tenant);
+                        var connectionString = connectionStringsByTenantId[tenant.Id];
                         await using var connection = new SqlConnection(connectionString);
                         await connection.OpenAsync();
 
@@ -531,17 +588,7 @@ namespace zaaerIntegration.Controllers
                     hotelsData.Add(result!);
                 }
 
-                return Ok(new { hotels = hotelsData });
-            }
-            catch (Exception ex)
-            {
-                _smartLogger?.LogError(
-                    category: "REPORTS",
-                    message: $"Error generating daily report | DateFrom: {dateFrom}, DateTo: {dateTo}, Error: {ex.Message}",
-                    action: "GetDailyReport",
-                    exception: ex);
-                return StatusCode(500, new { message = "حدث خطأ أثناء إنشاء التقرير", error = ex.Message });
-            }
+                return new { hotels = hotelsData };
         }
 
         /// <summary>
@@ -554,9 +601,8 @@ namespace zaaerIntegration.Controllers
         {
             try
             {
-                // For now, return JSON. You can implement Excel export later using EPPlus or similar
-                var result = await GetDailyReport(dateFrom, dateTo);
-                return result;
+                // Export bypasses response cache; always builds fresh report data.
+                return await ExecuteDailyReportAsync(dateFrom, dateTo, hotelCode: null, useCache: false);
             }
             catch (Exception ex)
             {
@@ -1560,43 +1606,52 @@ namespace zaaerIntegration.Controllers
         /// Returns payment method totals across accessible hotels for the selected date range.
         /// </summary>
         [HttpGet("payment-method-summary")]
-public async Task<IActionResult> GetPaymentMethodSummary([FromQuery] string dateFrom, [FromQuery] string dateTo, [FromQuery] string? hotelCodes = null)
-{
-    try
-    {
-        if (string.IsNullOrWhiteSpace(dateFrom) || string.IsNullOrWhiteSpace(dateTo))
+        public async Task<IActionResult> GetPaymentMethodSummary(
+            [FromQuery] string dateFrom,
+            [FromQuery] string dateTo,
+            [FromQuery] string? hotelCodes = null)
         {
-            return BadRequest(new { message = "يجب تحديد تاريخ البداية والنهاية" });
-        }
+            try
+            {
+                if (string.IsNullOrWhiteSpace(dateFrom) || string.IsNullOrWhiteSpace(dateTo))
+                {
+                    return BadRequest(new { message = "يجب تحديد تاريخ البداية والنهاية" });
+                }
 
-        if (!DateTime.TryParse(dateFrom, out var fromDate) || !DateTime.TryParse(dateTo, out var toDate))
-        {
-            return BadRequest(new { message = "صيغة التاريخ غير صحيحة. استخدم YYYY-MM-DD" });
-        }
+                if (!DateTime.TryParse(dateFrom, out var fromDate) || !DateTime.TryParse(dateTo, out var toDate))
+                {
+                    return BadRequest(new { message = "صيغة التاريخ غير صحيحة. استخدم YYYY-MM-DD" });
+                }
 
-        var (tenants, scopeError) = await ResolveReportTenantsAsync(hotelCodes);
-        if (scopeError != null)
-        {
-            return scopeError;
-        }
+                var (tenants, scopeError) = await ResolveReportTenantsAsync(hotelCodes);
+                if (scopeError != null)
+                {
+                    return scopeError;
+                }
 
-        if (tenants == null || tenants.Count == 0)
-        {
-            return Ok(new { success = true, data = Array.Empty<object>() });
-        }
+                if (tenants == null || tenants.Count == 0)
+                {
+                    return Ok(new { success = true, data = Array.Empty<object>() });
+                }
 
-        // Build dynamic SQL for all tenants at once (much faster)
-        var sqlParts = new List<string>();
-        var parameters = new DynamicParameters();
-        parameters.Add("@DateFrom", fromDate.Date);
-        parameters.Add("@DateTo", toDate.Date);
+                var cacheKey = BuildReportCacheKey("payment-method-summary", hotelCodes, dateFrom, dateTo);
+                if (_cache.TryGetValue(cacheKey, out object? cachedResult))
+                {
+                    return Ok(cachedResult);
+                }
 
-        foreach (var tenant in tenants)
-        {
-            var tenantParamName = $"@Tenant_{tenant.Id}";
-            parameters.Add(tenantParamName, tenant.Code);
+                // Build dynamic SQL for all tenants at once (much faster)
+                var sqlParts = new List<string>();
+                var parameters = new DynamicParameters();
+                parameters.Add("@DateFrom", fromDate.Date);
+                parameters.Add("@DateTo", toDate.Date);
 
-            sqlParts.Add($@"
+                foreach (var tenant in tenants)
+                {
+                    var tenantParamName = $"@Tenant_{tenant.Id}";
+                    parameters.Add(tenantParamName, tenant.Code);
+
+                    sqlParts.Add($@"
                 SELECT
                     {tenantParamName} as TenantName,
                     pr.payment_method,
@@ -1631,71 +1686,81 @@ public async Task<IActionResult> GetPaymentMethodSummary([FromQuery] string date
                 WHERE CAST(pr.receipt_date as date) >= @DateFrom
                   AND CAST(pr.receipt_date as date) <= @DateTo
                 GROUP BY pr.payment_method");
-        }
+                }
 
-        // Combine all tenant queries with UNION ALL
-        var finalSql = string.Join(" UNION ALL ", sqlParts) + " ORDER BY TenantName, payment_method";
+                // Combine all tenant queries with UNION ALL
+                var finalSql = string.Join(" UNION ALL ", sqlParts) + " ORDER BY TenantName, payment_method";
 
-        // Execute single query against master database with cross-database access
-        var masterConnectionString = _configuration["ConnectionStrings:MasterDb"];
-        var allResults = new List<dynamic>();
+                // Execute single query against master database with cross-database access
+                var masterConnectionString = _configuration["ConnectionStrings:MasterDb"];
+                var allResults = new List<dynamic>();
 
-        await using var connection = new SqlConnection(masterConnectionString);
-        await connection.OpenAsync();
+                await using var connection = new SqlConnection(masterConnectionString);
+                await connection.OpenAsync();
 
-        var results = await connection.QueryAsync(finalSql, parameters);
-        allResults.AddRange(results);
+                var results = await connection.QueryAsync(finalSql, parameters);
+                allResults.AddRange(results);
 
-        // Calculate totals in memory (much faster)
-        var tenantTotals = allResults
-            .GroupBy(r => (string)r.TenantName)
-            .Select(g => new
-            {
-                TenantName = g.Key,
-                TotalNet = g.Sum(r => (decimal)r.ReceiptsNet),
-                Expenses = g.Sum(r => (decimal)r.Expenses),
-                Deposits_Bilad = g.Sum(r => (decimal)r.Deposits_Bilad),
-                Deposits_Riyad = g.Sum(r => (decimal)r.Deposits_Riyad)
-            })
-            .ToDictionary(t => t.TenantName, t => t);
+                // Calculate totals in memory (much faster)
+                var tenantTotals = allResults
+                    .GroupBy(r => (string)r.TenantName)
+                    .Select(g => new
+                    {
+                        TenantName = g.Key,
+                        TotalNet = g.Sum(r => (decimal)r.ReceiptsNet),
+                        Expenses = g.Sum(r => (decimal)r.Expenses),
+                        Deposits_Bilad = g.Sum(r => (decimal)r.Deposits_Bilad),
+                        Deposits_Riyad = g.Sum(r => (decimal)r.Deposits_Riyad)
+                    })
+                    .ToDictionary(t => t.TenantName, t => t);
 
-        // Build final results
-        var finalResults = allResults.Select(r => {
-            var tenantName = (string)r.TenantName;
-            var tenantData = tenantTotals.ContainsKey(tenantName) ? tenantTotals[tenantName] : null;
+                // Build final results
+                var finalResults = allResults.Select(r =>
+                {
+                    var tenantName = (string)r.TenantName;
+                    var tenantData = tenantTotals.ContainsKey(tenantName) ? tenantTotals[tenantName] : null;
 
-            return new
-            {
-                TenantName = tenantName,
-                PaymentMethod = r.payment_method ?? "غير محدد",
-                ReceiptsNet = r.ReceiptsNet ?? 0m,
-                Expenses = tenantData?.Expenses ?? 0m,
-                Deposits_Bilad = tenantData?.Deposits_Bilad ?? 0m,
-                Deposits_Riyad = tenantData?.Deposits_Riyad ?? 0m,
-                TotalNet = tenantData?.TotalNet ?? 0m
-            };
-        }).ToList();
+                    return new
+                    {
+                        TenantName = tenantName,
+                        PaymentMethod = r.payment_method ?? "غير محدد",
+                        ReceiptsNet = r.ReceiptsNet ?? 0m,
+                        Expenses = tenantData?.Expenses ?? 0m,
+                        Deposits_Bilad = tenantData?.Deposits_Bilad ?? 0m,
+                        Deposits_Riyad = tenantData?.Deposits_Riyad ?? 0m,
+                        TotalNet = tenantData?.TotalNet ?? 0m
+                    };
+                }).ToList();
 
-        return Ok(new {
-            success = true,
-            data = finalResults,
-            dateFrom = fromDate.Date,
-            dateTo = toDate.Date,
-            summary = new {
-                totalHotels = tenantTotals.Count,
-                totalReceiptsNet = tenantTotals.Sum(t => t.Value.TotalNet),
-                totalExpenses = tenantTotals.Sum(t => t.Value.Expenses),
-                totalDepositsBilad = tenantTotals.Sum(t => t.Value.Deposits_Bilad),
-                totalDepositsRiyad = tenantTotals.Sum(t => t.Value.Deposits_Riyad)
+                var payload = new
+                {
+                    success = true,
+                    data = finalResults,
+                    dateFrom = fromDate.Date,
+                    dateTo = toDate.Date,
+                    summary = new
+                    {
+                        totalHotels = tenantTotals.Count,
+                        totalReceiptsNet = tenantTotals.Sum(t => t.Value.TotalNet),
+                        totalExpenses = tenantTotals.Sum(t => t.Value.Expenses),
+                        totalDepositsBilad = tenantTotals.Sum(t => t.Value.Deposits_Bilad),
+                        totalDepositsRiyad = tenantTotals.Sum(t => t.Value.Deposits_Riyad)
+                    }
+                };
+
+                _cache.Set(
+                    cacheKey,
+                    payload,
+                    TimeSpan.FromSeconds(GetReportCacheSeconds("PaymentMethodSummary", 120)));
+
+                return Ok(payload);
             }
-        });
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error generating payment method summary: {Message}", ex.Message);
-        return StatusCode(500, new { message = "حدث خطأ أثناء إنشاء التقرير", error = ex.Message });
-    }
-}
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error generating payment method summary: {Message}", ex.Message);
+                return StatusCode(500, new { message = "حدث خطأ أثناء إنشاء التقرير", error = ex.Message });
+            }
+        }
     }
 }
 

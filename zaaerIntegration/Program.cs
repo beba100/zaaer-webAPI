@@ -561,6 +561,9 @@ app.UseDefaultFiles(defaultFilesOptions);
 // Enable routing
 app.UseRouting();
 
+// Production: block retired legacy /api/{controller} routes before controller dispatch.
+app.UseMiddleware<LegacyApiLockdownMiddleware>();
+
 // Enable DevExpress Reporting
 app.UseDevExpressControls();
 
@@ -570,6 +573,9 @@ app.UseAuthentication();
 
 // Logs slow PMS API requests to logs/performance without affecting non-PMS traffic.
 app.UseMiddleware<PmsSlowRequestLoggingMiddleware>();
+
+// Logs slow report endpoints (/api/reports, /api/v1/pms/hotel-reports).
+app.UseSlowRequestLogging();
 
 // ? تشغيل Multi-Tenant Middleware
 // يجب أن يكون بعد CORS وقبل Authorization
