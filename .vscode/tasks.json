@@ -19,11 +19,17 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/EnterpriseHotelPms.sln",
+                "${workspaceFolder}/zaaerIntegration/zaaerIntegration.csproj",
+                "-c",
+                "Release",
+                "-o",
+                "${workspaceFolder}/release-publish",
+                "--no-self-contained",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOn": "build"
         },
         {
             "label": "watch",

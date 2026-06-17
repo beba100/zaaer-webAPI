@@ -5,6 +5,7 @@
 **/out/
 **/publish/
 publish-out/
+release-publish/
 
 # Visual Studio cache/options
 .vs/
