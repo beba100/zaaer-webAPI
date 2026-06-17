@@ -515,8 +515,9 @@ if (!app.Environment.IsDevelopment())
             && !path.StartsWith("/DXXRDV", StringComparison.OrdinalIgnoreCase);
         var isQueryBuilderPath = path.StartsWith("/DXXQB", StringComparison.OrdinalIgnoreCase);
         var isReportTestPage = path.Equals("/test-reports.html", StringComparison.OrdinalIgnoreCase);
+        var isReportsTestApi = path.StartsWith("/api/reports-test", StringComparison.OrdinalIgnoreCase);
 
-        if (isReportDesignerPath || isQueryBuilderPath || isReportTestPage)
+        if (isReportDesignerPath || isQueryBuilderPath || isReportTestPage || isReportsTestApi)
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             return;
