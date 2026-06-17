@@ -4,6 +4,8 @@ using zaaerIntegration.Data;
 using zaaerIntegration.DTOs.BookingEngine;
 using zaaerIntegration.Utilities;
 
+using zaaerIntegration.Utilities;
+
 namespace zaaerIntegration.Services.BookingEngine
 {
     internal static class BookingEngineCouponHelper
@@ -205,7 +207,7 @@ namespace zaaerIntegration.Services.BookingEngine
             return new PublicPromoBannerDto
             {
                 ImageUrl = settings.PromoBannerImageUrl,
-                Html = settings.PromoBannerHtml,
+                Html = PmsHtmlSanitizer.SanitizeRichText(settings.PromoBannerHtml),
                 EndsAt = settings.PromoBannerEndsAt
             };
         }

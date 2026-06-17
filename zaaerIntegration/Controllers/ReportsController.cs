@@ -647,7 +647,7 @@ namespace zaaerIntegration.Controllers
 
                 if (cachedTenant != null)
                 {
-                    if (!_hotelScopeService.CanAccessTenantId(cachedTenant.Id))
+                    if (!await _hotelScopeService.CanAccessTenantIdAsync(cachedTenant.Id, HttpContext.RequestAborted))
                     {
                         return NotFound(new { message = $"لم يتم العثور على tenant يحتوي على zaaer_id = {zaaerId}" });
                     }

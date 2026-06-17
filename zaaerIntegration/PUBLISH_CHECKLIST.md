@@ -71,6 +71,14 @@ Run in order on **Master DB**:
 | 4B Legacy lockdown + Jobs hardening | Included |
 | 5 Performance (cache + slow logging) | Included |
 | 6 PMS UI (pms-grid-compact) | Included |
+| 7 Security hardening (sessions, CSP, XSS) | Included |
+
+## 8. Sprint 7 — security notes (post-deploy)
+
+- Changing a user's assigned hotels **revokes all their sessions** — they must log in again.
+- `guest-lookup` is rate-limited (default 20/min per IP) — tune via `Security__GuestLookupRateLimitPerMinute`.
+- Production responses include **CSP**, **HSTS**, **X-Frame-Options** — DevExtreme requires inline scripts (configured in middleware).
+- After deploy, users with old JWT after hotel reassignment will be forced to re-login (expected).
 
 ## 7. Git branches
 

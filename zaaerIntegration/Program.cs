@@ -17,6 +17,8 @@ using zaaerIntegration.Utilities;
 using zaaerIntegration.Reporting.Extensions;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
@@ -148,6 +150,29 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add Memory Cache
 builder.Services.AddMemoryCache();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.ContentType = "application/json";
+        await context.HttpContext.Response.WriteAsync(
+            """{"success":false,"message":"Too many requests. Please try again later."}""",
+            cancellationToken);
+    };
+
+    var guestLookupLimit = builder.Configuration.GetValue("Security:GuestLookupRateLimitPerMinute", 20);
+    options.AddPolicy("PublicGuestLookup", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = guestLookupLimit,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+});
 
 // JWT authentication - required by Hybrid RBAC.
 using var jwtOptionsLoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(logging =>
@@ -506,6 +531,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseSecurityHeaders();
+
 if (!app.Environment.IsDevelopment())
 {
     app.Use(async (context, next) =>
@@ -568,6 +595,8 @@ app.UseMiddleware<LegacyApiLockdownMiddleware>();
 app.UseDevExpressControls();
 
 app.UseCors("PmsCors");
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 

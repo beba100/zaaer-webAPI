@@ -431,6 +431,17 @@
                         }
                     }
 
+                    const rollbackHotelSelection = () => {
+                        const prev = e.previousValue || "";
+                        if (prev) {
+                            api.setHotelCode(prev);
+                        }
+                        const picker = $host.dxDropDownBox("instance");
+                        if (picker) {
+                            picker.option("value", prev || null);
+                        }
+                    };
+
                     const apply = () => {
                         if (typeof options.onHotelChanged === "function") {
                             options.onHotelChanged(v, e.previousValue);
@@ -440,7 +451,7 @@
                     };
 
                     if (typeof api.switchHotel === "function") {
-                        api.switchHotel({ hotelCode: v }).done(apply).fail(apply);
+                        api.switchHotel({ hotelCode: v }).done(apply).fail(rollbackHotelSelection);
                     } else {
                         apply();
                     }

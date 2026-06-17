@@ -326,6 +326,15 @@ namespace zaaerIntegration.Services.Implementations
             }
 
             await _db.SaveChangesAsync();
+
+            await _sessionService.RevokeAllUserSessionsAsync(
+                userId,
+                "Hotel access assignment changed",
+                _currentUser.IsAuthenticated ? _currentUser.UserId : null);
+
+            _logger.LogInformation(
+                "[SECURITY] Revoked active sessions for user {UserId} after hotel assignment change",
+                userId);
         }
 
         private void EnsureAssignableTenants(IEnumerable<int> tenantIds)

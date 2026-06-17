@@ -724,8 +724,8 @@ namespace zaaerIntegration.Services.Implementations
                 ButtonColor = settings?.ButtonColor,
                 BorderColor = settings?.BorderColor,
                 BackgroundColor = settings?.BackgroundColor,
-                TopFilterHtml = settings?.TopFilterHtml,
-                DownFilterHtml = settings?.DownFilterHtml,
+                TopFilterHtml = PmsHtmlSanitizer.SanitizeRichText(settings?.TopFilterHtml),
+                DownFilterHtml = PmsHtmlSanitizer.SanitizeRichText(settings?.DownFilterHtml),
                 ContactEmail = settings?.ContactEmail ?? hotel.Email,
                 ContactPhone = settings?.ContactPhone ?? hotel.Phone,
                 ContactDescription = settings?.ContactDescription,
@@ -738,7 +738,7 @@ namespace zaaerIntegration.Services.Implementations
                 RentalTypeMode = NormalizeRentalTypeMode(settings?.RentalTypeMode),
                 PromoBannerEnabled = settings?.PromoBannerEnabled ?? false,
                 PromoBannerImageUrl = settings?.PromoBannerImageUrl,
-                PromoBannerHtml = settings?.PromoBannerHtml,
+                PromoBannerHtml = PmsHtmlSanitizer.SanitizeRichText(settings?.PromoBannerHtml),
                 PromoBannerEndsAt = settings?.PromoBannerEndsAt,
                 AvailabilityMode = NormalizeAvailabilityMode(settings?.AvailabilityMode),
                 RateFallbackMode = NormalizeRateFallbackMode(settings?.RateFallbackMode),
@@ -787,8 +787,8 @@ namespace zaaerIntegration.Services.Implementations
             entity.ButtonColor = dto.ButtonColor;
             entity.BorderColor = dto.BorderColor;
             entity.BackgroundColor = dto.BackgroundColor;
-            entity.TopFilterHtml = dto.TopFilterHtml;
-            entity.DownFilterHtml = dto.DownFilterHtml;
+            entity.TopFilterHtml = PmsHtmlSanitizer.SanitizeRichText(dto.TopFilterHtml);
+            entity.DownFilterHtml = PmsHtmlSanitizer.SanitizeRichText(dto.DownFilterHtml);
             entity.ContactEmail = dto.ContactEmail;
             entity.ContactPhone = dto.ContactPhone;
             entity.ContactDescription = dto.ContactDescription;
@@ -803,7 +803,7 @@ namespace zaaerIntegration.Services.Implementations
             entity.RentalTypeMode = NormalizeRentalTypeMode(dto.RentalTypeMode);
             entity.PromoBannerEnabled = dto.PromoBannerEnabled;
             entity.PromoBannerImageUrl = dto.PromoBannerImageUrl;
-            entity.PromoBannerHtml = dto.PromoBannerHtml;
+            entity.PromoBannerHtml = PmsHtmlSanitizer.SanitizeRichText(dto.PromoBannerHtml);
             entity.PromoBannerEndsAt = dto.PromoBannerEndsAt;
             entity.AvailabilityMode = NormalizeAvailabilityMode(dto.AvailabilityMode);
             entity.RateFallbackMode = NormalizeRateFallbackMode(dto.RateFallbackMode);
@@ -958,8 +958,8 @@ namespace zaaerIntegration.Services.Implementations
                 ButtonColor = settings.ButtonColor,
                 BorderColor = settings.BorderColor,
                 BackgroundColor = settings.BackgroundColor,
-                TopFilterHtml = settings.TopFilterHtml,
-                DownFilterHtml = settings.DownFilterHtml,
+                TopFilterHtml = PmsHtmlSanitizer.SanitizeRichText(settings.TopFilterHtml),
+                DownFilterHtml = PmsHtmlSanitizer.SanitizeRichText(settings.DownFilterHtml),
                 ContactEmail = settings.ContactEmail,
                 ContactPhone = settings.ContactPhone,
                 ContactDescription = settings.ContactDescription,

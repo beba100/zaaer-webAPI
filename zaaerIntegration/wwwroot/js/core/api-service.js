@@ -358,8 +358,30 @@
         return refreshPermissions();
     }
 
-    function resolveLandingUrl(requestedUrl) {
+    function sanitizeRelativeReturnUrl(requestedUrl) {
         const raw = (requestedUrl || "").trim();
+        if (!raw) {
+            return "";
+        }
+
+        if (/^https?:\/\//i.test(raw) || raw.startsWith("//") || raw.includes("\\")) {
+            return "";
+        }
+
+        if (!raw.startsWith("/")) {
+            return "";
+        }
+
+        const path = (raw.split("?")[0] || "").toLowerCase();
+        if (path === "/login.html" || path === "/") {
+            return "";
+        }
+
+        return raw;
+    }
+
+    function resolveLandingUrl(requestedUrl) {
+        const raw = sanitizeRelativeReturnUrl(requestedUrl);
         const path = (raw.split("?")[0] || "").toLowerCase();
         const roleLanding = getLandingUrl();
 

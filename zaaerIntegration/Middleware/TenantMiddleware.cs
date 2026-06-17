@@ -151,10 +151,10 @@ namespace zaaerIntegration.Middleware
 
                     if (currentUser.IsAuthenticated && currentUser.UserId.HasValue)
                     {
-                        var hasClaimAccess = currentUser.AllowedHotelIds.Count > 0 &&
-                            currentUser.CanAccessHotel(tenant.Id);
-                        var canAccessTenant = hasClaimAccess ||
-                            await hotelAccessService.CanAccessTenantAsync(currentUser.UserId.Value, tenant.Id, context.RequestAborted);
+                        var canAccessTenant = await hotelAccessService.CanAccessTenantAsync(
+                            currentUser.UserId.Value,
+                            tenant.Id,
+                            context.RequestAborted);
 
                         if (!canAccessTenant)
                         {

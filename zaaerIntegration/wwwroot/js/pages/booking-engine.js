@@ -1,6 +1,17 @@
 (function (window, $, DevExpress) {
     "use strict";
 
+    function sanitizePublicHtml(html) {
+        if (!html) {
+            return "";
+        }
+        let value = String(html);
+        value = value.replace(/<\s*\/?\s*(script|iframe|object|embed|link|meta|base|form)\b[^>]*>/gi, "");
+        value = value.replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "");
+        value = value.replace(/(href|src)\s*=\s*("javascript:[^"]*"|'javascript:[^']*')/gi, "");
+        return value;
+    }
+
     const svc = window.Zaaer.BookingEngineService;
     const state = {
         hotelCode: "",
@@ -411,7 +422,7 @@
             );
         }
         if (html) {
-            $("<div/>").addClass("be-promo-popup-text").html(html).appendTo($content);
+            $("<div/>").addClass("be-promo-popup-text").html(sanitizePublicHtml(html)).appendTo($content);
         }
 
         const $actions = $("<div/>").addClass("be-promo-popup-actions be-promo-popup-actions--compact").appendTo($content);
@@ -793,8 +804,8 @@
     }
 
     function renderFilterHtml(profile) {
-        $("#beTopHtml").html(profile.topFilterHtml || "");
-        $("#beDownHtml").html(profile.downFilterHtml || "");
+        $("#beTopHtml").html(sanitizePublicHtml(profile.topFilterHtml || ""));
+        $("#beDownHtml").html(sanitizePublicHtml(profile.downFilterHtml || ""));
         renderContactFooter(profile);
     }
 

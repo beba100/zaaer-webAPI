@@ -23,8 +23,8 @@ namespace zaaerIntegration.Services.Interfaces
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Returns true when the current user may access the given Master tenant id.
+        /// Returns true when the current user may access the given Master tenant id (Master DB source of truth).
         /// </summary>
-        bool CanAccessTenantId(int tenantId);
+        Task<bool> CanAccessTenantIdAsync(int tenantId, CancellationToken cancellationToken = default);
     }
 }

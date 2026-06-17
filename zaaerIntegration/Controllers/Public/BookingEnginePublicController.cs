@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using zaaerIntegration.DTOs.BookingEngine;
 using zaaerIntegration.Services.Interfaces;
 
@@ -59,6 +60,7 @@ namespace zaaerIntegration.Controllers.Public
         }
 
         [HttpGet("guest-lookup")]
+        [EnableRateLimiting("PublicGuestLookup")]
         public async Task<IActionResult> LookupReturningGuest(
             [FromQuery] string hotel,
             [FromQuery] string? phone,

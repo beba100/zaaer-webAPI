@@ -10,15 +10,18 @@ namespace zaaerIntegration.Services.Implementations
     {
         private readonly MasterDbContext _masterDbContext;
         private readonly ICurrentUserContext _currentUser;
+        private readonly IHotelAccessService _hotelAccessService;
         private readonly ILogger<HotelScopeService> _logger;
 
         public HotelScopeService(
             MasterDbContext masterDbContext,
             ICurrentUserContext currentUser,
+            IHotelAccessService hotelAccessService,
             ILogger<HotelScopeService> logger)
         {
             _masterDbContext = masterDbContext;
             _currentUser = currentUser;
+            _hotelAccessService = hotelAccessService;
             _logger = logger;
         }
 
@@ -86,14 +89,17 @@ namespace zaaerIntegration.Services.Implementations
                 .FirstOrDefaultAsync(t => t.Code.ToLower() == normalized.ToLower(), cancellationToken);
         }
 
-        public bool CanAccessTenantId(int tenantId)
+        public async Task<bool> CanAccessTenantIdAsync(int tenantId, CancellationToken cancellationToken = default)
         {
-            if (!_currentUser.IsAuthenticated || tenantId <= 0)
+            if (!_currentUser.IsAuthenticated || !_currentUser.UserId.HasValue || tenantId <= 0)
             {
                 return false;
             }
 
-            return _currentUser.CanAccessHotel(tenantId);
+            return await _hotelAccessService.CanAccessTenantAsync(
+                _currentUser.UserId.Value,
+                tenantId,
+                cancellationToken);
         }
 
         private void EnsureAuthenticated()
